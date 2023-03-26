@@ -9,5 +9,5 @@ import java.io.Serializable;
  */
 @Data
 public class BoxDto implements Serializable {
-    private final Long id;
+    private Long id;
 }

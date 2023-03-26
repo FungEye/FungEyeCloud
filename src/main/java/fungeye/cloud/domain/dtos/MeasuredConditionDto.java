@@ -11,10 +11,10 @@ import java.time.Instant;
  */
 @Data
 public class MeasuredConditionDto implements Serializable {
-    private final MeasuredConditionIdDto id;
-    private final BoxDto box;
-    private final Double temperature;
-    private final Double humidity;
+    private MeasuredConditionIdDto id;
+    private BoxDto box;
+    private Double temperature;
+    private Double humidity;
 
     /**
      * A DTO for the {@link fungeye.cloud.domain.enities.MeasuredConditionId} entity
@@ -22,8 +22,8 @@ public class MeasuredConditionDto implements Serializable {
     @Data
     public static class MeasuredConditionIdDto implements Serializable {
         @NotNull
-        private final Instant dateTime;
+        private Instant dateTime;
         @NotNull
-        private final Long boxId;
+        private Long boxId;
     }
 }
