@@ -11,6 +11,10 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+/*
+JPA struggles with composite keys, so we are using these classes to help with reading
+from the database.
+ */
 @Getter
 @Setter
 @Embeddable
@@ -38,4 +42,19 @@ public class MeasuredConditionId implements Serializable {
         return Objects.hash(dateTime, boxId);
     }
 
+    public Instant getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Instant dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Long getBoxId() {
+        return boxId;
+    }
+
+    public void setBoxId(Long boxId) {
+        this.boxId = boxId;
+    }
 }

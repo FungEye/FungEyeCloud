@@ -34,4 +34,51 @@ public class IdealCondition {
     @Column(name = "humidity_low", nullable = false)
     private Double humidityLow;
 
+    public IdealConditionId getId() {
+        return id;
+    }
+
+    public void setId(IdealConditionId id) {
+        this.id = id;
+    }
+
+    public Mushroom getMushroom() {
+        return mushroom;
+    }
+
+    public void setMushroom(Mushroom mushroom) {
+        this.mushroom = mushroom;
+    }
+
+    public Double getTemperatureHigh() {
+        return temperatureHigh;
+    }
+
+    public void setTemperatureHigh(Double temperatureHigh) {
+        this.temperatureHigh = temperatureHigh;
+    }
+
+    public Double getTemperatureLow() {
+        return temperatureLow;
+    }
+
+    public void setTemperatureLow(Double temperatureLow) {
+        this.temperatureLow = temperatureLow;
+    }
+
+    public Double getHumidityHigh() {
+        return humidityHigh;
+    }
+
+    public void setHumidityHigh(Double humidityHigh) {
+        this.humidityHigh = humidityHigh;
+    }
+
+    public Double getHumidityLow() {
+        return humidityLow;
+    }
+
+    public void setHumidityLow(Double humidityLow) {
+        this.humidityLow = humidityLow;
+    }
 }

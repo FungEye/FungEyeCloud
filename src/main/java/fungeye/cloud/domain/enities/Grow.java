@@ -43,4 +43,51 @@ public class Grow {
     @OneToMany(mappedBy = "grow")
     private Set<Mushroom> mushrooms = new LinkedHashSet<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getDateStarted() {
+        return dateStarted;
+    }
+
+    public void setDateStarted(LocalDate dateStarted) {
+        this.dateStarted = dateStarted;
+    }
+
+    public String getDevelopmentStage() {
+        return developmentStage;
+    }
+
+    public void setDevelopmentStage(String developmentStage) {
+        this.developmentStage = developmentStage;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Box getBox() {
+        return box;
+    }
+
+    public void setBox(Box box) {
+        this.box = box;
+    }
+
+    public Set<Mushroom> getMushrooms() {
+        return mushrooms;
+    }
+
+    public void setMushrooms(Set<Mushroom> mushrooms) {
+        this.mushrooms = mushrooms;
+    }
 }

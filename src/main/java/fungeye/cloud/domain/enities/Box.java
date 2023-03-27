@@ -23,4 +23,27 @@ public class Box {
     @OneToMany(mappedBy = "box")
     private Set<MeasuredCondition> measuredConditions = new LinkedHashSet<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Grow> getGrows() {
+        return grows;
+    }
+
+    public void setGrows(Set<Grow> grows) {
+        this.grows = grows;
+    }
+
+    public Set<MeasuredCondition> getMeasuredConditions() {
+        return measuredConditions;
+    }
+
+    public void setMeasuredConditions(Set<MeasuredCondition> measuredConditions) {
+        this.measuredConditions = measuredConditions;
+    }
 }

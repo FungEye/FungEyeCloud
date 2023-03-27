@@ -35,4 +35,43 @@ public class Mushroom {
     @OneToMany(mappedBy = "mushroom")
     private Set<IdealCondition> idealConditions = new LinkedHashSet<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Grow getGrow() {
+        return grow;
+    }
+
+    public void setGrow(Grow grow) {
+        this.grow = grow;
+    }
+
+    public Set<IdealCondition> getIdealConditions() {
+        return idealConditions;
+    }
+
+    public void setIdealConditions(Set<IdealCondition> idealConditions) {
+        this.idealConditions = idealConditions;
+    }
 }

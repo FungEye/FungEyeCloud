@@ -11,6 +11,10 @@ import org.hibernate.Hibernate;
 import java.io.Serializable;
 import java.util.Objects;
 
+/*
+JPA struggles with composite keys, so we are using these classes to help with reading
+from the database.
+ */
 @Getter
 @Setter
 @Embeddable
@@ -39,4 +43,19 @@ public class IdealConditionId implements Serializable {
         return Objects.hash(mushroomId, developmentStage);
     }
 
+    public Long getMushroomId() {
+        return mushroomId;
+    }
+
+    public void setMushroomId(Long mushroomId) {
+        this.mushroomId = mushroomId;
+    }
+
+    public String getDevelopmentStage() {
+        return developmentStage;
+    }
+
+    public void setDevelopmentStage(String developmentStage) {
+        this.developmentStage = developmentStage;
+    }
 }
