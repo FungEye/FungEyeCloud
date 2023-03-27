@@ -8,6 +8,7 @@ import javax.websocket.Session;
 
 @ClientEndpoint
 public class MyClientEndpoint {
+
     @OnOpen
     public void onOpen(Session session) {
         System.out.println("Connected to server: " + session.getId());
