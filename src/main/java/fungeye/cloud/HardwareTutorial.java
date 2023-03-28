@@ -13,6 +13,8 @@ import java.util.concurrent.CompletionStage;
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
 
+    private final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
+
     // Send down-link message to device
     // Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
     public void sendDownLink(String jsonTelegram) {
@@ -21,10 +23,10 @@ public class HardwareTutorial implements WebSocket.Listener {
 
     // E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
     // Substitute ????????????????? with the token you have been given
-    public HardwareTutorial(String url) {
+    public HardwareTutorial() {
         HttpClient client = HttpClient.newHttpClient();
         CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
-                .buildAsync(URI.create(url), this);
+                .buildAsync(URI.create(iotUrl), this);
 
         server = ws.join();
     }
@@ -90,7 +92,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     ;
 
     public static void main(String[] args) {
-        HardwareTutorial beep = new HardwareTutorial("wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=");
+        HardwareTutorial beep = new HardwareTutorial();
         beep.sendDownLink("Beep");
         while (true) {
             // Keep running until close
