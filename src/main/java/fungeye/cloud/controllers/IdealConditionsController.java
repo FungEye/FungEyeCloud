@@ -17,7 +17,7 @@ public class IdealConditionsController {
         this.repository = repository;
     }
 
-    @GetMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/idealConditions", produces = {MediaType.APPLICATION_JSON_VALUE})
     public IdealCondition getIdealConditionById(@RequestParam IdealConditionId id)
     {
         return repository.findById(id).orElseThrow();

@@ -17,7 +17,7 @@ public class MeasuredConditionsController {
         this.repository = repository;
     }
 
-    @GetMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/measuredConditions", produces = {MediaType.APPLICATION_JSON_VALUE})
     public MeasuredCondition getMeasuredConditionsById(@RequestParam MeasuredConditionId id)
     {
         return repository.findById(id).orElseThrow();

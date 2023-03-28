@@ -12,13 +12,13 @@ public class GrowController {
 
     private GrowRepository repository;
 
-    @PostMapping("/")
+    @PostMapping("/grow")
     public Grow createGrow(@RequestBody Grow grow)
     {
         return repository.save(grow);
     }
 
-    @GetMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/grow/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Grow getGrowById(@RequestParam Long id)
     {
         return repository.findById(id).orElseThrow();

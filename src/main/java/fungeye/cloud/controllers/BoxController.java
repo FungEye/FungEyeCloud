@@ -1,5 +1,6 @@
 package fungeye.cloud.controllers;
 
+import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import org.springframework.http.MediaType;
@@ -17,13 +18,15 @@ public class BoxController {
         this.repository = repository;
     }
 
-    @PostMapping("/")
-    public Box createBox(@RequestBody Box box)
+    @PostMapping("/box")
+    public Box createBox(@RequestBody BoxDto dto)
     {
+        Box box = new Box();
+        box.setId(dto.getId());
         return repository.save(box);
     }
 
-    @GetMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/box/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Box getBoxById(@RequestParam Long id)
     {
         return repository.findById(id).orElseThrow();

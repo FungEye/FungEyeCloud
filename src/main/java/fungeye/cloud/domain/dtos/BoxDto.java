@@ -10,4 +10,12 @@ import java.io.Serializable;
 @Data
 public class BoxDto implements Serializable {
     private Long id;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

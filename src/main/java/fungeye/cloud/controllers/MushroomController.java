@@ -15,13 +15,13 @@ public class MushroomController {
     public MushroomController(MushroomRepository repository)
     {this.repository = repository;}
 
-    @PostMapping("/")
+    @PostMapping("/mushroom")
     public Mushroom createMushroom(@RequestBody Mushroom mushroon)
     {
         return repository.save(mushroon);
     }
 
-    @GetMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/mushroom/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Mushroom getMushroomById(@RequestParam Long id)
     {
         return repository.findById(id).orElseThrow();
