@@ -16,9 +16,9 @@ public class MushroomController {
     {this.repository = repository;}
 
     @PostMapping("/mushroom")
-    public Mushroom createMushroom(@RequestBody Mushroom mushroon)
+    public Mushroom createMushroom(@RequestBody Mushroom mushroom)
     {
-        return repository.save(mushroon);
+        return repository.save(mushroom);
     }
 
     @GetMapping(value = "/mushroom/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
