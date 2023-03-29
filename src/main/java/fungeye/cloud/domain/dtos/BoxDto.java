@@ -11,6 +11,13 @@ import java.io.Serializable;
 public class BoxDto implements Serializable {
     private Long id;
 
+    public BoxDto(Long id) {
+        this.id = id;
+    }
+
+    public BoxDto() {
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

@@ -16,14 +16,35 @@ public class MeasuredConditionDto implements Serializable {
     private Double temperature;
     private Double humidity;
 
-    /**
-     * A DTO for the {@link fungeye.cloud.domain.enities.MeasuredConditionId} entity
-     */
-    @Data
-    public static class MeasuredConditionIdDto implements Serializable {
-        @NotNull
-        private Instant dateTime;
-        @NotNull
-        private Long boxId;
+    public void setId(MeasuredConditionIdDto id) {
+        this.id = id;
+    }
+
+    public MeasuredConditionIdDto getId() {
+        return id;
+    }
+
+    public BoxDto getBox() {
+        return box;
+    }
+
+    public void setBox(BoxDto box) {
+        this.box = box;
+    }
+
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
+    public Double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Double humidity) {
+        this.humidity = humidity;
     }
 }

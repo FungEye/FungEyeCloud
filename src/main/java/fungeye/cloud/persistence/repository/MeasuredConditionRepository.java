@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface MeasuredConditionRepository extends JpaRepository<MeasuredCondition, MeasuredConditionId> {
 
-    @Override
-    List<MeasuredCondition> findAll();
+    MeasuredCondition findTopByBox_IdOrderByIdDesc(Long boxId);
+
+
 }
