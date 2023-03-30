@@ -10,6 +10,17 @@ public class MeasuredConditionIdDto {
         this.dateTime = dateTime;
     }
 
+    public void setBoxId(Long boxId) {
+        this.boxId = boxId;
+    }
+
+    public void setDateTime(DateTimeDto dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public MeasuredConditionIdDto() {
+    }
+
     public Long getBoxId() {
         return boxId;
     }

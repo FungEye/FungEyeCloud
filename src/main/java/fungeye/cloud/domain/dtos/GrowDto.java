@@ -9,7 +9,7 @@ import java.util.List;
 public class GrowDto {
 
     private Long id;
-    private Date date;
+    private DateTimeDto date;
     private String stage;
     private boolean active;
     private Long boxId;
@@ -17,13 +17,16 @@ public class GrowDto {
 
 
 
-    public GrowDto(Long id, Date date, String stage, boolean active, Long boxId, List<MushroomDto> mushroomDtoList) {
+    public GrowDto(Long id, DateTimeDto date, String stage, boolean active, Long boxId, List<MushroomDto> mushroomDtoList) {
         this.id = id;
         this.date = date;
         this.stage = stage;
         this.active = active;
         this.boxId = boxId;
         this.mushroomDtoList = mushroomDtoList;
+    }
+
+    public GrowDto() {
     }
 
     public Long getId() {
@@ -34,11 +37,11 @@ public class GrowDto {
         this.id = id;
     }
 
-    public Date getDate() {
+    public DateTimeDto getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(DateTimeDto date) {
         this.date = date;
     }
 

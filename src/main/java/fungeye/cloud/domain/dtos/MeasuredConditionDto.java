@@ -12,7 +12,6 @@ import java.time.Instant;
 @Data
 public class MeasuredConditionDto implements Serializable {
     private MeasuredConditionIdDto id;
-    private BoxDto box;
     private Double temperature;
     private Double humidity;
 
@@ -24,13 +23,6 @@ public class MeasuredConditionDto implements Serializable {
         return id;
     }
 
-    public BoxDto getBox() {
-        return box;
-    }
-
-    public void setBox(BoxDto box) {
-        this.box = box;
-    }
 
     public Double getTemperature() {
         return temperature;

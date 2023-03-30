@@ -4,6 +4,7 @@ import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
+import fungeye.cloud.service.MeasuredConditionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin // not sure if we needed todo
@@ -21,41 +23,37 @@ import java.util.Optional;
 @RequestMapping("/")
 public class MeasuredConditionsController {
 
-    private MeasuredConditionRepository repository;
-    public MeasuredConditionsController(MeasuredConditionRepository repository) {
-        this.repository = repository;
+    private MeasuredConditionsService service;
+
+    public MeasuredConditionsController(MeasuredConditionsService service) {
+        this.service = service;
     }
 
     @GetMapping(value = "box/{id}/measurements")
-    public ResponseEntity<MeasuredConditionDto> getMeasuredConditions(@PathVariable("id")Long id,
-                                                                      @RequestParam Optional<Integer> day,
-                                                                      @RequestParam Optional<Integer> month,
-                                                                      @RequestParam Optional<Integer> year,
-                                                                      @RequestParam Optional<Integer> hour,
-                                                                      @RequestParam Optional<Integer> minute)
+    public ResponseEntity<List<MeasuredConditionDto>> getMeasuredConditions(@PathVariable("id")Long id,
+                                                                            @RequestParam Optional<Integer> day,
+                                                                            @RequestParam Optional<Integer> month,
+                                                                            @RequestParam Optional<Integer> year,
+                                                                            @RequestParam Optional<Integer> hour,
+                                                                            @RequestParam Optional<Integer> minute)
+
     {
-       return null;
+        SearchConditionsParam param = new SearchConditionsParam();
+
+        day.ifPresent(param::setDay);
+        month.ifPresent(param::setMonth);
+        year.ifPresent(param::setYear);
+        hour.ifPresent(param::setHour);
+        minute.ifPresent(param::setMinute);
+        param.setId(id);
+
+       return new ResponseEntity<>(service.getMeasuredConditions(param), HttpStatus.OK);
     }
 
     @GetMapping(value = "box{id}/measurements/latest")
     public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id")Long id)
     {
-        MeasuredCondition measuredCondition = repository.findTopByBox_IdOrderByIdDesc(id);
-        MeasuredConditionDto measuredConditionDto = new MeasuredConditionDto();
-        Instant dt = measuredCondition.getId().getDateTime();
-
-        LocalDateTime dtobject = LocalDateTime.ofInstant(dt, ZoneId.systemDefault());
-        measuredConditionDto.setId(
-                new MeasuredConditionIdDto(
-                        measuredCondition.getId().getBoxId(),
-                        new DateTimeDto(dtobject.getYear(), dtobject.getMonthValue(), dtobject.getDayOfMonth(),
-                                dtobject.getHour(), dtobject.getMinute(), dtobject.getSecond()
-                        )));
-        measuredConditionDto.setHumidity(measuredCondition.getHumidity());
-        measuredConditionDto.setTemperature(measuredCondition.getTemperature());
-        measuredConditionDto.setBox(new BoxDto(id));
-
-        return new ResponseEntity<>(measuredConditionDto, HttpStatus.OK);
+        return new ResponseEntity<>(service.getLatestMeasuredCondition(id), HttpStatus.OK);
     }
 
 }

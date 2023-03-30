@@ -4,17 +4,18 @@ import fungeye.cloud.domain.enities.Grow;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class BoxDetailsDto {
 
     private Long id;
-    private List<MeasuredConditionDto> measuredConditionDtoList;
-    private List<Grow> grows;
+    private List<MeasuredConditionDto> conditions;
+    private List<GrowDto> grows;
 
-    public BoxDetailsDto(Long id, List<MeasuredConditionDto> measuredConditionDtoList, List<Grow> grows) {
+    public BoxDetailsDto(Long id, List<MeasuredConditionDto> conditions, List<GrowDto> grows) {
         this.id = id;
-        this.measuredConditionDtoList = measuredConditionDtoList;
+        this.conditions = conditions;
         this.grows = grows;
     }
 
@@ -29,19 +30,19 @@ public class BoxDetailsDto {
         this.id = id;
     }
 
-    public List<MeasuredConditionDto> getMeasuredConditionDtoList() {
-        return measuredConditionDtoList;
+    public List<MeasuredConditionDto> getConditions() {
+        return conditions;
     }
 
-    public void setMeasuredConditionDtoList(List<MeasuredConditionDto> measuredConditionDtoList) {
-        this.measuredConditionDtoList = measuredConditionDtoList;
+    public void setConditions(List<MeasuredConditionDto> conditions) {
+        this.conditions = conditions;
     }
 
-    public List<Grow> getGrows() {
+    public List<GrowDto> getGrows() {
         return grows;
     }
 
-    public void setGrows(List<Grow> grows) {
+    public void setGrows(List<GrowDto> grows) {
         this.grows = grows;
     }
 }
