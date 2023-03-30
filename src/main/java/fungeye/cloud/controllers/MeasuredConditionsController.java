@@ -29,7 +29,7 @@ public class MeasuredConditionsController {
         this.service = service;
     }
 
-    @GetMapping(value = "box/{id}/measurements")
+    @GetMapping(value = "box{id}/measurements")
     public ResponseEntity<List<MeasuredConditionDto>> getMeasuredConditions(@PathVariable("id")Long id,
                                                                             @RequestParam Optional<Integer> day,
                                                                             @RequestParam Optional<Integer> month,
