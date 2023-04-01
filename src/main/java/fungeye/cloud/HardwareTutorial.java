@@ -2,6 +2,7 @@ package fungeye.cloud;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,6 +11,7 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+@Component
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
 
@@ -97,5 +99,9 @@ public class HardwareTutorial implements WebSocket.Listener {
         while (true) {
             // Keep running until close
         }
+    }
+
+    public WebSocket getServer() {
+        return server;
     }
 }
