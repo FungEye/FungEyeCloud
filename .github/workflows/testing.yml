@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   #Trigger the workflow on push from the master/main branch
   push:
-    branches: [spring-boots-socet]
+    branches: [spring-boots-socket]
 
 jobs:
   #Test's job
