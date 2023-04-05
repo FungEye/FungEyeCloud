@@ -62,6 +62,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           #Set artifact name
-          name: RunnableJar
+          name: FungEyeJar
           #From this path
           path: staging
