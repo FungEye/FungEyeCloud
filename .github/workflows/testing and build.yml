@@ -6,6 +6,9 @@ on:
   #Trigger the workflow on push from the master/main branch
   push:
     branches: [develop]
+  pull_request:
+    branches:
+      - master
 
 jobs:
   #Test's job
