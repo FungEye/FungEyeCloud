@@ -14,9 +14,5 @@ public class HardwareTutorialStarter {
     @PostConstruct
     public void start() {
         hardwareTutorial = new HardwareTutorial();
-        hardwareTutorial.onOpen(hardwareTutorial.getServer());
-        while(true){
-            hardwareTutorial.sendDownLink("Beep");
-        }
     }
 }
