@@ -10,6 +10,7 @@ RUN mvn -B package --file pom.xml -DskipTests
 FROM eclipse-temurin:17-jdk-alpine
 # Expose port 8080
 EXPOSE 8080
-COPY --from=build /app/target/*jar FungEyeDevelop-1.0.jar
+
+COPY --from=build /app/target/*jar FungEye-1.0.jar
 # Start the application
-ENTRYPOINT ["java", "-jar", "/FungEyeDevelop-1.0.jar"]
+ENTRYPOINT ["java", "-jar", "/FungEye-1.0.jar"]
