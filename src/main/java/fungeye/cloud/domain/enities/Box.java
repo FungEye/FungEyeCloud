@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-
+// The physical box wherein the mushrooms are grown
 @Getter
 @Setter
 @Entity
