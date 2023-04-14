@@ -1,6 +1,7 @@
 package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.DateTimeDto;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.time.*;
 
@@ -28,5 +29,10 @@ public class DateTimeMapper {
         dto.setYear(localDate.getYear());
 
         return dto;
+    }
+
+    public static Instant mapToInstant(DateTimeDto dto) {
+        LocalDateTime temp = LocalDateTime.of(dto.getYear(), dto.getMonth(), dto.getDay(), dto.getHour(), dto.getMinute(), dto.getSecond());
+        return temp.toInstant(ZoneOffset.ofHours(0));
     }
 }

@@ -25,4 +25,10 @@ public class BoxMapper {
 
         return dto;
     }
+
+    public static Box mapFromBoxDto(BoxDetailsDto dto) {
+        Box box = new Box();
+        box.setId(dto.getId());
+        return box;
+    }
 }
