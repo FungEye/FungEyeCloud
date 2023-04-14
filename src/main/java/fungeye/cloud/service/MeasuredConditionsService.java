@@ -12,16 +12,18 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.mapToDto;
-import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.mapToDtoList;
+import static fungeye.cloud.service.mappers.BoxMapper.mapFromBoxDto;
+import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
 @Service
 public class MeasuredConditionsService {
 
     private MeasuredConditionRepository repository;
+    private BoxService boxService;
 
-    public MeasuredConditionsService(MeasuredConditionRepository repository) {
+    public MeasuredConditionsService(MeasuredConditionRepository repository, BoxService boxService) {
         this.repository = repository;
+        this.boxService = boxService;
     }
 
     public MeasuredConditionDto getLatestMeasuredCondition(long boxId) {
@@ -45,6 +47,12 @@ public class MeasuredConditionsService {
             }
         }
         return mapToDtoList(result);
+    }
 
+    public MeasuredConditionDto addMeasuredCondition(MeasuredConditionDto dto) {
+        MeasuredCondition toCreate = mapToEntity(dto);
+        toCreate.setBox(mapFromBoxDto(boxService.getById(toCreate.getId().getBoxId())));
+
+        return mapToDto(repository.save(toCreate));
     }
 }

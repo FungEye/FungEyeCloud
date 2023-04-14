@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
+import static fungeye.cloud.service.mappers.DateTimeMapper.mapToInstant;
 
 public class MeasuredConditionsMapper {
 
@@ -47,5 +48,19 @@ public class MeasuredConditionsMapper {
         cond.forEach(c -> list.add(mapToDto(c)));
 
         return list;
+    }
+
+    public static MeasuredCondition mapToEntity(MeasuredConditionDto dto) {
+        MeasuredCondition ent = new MeasuredCondition();
+
+        MeasuredConditionId id = new MeasuredConditionId();
+        id.setBoxId(dto.getId().getBoxId());
+        id.setDateTime(mapToInstant(dto.getId().getDateTime()));
+
+        ent.setId(id);
+        ent.setHumidity(dto.getHumidity());
+        ent.setTemperature(dto.getTemperature());
+
+        return ent;
     }
 }
