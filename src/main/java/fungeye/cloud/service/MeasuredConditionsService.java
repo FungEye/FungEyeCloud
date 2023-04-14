@@ -49,7 +49,6 @@ public class MeasuredConditionsService {
         return mapToDtoList(result);
     }
 
-    // TODO ERRORHANDLING
     public MeasuredConditionDto addMeasuredCondition(MeasuredConditionDto dto) {
         MeasuredCondition toCreate = mapToEntity(dto);
         toCreate.setBox(mapFromBoxDto(boxService.getById(toCreate.getId().getBoxId())));

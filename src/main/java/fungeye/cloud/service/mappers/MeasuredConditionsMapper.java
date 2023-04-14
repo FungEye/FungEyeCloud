@@ -60,8 +60,6 @@ public class MeasuredConditionsMapper {
         ent.setId(id);
         ent.setHumidity(dto.getHumidity());
         ent.setTemperature(dto.getTemperature());
-        // TODO Check if needed
-        //ent.setBox();
 
         return ent;
     }
