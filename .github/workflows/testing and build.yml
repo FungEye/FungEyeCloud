@@ -42,17 +42,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B package -DskipTests --file pom.xml
       - run: mkdir staging && cp target/*.jar staging
-      - name: Get JAR file name
-        id: get_jar_file_name
-        run: echo "JAR_FILE=$(basename staging/*.jar)" >> $GITHUB_ENV
-      - name: Create app.yaml
-        run: |
-          echo "runtime: java11" > staging/app.yaml
-          echo "instance_class: F1" >> staging/app.yaml
-          echo "entrypoint: 'java -jar ${{ env.JAR_FILE }}'" >> staging/app.yaml
-          echo "handlers:" >> staging/app.yaml
-          echo "  - url: /.*" >> staging/app.yaml
-          echo "    script: this field is required, but ignored" >> staging/app.yaml
       - name: Upload JAR Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -70,4 +59,4 @@ jobs:
       - name: Deploy to Google App Engine
         run: |
           gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-          gcloud app deploy staging/app.yaml
+          gcloud app deploy staging/*.jar
