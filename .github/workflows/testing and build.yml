@@ -45,19 +45,19 @@ jobs:
       - name: Get JAR file name
         id: get_jar_file_name
         run: echo "JAR_FILE=$(basename staging/*.jar)" >> $GITHUB_ENV
-           - name: Create app.yaml
-             run: |
-               echo "runtime: java11" > staging/app.yaml
-               echo "instance_class: F1" >> staging/app.yaml
-               echo "entrypoint: 'java -jar ${{ env.JAR_FILE }}'" >> staging/app.yaml
-               echo "handlers:" >> staging/app.yaml
-               echo "  - url: /.*" >> staging/app.yaml
-              echo "    script: this field is required, but ignored" >> staging/app.yaml
-           - name: Upload JAR Artifact
-            uses: actions/upload-artifact@v3
-            with:
-              name: FungEyeJar
-              path: staging
+      - name: Create app.yaml
+        run: |
+          echo "runtime: java11" > staging/app.yaml
+          echo "instance_class: F1" >> staging/app.yaml
+          echo "entrypoint: 'java -jar ${{ env.JAR_FILE }}'" >> staging/app.yaml
+          echo "handlers:" >> staging/app.yaml
+          echo "  - url: /.*" >> staging/app.yaml
+          echo "    script: this field is required, but ignored" >> staging/app.yaml
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: FungEyeJar
+          path: staging
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v0.4.0
         with:
