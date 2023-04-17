@@ -3,7 +3,7 @@ name: CI/CD Pipeline Develop Branch
 on:
   workflow_dispatch:
   push:
-    branches: [develop]
+    branches: [ develop ]
   pull_request:
     branches:
       - master
@@ -42,11 +42,13 @@ jobs:
       - name: Build with Maven
         run: mvn -B package -DskipTests --file pom.xml
       - run: mkdir staging && cp target/*.jar staging
+      - name: Get JAR file name
+        run: export JAR_FILE=$(basename staging/*.jar)
       - name: Create app.yaml
         run: |
           echo "runtime: java11" > staging/app.yaml
           echo "instance_class: F1" >> staging/app.yaml
-          echo "entrypoint: 'java -jar FungEyeJar'" >> staging/app.yaml
+          echo "entrypoint: 'java -jar $JAR_FILE'" >> staging/app.yaml
           echo "handlers:" >> staging/app.yaml
           echo "  - url: /.*" >> staging/app.yaml
           echo "    script: this field is required, but ignored" >> staging/app.yaml
