@@ -8,12 +8,16 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 @Component
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
+    double temp;
+    double hum;
+
 
     private final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
 
@@ -81,24 +85,77 @@ public class HardwareTutorial implements WebSocket.Listener {
     //onText()
     public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
         String indented = null;
+        String dataValue = null;
+        Timestamp timestamp;
         try {
-            indented = (new JSONObject(data.toString())).toString(4);
+            JSONObject jsonObject = new JSONObject(data.toString());
+            indented = jsonObject.toString(4);
+            dataValue = jsonObject.optString("data"); // Extracts the "data" value from the JSON object
+            String time = jsonObject.optString("time"); // Extracts the "time" value from the JSON object
+            timestamp = Timestamp.valueOf(time);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
         System.out.println(indented);
+
+        // Check if "data" value is present and print it
+        if (!dataValue.isEmpty()) {
+            System.out.println("Data value: " + dataValue);
+            //radix 16 to show its converting from hex
+            int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
+            int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
+
+            double temperature = tempRaw / 10.0f;
+            double humidity = humRaw / 10.0f;
+
+
+            System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
+            System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
+            System.out.println(timestamp);
+
+        }
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
     }
+
 
     ;
 
     public static void main(String[] args) {
         HardwareTutorial beep = new HardwareTutorial();
-        beep.sendDownLink("Beep");
-        while (true) {
-            // Keep running until close
+        // Assuming dataValue is "01160107041a"
+        String testHex = "01160107041a";
+        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
+        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
+
+        double temperature = tempRaw / 10.0f;
+        double humidity = humRaw / 10.0f;
+
+        System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
+        System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
+    while(true){
+        //
+    }
+
+
+
+/*
+        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
+        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
+        tempRaw = tempRaw/10;
+        humRaw = humRaw/10;
+
+        System.out.println(tempRaw + "Temp");
+        System.out.println(humRaw + "Hum");
+        while(true){
+
         }
+
+
+
+ */
+
+
     }
 
     public WebSocket getServer() {
