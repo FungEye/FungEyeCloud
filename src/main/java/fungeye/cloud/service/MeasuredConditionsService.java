@@ -3,8 +3,8 @@ package fungeye.cloud.service;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.SearchConditionsParam;
 import fungeye.cloud.domain.enities.MeasuredCondition;
+import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,9 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fungeye.cloud.service.mappers.BoxMapper.mapFromBoxDto;
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
-@Transactional
+//@Transactional TODO commented out for now - try with fix below
 @Service
 public class MeasuredConditionsService {
 
@@ -26,11 +25,14 @@ public class MeasuredConditionsService {
 
     private MeasuredConditionRepository repository;
     private BoxService boxService;
+    private final BoxRepository boxRepository;
 
-    public MeasuredConditionsService(MeasuredConditionRepository repository, BoxService boxService) {
+    public MeasuredConditionsService(MeasuredConditionRepository repository, BoxService boxService,
+                                     BoxRepository boxRepository) {
         this.repository = repository;
         this.boxService = boxService;
         LOGGER.info("MS Service init");
+        this.boxRepository = boxRepository;
     }
 
     public MeasuredConditionDto getLatestMeasuredCondition(long boxId) {
@@ -61,7 +63,9 @@ public class MeasuredConditionsService {
         MeasuredCondition toCreate = mapToEntity(dto);
         LOGGER.info("addMeasuredCondition entity created");
 
-        toCreate.setBox(mapFromBoxDto(boxService.getById(1L)));
+
+        toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
+        // toCreate.setBox(mapFromBoxDto(boxService.getById(1L)));
         LOGGER.info("addMeasuredCondition box retrieved");
 
 

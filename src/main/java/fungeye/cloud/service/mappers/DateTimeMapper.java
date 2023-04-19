@@ -1,7 +1,6 @@
 package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.DateTimeDto;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.time.*;
 

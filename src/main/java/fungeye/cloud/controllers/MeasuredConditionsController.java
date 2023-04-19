@@ -1,20 +1,12 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.*;
-import fungeye.cloud.domain.enities.MeasuredCondition;
-import fungeye.cloud.domain.enities.MeasuredConditionId;
-import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
+import fungeye.cloud.domain.dtos.MeasuredConditionDto;
+import fungeye.cloud.domain.dtos.SearchConditionsParam;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jmx.export.assembler.MethodNameBasedMBeanInfoAssembler;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
