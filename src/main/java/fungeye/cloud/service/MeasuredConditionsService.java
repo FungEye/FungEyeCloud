@@ -4,10 +4,13 @@ import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.SearchConditionsParam;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +18,11 @@ import java.util.List;
 import static fungeye.cloud.service.mappers.BoxMapper.mapFromBoxDto;
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
+@Transactional
 @Service
 public class MeasuredConditionsService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MeasuredConditionsService.class);
 
     private MeasuredConditionRepository repository;
     private BoxService boxService;
@@ -24,6 +30,7 @@ public class MeasuredConditionsService {
     public MeasuredConditionsService(MeasuredConditionRepository repository, BoxService boxService) {
         this.repository = repository;
         this.boxService = boxService;
+        LOGGER.info("MS Service init");
     }
 
     public MeasuredConditionDto getLatestMeasuredCondition(long boxId) {
@@ -39,10 +46,10 @@ public class MeasuredConditionsService {
 
             if (!(
                     (param.getYear() != null && dateTime.getYear() != param.getYear()) ||
-                    (param.getMonth() != null && dateTime.getMonthValue() != param.getMonth()) ||
-                    (param.getDay() != null && dateTime.getDayOfMonth() != param.getDay()) ||
-                    (param.getHour() != null && dateTime.getHour() != param.getHour()) ||
-                    (param.getMinute() != null && dateTime.getMinute() != param.getMinute()))) {
+                            (param.getMonth() != null && dateTime.getMonthValue() != param.getMonth()) ||
+                            (param.getDay() != null && dateTime.getDayOfMonth() != param.getDay()) ||
+                            (param.getHour() != null && dateTime.getHour() != param.getHour()) ||
+                            (param.getMinute() != null && dateTime.getMinute() != param.getMinute()))) {
                 result.add(conditions.get(i));
             }
         }
@@ -50,8 +57,13 @@ public class MeasuredConditionsService {
     }
 
     public MeasuredConditionDto addMeasuredCondition(MeasuredConditionDto dto) {
+        LOGGER.info("addMeasuredCondition called");
         MeasuredCondition toCreate = mapToEntity(dto);
-        toCreate.setBox(mapFromBoxDto(boxService.getById(toCreate.getId().getBoxId())));
+        LOGGER.info("addMeasuredCondition entity created");
+
+        toCreate.setBox(mapFromBoxDto(boxService.getById(1L)));
+        LOGGER.info("addMeasuredCondition box retrieved");
+
 
         return mapToDto(repository.save(toCreate));
     }

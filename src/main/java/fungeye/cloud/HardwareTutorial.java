@@ -1,7 +1,14 @@
 package fungeye.cloud;
 
+import fungeye.cloud.domain.dtos.DateTimeDto;
+import fungeye.cloud.domain.dtos.MeasuredConditionDto;
+import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
+import fungeye.cloud.service.MeasuredConditionsService;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -9,12 +16,17 @@ import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+
+import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 
 @Component
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
+    private  static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
+    private MeasuredConditionsService measurementService;
     double temp;
     double hum;
 
@@ -29,7 +41,8 @@ public class HardwareTutorial implements WebSocket.Listener {
 
     // E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
     // Substitute ????????????????? with the token you have been given
-    public HardwareTutorial() {
+    public HardwareTutorial(MeasuredConditionsService service) {
+        this.measurementService = service;
         HttpClient client = HttpClient.newHttpClient();
         CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
                 .buildAsync(URI.create(iotUrl), this);
@@ -46,8 +59,10 @@ public class HardwareTutorial implements WebSocket.Listener {
 
     //onError()
     public void onError(WebSocket webSocket, Throwable error) {
-        System.out.println("A " + error.getCause() + " exception was thrown.");
-        System.out.println("Message: " + error.getLocalizedMessage());
+       // System.out.println("A " + error.getCause() + " exception was thrown.");
+       // System.out.println("Message: " + error.getLocalizedMessage());
+        LOGGER.error("A " + error.getCause() + " exception was thrown.");
+        LOGGER.error("Message: " + error.getLocalizedMessage());
         webSocket.abort();
     }
 
@@ -87,20 +102,27 @@ public class HardwareTutorial implements WebSocket.Listener {
         String indented = null;
         String dataValue = null;
         Timestamp timestamp;
+        //TODO - Christian added
+        Instant instant;
         try {
             JSONObject jsonObject = new JSONObject(data.toString());
             indented = jsonObject.toString(4);
             dataValue = jsonObject.optString("data"); // Extracts the "data" value from the JSON object
             String time = jsonObject.optString("time"); // Extracts the "time" value from the JSON object
-            timestamp = Timestamp.valueOf(time);
+            //timestamp = Timestamp.valueOf(time);
+            //TODO - Christian added
+            long ts = jsonObject.getLong("ts"); // Extracts the "ts" (timestamp) value from the JSON object
+            LOGGER.info("received timestamp: " + ts);
+            instant = Instant.ofEpochMilli(ts);
+            LOGGER.info("Converted Timestamp: " + instant);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(indented);
+        // System.out.println(indented);
 
         // Check if "data" value is present and print it
         if (!dataValue.isEmpty()) {
-            System.out.println("Data value: " + dataValue);
+            //System.out.println("Data value: " + dataValue);
             //radix 16 to show its converting from hex
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
@@ -109,18 +131,34 @@ public class HardwareTutorial implements WebSocket.Listener {
             double humidity = humRaw / 10.0f;
 
 
-            System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
-            System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
-            System.out.println(timestamp);
+           // System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
+            // System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
 
+            //TODO - Christian added
+            MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
+            /*
+            This is a quick (... hacky) solution to getting the box id. In the future, we should probably add the EUID from the box
+             as a value that we store in the db, and then lookup the actual box.
+             But since we only have 1 functional box, this should do the trick for now at least.
+             */
+            idDto.setBoxId(1L);
+            idDto.setDateTime(mapToDateDto(instant));
+
+            MeasuredConditionDto condDto = new MeasuredConditionDto();
+            condDto.setId(idDto);
+            condDto.setHumidity(humidity);
+            condDto.setTemperature(temperature);
+            LOGGER.info("DTO CREATED");
+            measurementService.addMeasuredCondition(condDto);
+            LOGGER.info("MeasuredCondition (should be) added to database!");
         }
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
     }
 
 
-    ;
 
+    /*
     public static void main(String[] args) {
         HardwareTutorial beep = new HardwareTutorial();
         // Assuming dataValue is "01160107041a"
@@ -138,8 +176,6 @@ public class HardwareTutorial implements WebSocket.Listener {
     }
 
 
-
-/*
         int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
         int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
         tempRaw = tempRaw/10;
@@ -153,10 +189,12 @@ public class HardwareTutorial implements WebSocket.Listener {
 
 
 
- */
+
 
 
     }
+   */
+
 
     public WebSocket getServer() {
         return server;

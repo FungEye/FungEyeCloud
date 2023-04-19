@@ -9,10 +9,15 @@ import org.springframework.stereotype.Component;
 public class HardwareTutorialStarter {
     @Autowired
     private HardwareTutorial hardwareTutorial;
+    private MeasuredConditionsService service;
+
+    public HardwareTutorialStarter(MeasuredConditionsService service) {
+        this.service = service;
+    }
 
     // post construct will launch this start method whenever spring boot application starts
-    @PostConstruct
+    //@PostConstruct
     public void start() {
-        hardwareTutorial = new HardwareTutorial();
+        hardwareTutorial = new HardwareTutorial(service);
     }
 }

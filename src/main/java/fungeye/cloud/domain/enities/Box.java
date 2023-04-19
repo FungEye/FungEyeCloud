@@ -17,7 +17,8 @@ public class Box {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "box")
+    // TODO Try this out as well
+    @OneToMany(mappedBy = "box", fetch = FetchType.EAGER)
     private Set<Grow> grows = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "box")
