@@ -1,6 +1,5 @@
 package fungeye.cloud.domain.dtos;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.io.Serializable;

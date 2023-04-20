@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-// The physical box wherein the mushrooms are grown
+
 @Getter
 @Setter
 @Entity
@@ -17,7 +17,7 @@ public class Box {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "box")
+    @OneToMany(mappedBy = "box", fetch = FetchType.LAZY)
     private Set<Grow> grows = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "box")
