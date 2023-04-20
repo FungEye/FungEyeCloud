@@ -25,7 +25,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     private static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
     private final MeasuredConditionsService measurementService;
 
-    private final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
+    private static final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
 
     // Send down-link message to device
     // Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
@@ -45,6 +45,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     }
 
     //onOpen()
+    @Override
     public void onOpen(WebSocket webSocket) {
         // This WebSocket will invoke onText, onBinary, onPing, onPong or onClose methods on the associated listener (i.e. receive methods) up to n more times
         webSocket.request(1);
@@ -52,6 +53,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     }
 
     //onError()
+    @Override
     public void onError(WebSocket webSocket, Throwable error) {
         LOGGER.error("A " + error.getCause() + " exception was thrown.");
         LOGGER.error("Message: " + error.getLocalizedMessage());
@@ -60,55 +62,51 @@ public class HardwareTutorial implements WebSocket.Listener {
 
 
     //onClose()
+    @Override
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
-        System.out.println("WebSocket closed!");
-        System.out.println("Status:" + statusCode + " Reason: " + reason);
-        return new CompletableFuture().completedFuture("onClose() completed.").thenAccept(System.out::println);
+        LOGGER.info("WebSocket closed!");
+        LOGGER.info("Status:" + statusCode + " Reason: " + reason);
+        return CompletableFuture.completedFuture("onClose() completed.").thenAccept(LOGGER::info);
     }
 
-    ;
-
     //onPing()
-    public CompletionStage<?> onPing​(WebSocket webSocket, ByteBuffer message) {
+    @Override
+    public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
-        System.out.println("Ping: Client ---> Server");
-        System.out.println(message.asCharBuffer().toString());
-        return new CompletableFuture().completedFuture("Ping completed.").thenAccept(System.out::println);
+        LOGGER.info("Ping: Client ---> Server");
+        LOGGER.info(message.asCharBuffer().toString());
+        return CompletableFuture.completedFuture("Ping completed.").thenAccept(LOGGER::info);
     }
 
     ;
 
     //onPong()
-    public CompletionStage<?> onPong​(WebSocket webSocket, ByteBuffer message) {
+    @Override
+    public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
-        System.out.println("Pong: Client ---> Server");
-        System.out.println(message.asCharBuffer().toString());
-        return new CompletableFuture().completedFuture("Pong completed.").thenAccept(System.out::println);
+        LOGGER.info("Pong: Client ---> Server");
+        LOGGER.info(message.asCharBuffer().toString());
+        return CompletableFuture.completedFuture("Pong completed.").thenAccept(LOGGER::info);
     }
 
-    ;
 
     //onText()
-    public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
-        String indented = null;
-        String dataValue = null;
+    @Override
+    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+        String dataValue;
         Instant instant;
         try {
             JSONObject jsonObject = new JSONObject(data.toString());
-            indented = jsonObject.toString(4);
             dataValue = jsonObject.optString("data"); // Extracts the "data" value from the JSON object
-            String time = jsonObject.optString("time"); // Extracts the "time" value from the JSON object
-            //timestamp = Timestamp.valueOf(time);
             long ts = jsonObject.getLong("ts"); // Extracts the "ts" (timestamp) value from the JSON object
             instant = Instant.ofEpochMilli(ts);
         } catch (JSONException e) {
+            //TODO add dedicated exception to be handled here
             throw new RuntimeException(e);
         }
-        // System.out.println(indented);
 
         // Check if "data" value is present and print it
         if (!dataValue.isEmpty()) {
-            //System.out.println("Data value: " + dataValue);
             //radix 16 to show its converting from hex
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
@@ -132,49 +130,9 @@ public class HardwareTutorial implements WebSocket.Listener {
             measurementService.addMeasuredCondition(condDto);
         }
         webSocket.request(1);
-        return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
+        return CompletableFuture.completedFuture("onText() completed.").thenAccept(LOGGER::info);
     }
-
-
-
-    /*
-    public static void main(String[] args) {
-        HardwareTutorial beep = new HardwareTutorial();
-        // Assuming dataValue is "01160107041a"
-        String testHex = "01160107041a";
-        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
-        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
-
-        double temperature = tempRaw / 10.0f;
-        double humidity = humRaw / 10.0f;
-
-        System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
-        System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
-    while(true){
-        //
-    }
-
-
-        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
-        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
-        tempRaw = tempRaw/10;
-        humRaw = humRaw/10;
-
-        System.out.println(tempRaw + "Temp");
-        System.out.println(humRaw + "Hum");
-        while(true){
-
-        }
-
-
-
-
-
-
-    }
-   */
-
-
+    
     public WebSocket getServer() {
         return server;
     }
