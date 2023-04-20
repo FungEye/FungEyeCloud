@@ -1,6 +1,8 @@
 package fungeye.cloud.domain.dtos;
 
-public class DateTimeDto {
+import java.io.Serializable;
+
+public class DateTimeDto implements Serializable {
 
     private int year;
     private int month;
