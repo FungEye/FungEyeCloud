@@ -64,8 +64,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     //onClose()
     @Override
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
-        LOGGER.info("WebSocket closed!");
-        LOGGER.info("Status:" + statusCode + " Reason: " + reason);
+        LOGGER.info("WebSocket closed! Status code: {}, Reason {}", statusCode, reason);
         return CompletableFuture.completedFuture("onClose() completed.").thenAccept(LOGGER::info);
     }
 
@@ -132,7 +131,7 @@ public class HardwareTutorial implements WebSocket.Listener {
         webSocket.request(1);
         return CompletableFuture.completedFuture("onText() completed.").thenAccept(LOGGER::info);
     }
-    
+
     public WebSocket getServer() {
         return server;
     }

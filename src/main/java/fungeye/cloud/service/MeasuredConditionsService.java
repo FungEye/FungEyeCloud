@@ -57,7 +57,7 @@ public class MeasuredConditionsService {
     public void addMeasuredCondition(MeasuredConditionDto dto) {
         MeasuredCondition toCreate = mapToEntity(dto);
         toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
-        MeasuredConditionDto response = mapToDto(repository.save(toCreate));
+        mapToDto(repository.save(toCreate));
         LOGGER.info("Measurement persisted in database");
     }
 }

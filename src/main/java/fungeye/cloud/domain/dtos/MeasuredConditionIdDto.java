@@ -1,6 +1,8 @@
 package fungeye.cloud.domain.dtos;
 
-public class MeasuredConditionIdDto {
+import java.io.Serializable;
+
+public class MeasuredConditionIdDto implements Serializable {
 
     private Long boxId;
     private DateTimeDto dateTime;
