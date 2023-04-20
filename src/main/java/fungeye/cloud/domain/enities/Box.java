@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-// The physical box wherein the mushrooms are grown
+
 @Getter
 @Setter
 @Entity
@@ -17,7 +17,6 @@ public class Box {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    // TODO Try to change fetchtype to eager as well if current try does not work
     @OneToMany(mappedBy = "box", fetch = FetchType.LAZY)
     private Set<Grow> grows = new LinkedHashSet<>();
 

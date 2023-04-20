@@ -9,7 +9,7 @@ public class DateTimeMapper {
     public static DateTimeDto mapToDateDto(Instant instant)
     {
         DateTimeDto dto = new DateTimeDto();
-        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(2));
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(0));
         dto.setDay(dateTime.getDayOfMonth());
         dto.setMonth(dateTime.getMonthValue());
         dto.setYear(dateTime.getYear());

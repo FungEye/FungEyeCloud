@@ -47,11 +47,4 @@ public class MeasuredConditionsController {
     {
         return new ResponseEntity<>(service.getLatestMeasuredCondition(id), HttpStatus.OK);
     }
-
-    //TODO For testing only!
-    @PostMapping("/measurements")
-    public ResponseEntity<MeasuredConditionDto> addMeasurement(@RequestBody MeasuredConditionDto dto) {
-        return new ResponseEntity<>(service.addMeasuredCondition(dto), HttpStatus.CREATED);
-    }
-
 }

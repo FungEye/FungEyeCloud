@@ -1,6 +1,5 @@
-package fungeye.cloud;
+package fungeye.cloud.websockets;
 
-import fungeye.cloud.domain.dtos.DateTimeDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
 import fungeye.cloud.service.MeasuredConditionsService;
@@ -8,14 +7,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -25,11 +22,8 @@ import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 @Component
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
-    private  static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
-    private MeasuredConditionsService measurementService;
-    double temp;
-    double hum;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
+    private final MeasuredConditionsService measurementService;
 
     private final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
 
@@ -54,19 +48,16 @@ public class HardwareTutorial implements WebSocket.Listener {
     public void onOpen(WebSocket webSocket) {
         // This WebSocket will invoke onText, onBinary, onPing, onPong or onClose methods on the associated listener (i.e. receive methods) up to n more times
         webSocket.request(1);
-        System.out.println("WebSocket Listener has been opened for requests.");
+        LOGGER.info("WebSocket Listener has been opened for requests.");
     }
 
     //onError()
     public void onError(WebSocket webSocket, Throwable error) {
-       // System.out.println("A " + error.getCause() + " exception was thrown.");
-       // System.out.println("Message: " + error.getLocalizedMessage());
         LOGGER.error("A " + error.getCause() + " exception was thrown.");
         LOGGER.error("Message: " + error.getLocalizedMessage());
         webSocket.abort();
     }
 
-    ;
 
     //onClose()
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
@@ -101,8 +92,6 @@ public class HardwareTutorial implements WebSocket.Listener {
     public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
         String indented = null;
         String dataValue = null;
-        Timestamp timestamp;
-        //TODO - Christian added
         Instant instant;
         try {
             JSONObject jsonObject = new JSONObject(data.toString());
@@ -110,11 +99,8 @@ public class HardwareTutorial implements WebSocket.Listener {
             dataValue = jsonObject.optString("data"); // Extracts the "data" value from the JSON object
             String time = jsonObject.optString("time"); // Extracts the "time" value from the JSON object
             //timestamp = Timestamp.valueOf(time);
-            //TODO - Christian added
             long ts = jsonObject.getLong("ts"); // Extracts the "ts" (timestamp) value from the JSON object
-            LOGGER.info("received timestamp: " + ts);
             instant = Instant.ofEpochMilli(ts);
-            LOGGER.info("Converted Timestamp: " + instant);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -127,14 +113,9 @@ public class HardwareTutorial implements WebSocket.Listener {
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
 
-            double temperature = tempRaw / 10.0f;
-            double humidity = humRaw / 10.0f;
+            double temperature = tempRaw / 10.0;
+            double humidity = humRaw / 10.0;
 
-
-           // System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
-            // System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
-
-            //TODO - Christian added
             MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
             /*
             This is a quick (... hacky) solution to getting the box id. In the future, we should probably add the EUID from the box
@@ -148,12 +129,10 @@ public class HardwareTutorial implements WebSocket.Listener {
             condDto.setId(idDto);
             condDto.setHumidity(humidity);
             condDto.setTemperature(temperature);
-            LOGGER.info("DTO CREATED");
             measurementService.addMeasuredCondition(condDto);
-            LOGGER.info("MeasuredCondition (should be) added to database!");
         }
         webSocket.request(1);
-        return new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
+        return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
     }
 
 

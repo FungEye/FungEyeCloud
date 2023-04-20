@@ -17,21 +17,17 @@ import java.util.List;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
-//@Transactional TODO commented out for now - try with fix below
 @Service
 public class MeasuredConditionsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MeasuredConditionsService.class);
 
-    private MeasuredConditionRepository repository;
-    private BoxService boxService;
+    private final MeasuredConditionRepository repository;
     private final BoxRepository boxRepository;
 
-    public MeasuredConditionsService(MeasuredConditionRepository repository, BoxService boxService,
+    public MeasuredConditionsService(MeasuredConditionRepository repository,
                                      BoxRepository boxRepository) {
         this.repository = repository;
-        this.boxService = boxService;
-        LOGGER.info("MS Service init");
         this.boxRepository = boxRepository;
     }
 
@@ -43,8 +39,8 @@ public class MeasuredConditionsService {
         List<MeasuredCondition> conditions = repository.findAllByBox_Id(param.getId());
         List<MeasuredCondition> result = new ArrayList<>();
 
-        for (int i = 0; i < conditions.size(); i++) {
-            LocalDateTime dateTime = LocalDateTime.ofInstant(conditions.get(i).getId().getDateTime(), ZoneOffset.ofHours(0));
+        for (MeasuredCondition condition : conditions) {
+            LocalDateTime dateTime = LocalDateTime.ofInstant(condition.getId().getDateTime(), ZoneOffset.ofHours(0));
 
             if (!(
                     (param.getYear() != null && dateTime.getYear() != param.getYear()) ||
@@ -52,23 +48,16 @@ public class MeasuredConditionsService {
                             (param.getDay() != null && dateTime.getDayOfMonth() != param.getDay()) ||
                             (param.getHour() != null && dateTime.getHour() != param.getHour()) ||
                             (param.getMinute() != null && dateTime.getMinute() != param.getMinute()))) {
-                result.add(conditions.get(i));
+                result.add(condition);
             }
         }
         return mapToDtoList(result);
     }
 
-    public MeasuredConditionDto addMeasuredCondition(MeasuredConditionDto dto) {
-        LOGGER.info("addMeasuredCondition called");
+    public void addMeasuredCondition(MeasuredConditionDto dto) {
         MeasuredCondition toCreate = mapToEntity(dto);
-        LOGGER.info("addMeasuredCondition entity created");
-
-
         toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
-        // toCreate.setBox(mapFromBoxDto(boxService.getById(1L)));
-        LOGGER.info("addMeasuredCondition box retrieved");
-
-
-        return mapToDto(repository.save(toCreate));
+        MeasuredConditionDto response = mapToDto(repository.save(toCreate));
+        LOGGER.info("Measurement persisted in database for box # " + response.getId().getBoxId());
     }
 }
