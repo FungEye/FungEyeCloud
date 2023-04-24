@@ -7,12 +7,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -23,7 +29,8 @@ import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
-    private final MeasuredConditionsService measurementService;
+    @Autowired
+    private MeasuredConditionsService measurementService;
 
     private final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
 
@@ -35,14 +42,38 @@ public class HardwareTutorial implements WebSocket.Listener {
 
     // E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
     // Substitute ????????????????? with the token you have been given
-    public HardwareTutorial(MeasuredConditionsService service) {
-        this.measurementService = service;
-        HttpClient client = HttpClient.newHttpClient();
-        CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
-                .buildAsync(URI.create(iotUrl), this);
+    public HardwareTutorial() {
+        // Bypass ssl certs
+        try {
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return new X509Certificate[0];
+                        }
 
-        server = ws.join();
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        }
+
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        }
+                    }
+            };
+            sslContext.init(null, trustAllCerts, new SecureRandom());
+            HttpClient client = HttpClient.newBuilder()
+                    .sslContext(sslContext)
+                    .build();
+            CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
+                    .buildAsync(URI.create(iotUrl), this);
+            server = ws.join();
+        }
+        //TODO: handle exceptions
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
+
 
     //onOpen()
     public void onOpen(WebSocket webSocket) {
