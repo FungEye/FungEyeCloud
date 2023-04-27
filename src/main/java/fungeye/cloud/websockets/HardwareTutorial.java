@@ -146,7 +146,6 @@ public class HardwareTutorial implements WebSocket.Listener {
 
             double temperature = tempRaw / 10.0;
             double humidity = humRaw / 10.0;
-            double co2Double = (double)co2;
             MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
             /*
             This is a quick (... hacky) solution to getting the box id. In the future, we should probably add the EUID from the box
