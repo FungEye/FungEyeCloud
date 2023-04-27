@@ -68,8 +68,7 @@ public class HardwareTutorial implements WebSocket.Listener {
             server = ws.join();
         }
         //TODO: handle exceptions
-        catch (Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -143,11 +142,11 @@ public class HardwareTutorial implements WebSocket.Listener {
             //radix 16 to show its converting from hex
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
-            int co2 = Integer.parseInt(dataValue.substring(8,12),16);
+            int co2 = Integer.parseInt(dataValue.substring(8, 12), 16);
 
             double temperature = tempRaw / 10.0;
             double humidity = humRaw / 10.0;
-            double CO2 = co2/1.0f;//this is measured in ppm(parts per million)
+            double CO2 = co2 / 1.0f;//this is measured in ppm(parts per million)
 
             MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
             /*
@@ -167,6 +166,7 @@ public class HardwareTutorial implements WebSocket.Listener {
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
     }
+
 
 
 /*
@@ -191,9 +191,10 @@ public class HardwareTutorial implements WebSocket.Listener {
     }
 
 
-
+*/
 
     public WebSocket getServer() {
         return server;
     }
 }
+
