@@ -142,12 +142,11 @@ public class HardwareTutorial implements WebSocket.Listener {
             //radix 16 to show its converting from hex
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
-            int co2 = Integer.parseInt(dataValue.substring(8, 12), 16);
+            int co2 = Integer.parseInt(dataValue.substring(8, 12), 16);//this is measured in ppm(parts per million)
 
             double temperature = tempRaw / 10.0;
             double humidity = humRaw / 10.0;
-            double CO2 = co2 / 1.0f;//this is measured in ppm(parts per million)
-
+            double co2Double = (double)co2;
             MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
             /*
             This is a quick (... hacky) solution to getting the box id. In the future, we should probably add the EUID from the box
