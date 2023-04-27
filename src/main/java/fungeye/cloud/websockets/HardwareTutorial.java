@@ -143,9 +143,11 @@ public class HardwareTutorial implements WebSocket.Listener {
             //radix 16 to show its converting from hex
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
+            int co2 = Integer.parseInt(dataValue.substring(8,12),16);
 
             double temperature = tempRaw / 10.0;
             double humidity = humRaw / 10.0;
+            double CO2 = co2/1.0f;//this is measured in ppm(parts per million)
 
             MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
             /*
@@ -167,43 +169,28 @@ public class HardwareTutorial implements WebSocket.Listener {
     }
 
 
+/*
 
-    /*
     public static void main(String[] args) {
         HardwareTutorial beep = new HardwareTutorial();
         // Assuming dataValue is "01160107041a"
         String testHex = "01160107041a";
         int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
         int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
+        int co2 = Integer.parseInt(testHex.substring(8,12),16);
 
         double temperature = tempRaw / 10.0f;
         double humidity = humRaw / 10.0f;
+        double CO2 = co2/1.0f;
 
         System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
         System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
+        System.out.println("CO2: " + String.format("%.2f", CO2) + "ppm");
     while(true){
         //
     }
 
 
-        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
-        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
-        tempRaw = tempRaw/10;
-        humRaw = humRaw/10;
-
-        System.out.println(tempRaw + "Temp");
-        System.out.println(humRaw + "Hum");
-        while(true){
-
-        }
-
-
-
-
-
-
-    }
-   */
 
 
     public WebSocket getServer() {
