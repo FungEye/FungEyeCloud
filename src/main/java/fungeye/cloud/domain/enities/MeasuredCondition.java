@@ -26,6 +26,12 @@ public class MeasuredCondition {
     @Column(name = "humidity")
     private Double humidity;
 
+    @Column(name = "co2")
+    private Double co2;
+
+    @Column(name = "light")
+    private Double light;
+
     public MeasuredConditionId getId() {
         return id;
     }
