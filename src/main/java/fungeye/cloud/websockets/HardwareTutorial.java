@@ -3,6 +3,11 @@ package fungeye.cloud.websockets;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
 import fungeye.cloud.service.MeasuredConditionsService;
+import jakarta.websocket.OnClose;
+import jakarta.websocket.OnError;
+import jakarta.websocket.OnMessage;
+import jakarta.websocket.OnOpen;
+import jakarta.websocket.server.ServerEndpoint;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -26,7 +31,8 @@ import java.util.concurrent.CompletionStage;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 
-@Controller
+@ServerEndpoint(value = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=")
+@Component
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
@@ -76,6 +82,7 @@ public class HardwareTutorial implements WebSocket.Listener {
 
 
     //onOpen()
+    @OnOpen
     public void onOpen(WebSocket webSocket) {
         // This WebSocket will invoke onText, onBinary, onPing, onPong or onClose methods on the associated listener (i.e. receive methods) up to n more times
         webSocket.request(1);
@@ -83,6 +90,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     }
 
     //onError()
+    @OnError
     public void onError(WebSocket webSocket, Throwable error) {
         LOGGER.error("A " + error.getCause() + " exception was thrown.");
         LOGGER.error("Message: " + error.getLocalizedMessage());
@@ -91,6 +99,7 @@ public class HardwareTutorial implements WebSocket.Listener {
 
 
     //onClose()
+    @OnClose
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
         System.out.println("WebSocket closed!");
         System.out.println("Status:" + statusCode + " Reason: " + reason);
@@ -120,6 +129,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     ;
 
     //onText()
+    @OnMessage
     public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
         String indented = null;
         String dataValue = null;
