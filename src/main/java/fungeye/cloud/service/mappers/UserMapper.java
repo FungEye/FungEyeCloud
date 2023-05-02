@@ -7,6 +7,9 @@ public class UserMapper {
 
     public static User userFromCreationDto(UserCreationDto dto)
     {
-        return new User(dto.getUsername(), dto.getPassword());
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword());
+        return user;
     }
 }

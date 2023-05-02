@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @Column(name = "username", nullable = false, length = 50)
@@ -20,12 +20,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy
     private List<Box> boxes;
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.boxes = new ArrayList<>();
-    }
 
     public User() {
 
