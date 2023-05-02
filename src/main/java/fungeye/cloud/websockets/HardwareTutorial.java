@@ -85,6 +85,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     public void onError(WebSocket webSocket, Throwable error) {
         LOGGER.error("A " + error.getCause() + " exception was thrown.");
         LOGGER.error("Message: " + error.getLocalizedMessage());
+        LOGGER.error(error.getStackTrace().toString());
         webSocket.abort();
     }
 
