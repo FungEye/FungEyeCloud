@@ -3,10 +3,7 @@ package fungeye.cloud.websockets;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
 import fungeye.cloud.service.MeasuredConditionsService;
-import jakarta.websocket.OnClose;
-import jakarta.websocket.OnError;
-import jakarta.websocket.OnMessage;
-import jakarta.websocket.OnOpen;
+import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +28,7 @@ import java.util.concurrent.CompletionStage;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 
-@ServerEndpoint(value = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=")
+@ClientEndpoint
 @Component
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
