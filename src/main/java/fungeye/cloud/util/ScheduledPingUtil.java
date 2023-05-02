@@ -11,7 +11,7 @@ public class ScheduledPingUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledPingUtil.class);
 
-    @Scheduled(fixedRate = 300000)
+    //@Scheduled(fixedRate = 300000)
     public void sendPing() {
         LOGGER.debug("Sending ping");
         RestTemplate rt = new RestTemplate();
@@ -20,6 +20,6 @@ public class ScheduledPingUtil {
         // Only when running local instance
         //rt.getForEntity(uriLocal, String.class);
         // For cloud env
-        rt.getForEntity(uri, String.class);
+        //rt.getForEntity(uri, String.class);
     }
 }
