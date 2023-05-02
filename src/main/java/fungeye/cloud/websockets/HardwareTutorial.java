@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -25,7 +26,7 @@ import java.util.concurrent.CompletionStage;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 
-@Component
+@Controller
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
