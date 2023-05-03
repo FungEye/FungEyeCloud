@@ -1,7 +1,12 @@
 package fungeye.cloud.persistence.repository;
 
-import fungeye.cloud.domain.enities.User;
+
+import fungeye.cloud.domain.enities.users.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, String> {
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    Optional<UserEntity> findByUsername(String username);
+    Boolean existsByUsername(String username);
 }
