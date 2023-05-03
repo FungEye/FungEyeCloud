@@ -21,8 +21,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<Boolean> createUser(@RequestParam String username, @RequestParam String password) {
-        UserCreationDto dto = new UserCreationDto(username, password);
+    public ResponseEntity<Boolean> createUser(@RequestBody UserCreationDto dto) {
         return new ResponseEntity<>(userService.createUser(dto), HttpStatus.CREATED);
     }
 

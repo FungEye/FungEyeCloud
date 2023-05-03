@@ -1,13 +1,13 @@
 package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.UserCreationDto;
-import fungeye.cloud.domain.enities.User;
+import fungeye.cloud.domain.enities.users.UserEntity;
 
 public class UserMapper {
 
-    public static User userFromCreationDto(UserCreationDto dto)
+    public static UserEntity userFromCreationDto(UserCreationDto dto)
     {
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
         return user;

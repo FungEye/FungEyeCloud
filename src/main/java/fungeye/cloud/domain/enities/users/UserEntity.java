@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.enities.users;
 
+import fungeye.cloud.domain.enities.Box;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,5 +29,8 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Box> boxes = new LinkedHashSet<>();
 
 }
