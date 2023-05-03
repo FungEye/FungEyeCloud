@@ -68,8 +68,7 @@ public class HardwareTutorial implements WebSocket.Listener {
             server = ws.join();
         }
         //TODO: handle exceptions
-        catch (Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -86,6 +85,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     public void onError(WebSocket webSocket, Throwable error) {
         LOGGER.error("A " + error.getCause() + " exception was thrown.");
         LOGGER.error("Message: " + error.getLocalizedMessage());
+        LOGGER.error(error.getStackTrace().toString());
         webSocket.abort();
     }
 
@@ -143,10 +143,10 @@ public class HardwareTutorial implements WebSocket.Listener {
             //radix 16 to show its converting from hex
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
+            int co2 = Integer.parseInt(dataValue.substring(8, 12), 16);//this is measured in ppm(parts per million)
 
             double temperature = tempRaw / 10.0;
             double humidity = humRaw / 10.0;
-
             MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
             /*
             This is a quick (... hacky) solution to getting the box id. In the future, we should probably add the EUID from the box
@@ -168,45 +168,27 @@ public class HardwareTutorial implements WebSocket.Listener {
 
 
 
-    /*
+
+
     public static void main(String[] args) {
         HardwareTutorial beep = new HardwareTutorial();
-        // Assuming dataValue is "01160107041a"
-        String testHex = "01160107041a";
+        // Assuming dataValue is "01160107041a0000"
+        String testHex = "01160107041a0000";
         int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
         int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
+        int co2 = Integer.parseInt(testHex.substring(8, 12), 16);
+        int light = Integer.parseInt(testHex.substring(12, 16), 16);
+
 
         double temperature = tempRaw / 10.0f;
         double humidity = humRaw / 10.0f;
+        double CO2 = co2 / 1.0f;
 
         System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
         System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
-    while(true){
-        //
+        System.out.println("CO2: " + String.format("%.2f", CO2) + "ppm");
+        System.out.println("Light: " + light + "lm");
     }
 
-
-        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
-        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
-        tempRaw = tempRaw/10;
-        humRaw = humRaw/10;
-
-        System.out.println(tempRaw + "Temp");
-        System.out.println(humRaw + "Hum");
-        while(true){
-
-        }
-
-
-
-
-
-
-    }
-   */
-
-
-    public WebSocket getServer() {
-        return server;
-    }
 }
+
