@@ -1,5 +1,5 @@
 package fungeye.cloud.security;
-
+/*
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+// TODO REENABLE! + security in pom
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -19,7 +21,7 @@ public class SecurityConfig {
         http
                 .csrf().disable() // TODO disable cors?? play around with this
                 .authorizeHttpRequests()
-                .anyRequest().authenticated() // All requests must be authenticated
+                .anyRequest().anonymous() //
                 .and()
                 .httpBasic(); // Http instead of Https
 
@@ -43,3 +45,6 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(admin, user);
     }
 }
+
+ */
+

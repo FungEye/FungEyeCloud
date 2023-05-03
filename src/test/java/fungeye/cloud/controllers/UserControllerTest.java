@@ -1,5 +1,10 @@
 package fungeye.cloud.controllers;
 
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fungeye.cloud.domain.dtos.UserCreationDto;
 import fungeye.cloud.service.BoxService;
 import fungeye.cloud.service.UserService;
@@ -8,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -36,12 +42,12 @@ class UserControllerTest {
     @Test
     public void createUser() throws Exception {
         UserCreationDto dto = new UserCreationDto("john", "pass123ff");
+        ObjectMapper mapper = new ObjectMapper();
 
         given(userService.createUser(dto)).willReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/user")
-                        .queryParam("username", dto.getUsername())
-                        .queryParam("password", dto.getPassword())
+                        .content(mapper.writeValueAsString(dto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }

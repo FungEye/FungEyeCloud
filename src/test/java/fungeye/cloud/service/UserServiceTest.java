@@ -1,15 +1,14 @@
 package fungeye.cloud.service;
 
 import fungeye.cloud.domain.dtos.UserCreationDto;
-import fungeye.cloud.domain.enities.User;
+import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import static fungeye.cloud.service.mappers.UserMapper.userFromCreationDto;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,21 +20,21 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     private UserService userService;
-    private User user;
+    private UserEntity user;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
         userService = new UserService(userRepository);
 
-        user = new User();
+        user = new UserEntity();
         user.setUsername("username");
         user.setPassword("password");
     }
 
     @Test
     public void testCreateUser_success() {
-        when(userRepository.save(any(User.class))).thenReturn(user);
+        when(userRepository.save(any(UserEntity.class))).thenReturn(user);
 
         assertTrue(userService.createUser(new UserCreationDto("username", "password")));
     }
@@ -43,7 +42,7 @@ class UserServiceTest {
     @Test
     public void testCreateUser_failure() {
         UserCreationDto dto = new UserCreationDto("testuser", "password");
-        when(userRepository.save(any(User.class))).thenReturn(null);
+        when(userRepository.save(any(UserEntity.class))).thenReturn(null);
 
         assertFalse(userService.createUser(dto));
     }
@@ -51,7 +50,7 @@ class UserServiceTest {
     @Test
     public void testCreateUser_exception() {
         UserCreationDto dto = new UserCreationDto("testuser", "password");
-        when(userRepository.save(any(User.class))).thenThrow(new RuntimeException());
+        when(userRepository.save(any(UserEntity.class))).thenThrow(new RuntimeException());
 
         assertFalse(userService.createUser(dto));
     }
@@ -60,7 +59,7 @@ class UserServiceTest {
     void testLogin() {
         String username = "username";
         String password = "password";
-        when(userRepository.findById(username)).thenReturn(java.util.Optional.of(user));
+        when(userRepository.findByUsername(username)).thenReturn(java.util.Optional.of(user));
 
         boolean isLoggedIn = userService.login(username, password);
         assertTrue(isLoggedIn);
@@ -69,7 +68,7 @@ class UserServiceTest {
     @Test
     void testLoginInvalidPassword() {
         String badPassword = "badPassword";
-        when(userRepository.findById(user.getUsername())).thenReturn(java.util.Optional.of(user));
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
 
         boolean isLoggedIn = userService.login(user.getUsername(), badPassword);
         assertFalse(isLoggedIn);
@@ -79,7 +78,7 @@ class UserServiceTest {
     void testLoginInvalidUser() {
         String username = "username";
         String password = "password";
-        when(userRepository.findById(username)).thenReturn(java.util.Optional.empty());
+        when(userRepository.findByUsername(username)).thenReturn(java.util.Optional.empty());
 
         boolean isLoggedIn = userService.login(username, password);
         Assertions.assertFalse(isLoggedIn);

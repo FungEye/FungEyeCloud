@@ -1,7 +1,7 @@
 package fungeye.cloud.service;
 
 import fungeye.cloud.domain.dtos.UserCreationDto;
-import fungeye.cloud.domain.enities.User;
+import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class UserService {
 
     public boolean createUser(UserCreationDto dto) {
         try {
-            User user = userRepository.save(userFromCreationDto(dto));
+            UserEntity user = userRepository.save(userFromCreationDto(dto));
             return user != null;
         } catch (Exception e) {
             return false;
@@ -27,11 +27,7 @@ public class UserService {
     }
 
     public boolean login(String username, String password) {
-        Optional<User> user = userRepository.findById(username);
-        if (user.isPresent())
-        {
-            return user.get().getPassword().equals(password);
-        }
-        return false;
+        Optional<UserEntity> user = userRepository.findByUsername(username);
+        return user.map(userEntity -> userEntity.getPassword().equals(password)).orElse(false);
     }
 }
