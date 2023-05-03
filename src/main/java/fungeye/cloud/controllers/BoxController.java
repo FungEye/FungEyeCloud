@@ -2,11 +2,8 @@ package fungeye.cloud.controllers;
 
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
-import fungeye.cloud.domain.enities.Box;
-import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.service.BoxService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
