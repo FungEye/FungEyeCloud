@@ -23,6 +23,18 @@ public class Box {
     @OneToMany(mappedBy = "box")
     private Set<MeasuredCondition> measuredConditions = new LinkedHashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
