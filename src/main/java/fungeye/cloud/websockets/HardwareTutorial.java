@@ -160,7 +160,8 @@ public class HardwareTutorial implements WebSocket.Listener {
             condDto.setId(idDto);
             condDto.setHumidity(humidity);
             condDto.setTemperature(temperature);
-            measurementService.addMeasuredCondition(condDto);
+            // Service is null and
+            // measurementService.addMeasuredCondition(condDto);
         }
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
