@@ -50,7 +50,7 @@ public class MeasuredConditionsService {
 
         for (MeasuredCondition condition : conditions) {
             // Todo: This will break in daylight savings
-            LocalDateTime dateTime = LocalDateTime.ofInstant(condition.getId().getDateTime(), ZoneOffset.ofHours(2));
+            LocalDateTime dateTime = LocalDateTime.ofInstant(condition.getId().getDateTime(), ZoneId.systemDefault());
 
             if (!(
                     (param.getYear() != null && dateTime.getYear() != param.getYear()) ||
