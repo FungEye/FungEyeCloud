@@ -65,4 +65,4 @@ jobs:
       - name: Deploy to Google App Engine
         run: |
           gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-          gcloud app deploy staging/app.yaml --artifact staging/*.jar
+          gcloud app deploy staging/app.yaml
