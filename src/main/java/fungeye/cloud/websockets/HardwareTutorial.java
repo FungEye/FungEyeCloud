@@ -29,7 +29,7 @@ import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
-    @Autowired
+
     private MeasuredConditionsService measurementService;
 
     private final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
@@ -42,7 +42,8 @@ public class HardwareTutorial implements WebSocket.Listener {
 
     // E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
     // Substitute ????????????????? with the token you have been given
-    public HardwareTutorial() {
+    @Autowired
+    public HardwareTutorial(MeasuredConditionsService measurementService) {
         // Bypass ssl certs
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -66,6 +67,7 @@ public class HardwareTutorial implements WebSocket.Listener {
             CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
                     .buildAsync(URI.create(iotUrl), this);
             server = ws.join();
+            this.measurementService = measurementService;
         }
         //TODO: handle exceptions
         catch (Exception e) {
@@ -160,8 +162,7 @@ public class HardwareTutorial implements WebSocket.Listener {
             condDto.setId(idDto);
             condDto.setHumidity(humidity);
             condDto.setTemperature(temperature);
-            // Service is null and
-            // measurementService.addMeasuredCondition(condDto);
+            measurementService.addMeasuredCondition(condDto);
         }
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
@@ -171,25 +172,26 @@ public class HardwareTutorial implements WebSocket.Listener {
 
 
 
-    public static void main(String[] args) {
-        HardwareTutorial beep = new HardwareTutorial();
-        // Assuming dataValue is "01160107041a0000"
-        String testHex = "01160107041a0000";
-        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
-        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
-        int co2 = Integer.parseInt(testHex.substring(8, 12), 16);
-        int light = Integer.parseInt(testHex.substring(12, 16), 16);
-
-
-        double temperature = tempRaw / 10.0f;
-        double humidity = humRaw / 10.0f;
-        double CO2 = co2 / 1.0f;
-
-        System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
-        System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
-        System.out.println("CO2: " + String.format("%.2f", CO2) + "ppm");
-        System.out.println("Light: " + light + "lm");
-    }
+//    public static void main(String[] args) {
+//        // This constructor does not work anymore with the new injection in the above
+//        HardwareTutorial beep = new HardwareTutorial();
+//        // Assuming dataValue is "01160107041a0000"
+//        String testHex = "01160107041a0000";
+//        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
+//        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
+//        int co2 = Integer.parseInt(testHex.substring(8, 12), 16);
+//        int light = Integer.parseInt(testHex.substring(12, 16), 16);
+//
+//
+//        double temperature = tempRaw / 10.0f;
+//        double humidity = humRaw / 10.0f;
+//        double CO2 = co2 / 1.0f;
+//
+//        System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
+//        System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
+//        System.out.println("CO2: " + String.format("%.2f", CO2) + "ppm");
+//        System.out.println("Light: " + light + "lm");
+//    }
 
 }
 

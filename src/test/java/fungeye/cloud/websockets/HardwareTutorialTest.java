@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -30,7 +32,7 @@ public class HardwareTutorialTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        hardwareTutorial = new HardwareTutorial();
+        hardwareTutorial = new HardwareTutorial(measurementService);
         ReflectionTestUtils.setField(hardwareTutorial, "measurementService", measurementService);
     }
 
@@ -62,7 +64,6 @@ public class HardwareTutorialTest {
 
     @Test
     void onPing() {
-        HardwareTutorial hardwareTutorial = new HardwareTutorial();
         // This part of the test should be improved
         ByteBuffer message = ByteBuffer.wrap("Hello".getBytes());
         assertEquals("Ping complete", hardwareTutorial.onPing(Mockito.mock(WebSocket.class), message)
@@ -83,8 +84,8 @@ public class HardwareTutorialTest {
     @Test
     public void onText_validJSON() throws Exception {
         measurementService = Mockito.mock(MeasuredConditionsService.class);
+        hardwareTutorial = new HardwareTutorial(measurementService);
         // arrange
-        HardwareTutorial hardwareTutorial = new HardwareTutorial();
         WebSocket webSocket = mock(WebSocket.class);
         Instant instant = Instant.now();
         String jsonString = "{ \"data\":\"01f300dc1f5a\", \"time\":\"2023-05-05T12:34:56.789Z\", \"ts\":" + instant.toEpochMilli() + ", \"fcnt\":1, \"port\":2 }";
@@ -99,6 +100,7 @@ public class HardwareTutorialTest {
 
         CompletableFuture<?> future = new CompletableFuture<>();
         future.complete(null);
+
 
         // act
         hardwareTutorial.onText(webSocket, jsonString, true);
