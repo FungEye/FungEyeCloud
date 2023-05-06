@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class BoxMapperTest {
+class BoxMapperTest {
 
     @Test
-    public void testMapToSimpleDto() {
+    void testMapToSimpleDto() {
         // create a Box object
         Box box = new Box();
         box.setId(1L);
@@ -33,7 +33,7 @@ public class BoxMapperTest {
     }
 
     @Test
-    public void testMapToBoxDto() {
+    void testMapToBoxDto() {
         // create a Box object with related Grows and MeasuredConditions
         Box box = new Box();
         box.setId(1L);
@@ -67,7 +67,7 @@ public class BoxMapperTest {
     }
 
     @Test
-    public void testMapFromBoxDto() {
+    void testMapFromBoxDto() {
         // create a BoxDetailsDto object
         BoxDetailsDto dto = new BoxDetailsDto();
         dto.setId(1L);

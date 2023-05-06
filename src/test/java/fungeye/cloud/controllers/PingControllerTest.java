@@ -28,7 +28,7 @@ class PingControllerTest {
     private Logger logger;
 
     @Test
-    public void ping() throws Exception {
+    void ping() throws Exception {
         PingController pingController = new PingController();
         ResponseEntity<String> response = pingController.ping();
         assertEquals("Http OK", response.getStatusCode(), HttpStatus.OK);
@@ -36,7 +36,7 @@ class PingControllerTest {
     }
 
     @Test
-    public void ensureLogs() {
+    void ensureLogs() {
         logger.debug("Testing logger");
         verify(logger).debug("Testing logger");
     }

@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-public class BoxServiceTest {
+class BoxServiceTest {
 
     @Mock
     private BoxRepository repository;
@@ -25,7 +25,7 @@ public class BoxServiceTest {
     }
 
     @Test
-    public void testCreateBox() {
+    void testCreateBox() {
         // Given
         Box box = new Box();
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(box);
@@ -40,7 +40,7 @@ public class BoxServiceTest {
     }
 
     @Test
-    public void testGetById() {
+    void testGetById() {
         // Given
         Box box = new Box();
         box.setId(1L);

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DateTimeDtoTest {
+class DateTimeDtoTest {
 
     @Test
     void testConstructor() {
@@ -36,7 +36,7 @@ public class DateTimeDtoTest {
     }
 
     @Test
-    public void testEqualsAndHashCode() {
+    void testEqualsAndHashCode() {
         DateTimeDto dateTimeDto1 = new DateTimeDto(2023, 5, 6, 11, 22, 33);
         DateTimeDto dateTimeDto2 = new DateTimeDto(2023, 5, 6, 11, 22, 33);
         DateTimeDto dateTimeDto3 = new DateTimeDto(2023, 5, 6, 11, 22, 34);
@@ -51,7 +51,7 @@ public class DateTimeDtoTest {
     }
 
     @Test
-    public void detailedTestEquals() {
+    void detailedTestEquals() {
         DateTimeDto dto1 = new DateTimeDto(2023, 5, 6, 10, 30, 0);
         DateTimeDto dto2 = new DateTimeDto(2023, 5, 6, 10, 30, 0);
         DateTimeDto dto3 = new DateTimeDto(2023, 5, 6, 10, 30, 0);

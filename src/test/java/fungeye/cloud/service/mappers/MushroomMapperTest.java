@@ -16,7 +16,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class MushroomMapperTest {
+class MushroomMapperTest {
 
     private static final Long MUSHROOM_ID = 1L;
     private static final String MUSHROOM_NAME = "Shiitake";
@@ -38,7 +38,7 @@ public class MushroomMapperTest {
     }
 
     @Test
-    public void testMapToMushroomDto() {
+    void testMapToMushroomDto() {
         when(mushroomMock.getId()).thenReturn(MUSHROOM_ID);
         when(mushroomMock.getName()).thenReturn(MUSHROOM_NAME);
         when(mushroomMock.getDescription()).thenReturn(MUSHROOM_DESC);
@@ -54,7 +54,7 @@ public class MushroomMapperTest {
     }
 
     @Test
-    public void testMapToMushroomDtoList() {
+    void testMapToMushroomDtoList() {
         Set<Mushroom> mushroomSet = new HashSet<>();
         mushroomSet.add(mushroomMock);
 
@@ -77,7 +77,7 @@ public class MushroomMapperTest {
     }
 
     @Test
-    public void testMapToMushroomDtoListEmpty() {
+    void testMapToMushroomDtoListEmpty() {
         Set<Mushroom> mushroomSet = Collections.emptySet();
 
         List<MushroomDto> mushroomDtoList = MushroomMapper.mapToMushroomDtoList(mushroomSet);

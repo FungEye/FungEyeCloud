@@ -8,10 +8,10 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DateTimeMapperTest {
+class DateTimeMapperTest {
 
     @Test
-    public void testMapToDateDtoWithInstant() {
+    void testMapToDateDtoWithInstant() {
         // Given
         Instant instant = Instant.parse("2023-05-07T09:25:30.000Z");
         DateTimeDto expectedDto = new DateTimeDto();
@@ -35,7 +35,7 @@ public class DateTimeMapperTest {
     }
 
     @Test
-    public void testMapToDateDtoWithLocalDate() {
+    void testMapToDateDtoWithLocalDate() {
         // Given
         LocalDate localDate = LocalDate.of(2023, 5, 7);
         DateTimeDto expectedDto = new DateTimeDto();
@@ -53,7 +53,7 @@ public class DateTimeMapperTest {
     }
 
     @Test
-    public void testMapToInstant() {
+    void testMapToInstant() {
         // Given
         DateTimeDto dto = new DateTimeDto();
         dto.setDay(7);

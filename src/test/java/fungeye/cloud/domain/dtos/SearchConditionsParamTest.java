@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SearchConditionsParamTest {
+class SearchConditionsParamTest {
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         SearchConditionsParam param = new SearchConditionsParam();
         param.setDay(1);
         param.setMonth(2);

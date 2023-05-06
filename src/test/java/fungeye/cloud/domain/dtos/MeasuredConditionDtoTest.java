@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MeasuredConditionDtoTest {
+class MeasuredConditionDtoTest {
 
     @Test
-    public void testGetAndSetId() {
+    void testGetAndSetId() {
         MeasuredConditionIdDto id = new MeasuredConditionIdDto();
         MeasuredConditionDto dto = new MeasuredConditionDto();
         dto.setId(id);
@@ -15,7 +15,7 @@ public class MeasuredConditionDtoTest {
     }
 
     @Test
-    public void testGetAndSetTemperature() {
+    void testGetAndSetTemperature() {
         Double temperature = 25.0;
         MeasuredConditionDto dto = new MeasuredConditionDto();
         dto.setTemperature(temperature);
@@ -23,7 +23,7 @@ public class MeasuredConditionDtoTest {
     }
 
     @Test
-    public void testGetAndSetHumidity() {
+    void testGetAndSetHumidity() {
         Double humidity = 70.0;
         MeasuredConditionDto dto = new MeasuredConditionDto();
         dto.setHumidity(humidity);

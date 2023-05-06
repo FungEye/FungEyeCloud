@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(BoxController.class)
-public class BoxControllerTest {
+class BoxControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,7 +32,7 @@ public class BoxControllerTest {
     private BoxController boxController;
 
     @Test
-    public void testCreateBox() throws Exception {
+    void testCreateBox() throws Exception {
         BoxDto boxDto = new BoxDto();
         boxDto.setId(1L);
 
@@ -45,7 +45,7 @@ public class BoxControllerTest {
     }
 
     @Test
-    public void testGetBoxById() throws Exception {
+    void testGetBoxById() throws Exception {
         BoxDetailsDto boxDetailsDto = new BoxDetailsDto();
         boxDetailsDto.setId(1L);
 

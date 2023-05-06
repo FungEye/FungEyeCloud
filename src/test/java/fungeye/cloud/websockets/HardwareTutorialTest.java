@@ -22,7 +22,7 @@ import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
-public class HardwareTutorialTest {
+class HardwareTutorialTest {
 
     private HardwareTutorial hardwareTutorial;
 
@@ -82,7 +82,7 @@ public class HardwareTutorialTest {
     }
 
     @Test
-    public void onText_validJSON() throws Exception {
+    void onText_validJSON() throws Exception {
         measurementService = Mockito.mock(MeasuredConditionsService.class);
         hardwareTutorial = new HardwareTutorial(measurementService);
         // arrange

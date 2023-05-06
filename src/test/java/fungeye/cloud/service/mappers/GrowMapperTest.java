@@ -14,10 +14,10 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class GrowMapperTest {
+class GrowMapperTest {
 
     @Test
-    public void testMapToGrowDto() {
+    void testMapToGrowDto() {
         // Arrange
         Box box = new Box();
         box.setId(1L);
@@ -58,7 +58,7 @@ public class GrowMapperTest {
     }
 
     @Test
-    public void testMapToGrowDtoList() {
+    void testMapToGrowDtoList() {
         // Arrange
         Box box1 = new Box();
         box1.setId(1L);

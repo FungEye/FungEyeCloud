@@ -6,31 +6,31 @@ import org.junit.jupiter.api.Test;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class MushroomTest {
+class MushroomTest {
 
     @Test
-    public void testSetAndGetId() {
+    void testSetAndGetId() {
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
         Assertions.assertEquals(1L, mushroom.getId());
     }
 
     @Test
-    public void testSetAndGetName() {
+    void testSetAndGetName() {
         Mushroom mushroom = new Mushroom();
         mushroom.setName("Button Mushroom");
         Assertions.assertEquals("Button Mushroom", mushroom.getName());
     }
 
     @Test
-    public void testSetAndGetDescription() {
+    void testSetAndGetDescription() {
         Mushroom mushroom = new Mushroom();
         mushroom.setDescription("A type of edible mushroom.");
         Assertions.assertEquals("A type of edible mushroom.", mushroom.getDescription());
     }
 
     @Test
-    public void testSetAndGetGrow() {
+    void testSetAndGetGrow() {
         Mushroom mushroom = new Mushroom();
         Grow grow = new Grow();
         mushroom.setGrow(grow);
@@ -38,7 +38,7 @@ public class MushroomTest {
     }
 
     @Test
-    public void testSetAndGetIdealConditions() {
+    void testSetAndGetIdealConditions() {
         Mushroom mushroom = new Mushroom();
         IdealCondition idealCondition1 = new IdealCondition();
         IdealCondition idealCondition2 = new IdealCondition();
