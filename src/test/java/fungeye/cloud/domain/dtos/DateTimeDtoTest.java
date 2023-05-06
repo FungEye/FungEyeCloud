@@ -33,4 +33,25 @@ public class DateTimeDtoTest {
         assertEquals(30, dateTime.getMinute());
         assertEquals(0, dateTime.getSecond());
     }
+
+    @Test
+    void testEquals() {
+        DateTimeDto dateTime1 = new DateTimeDto();
+        dateTime1.setYear(2023);
+        dateTime1.setMonth(5);
+        dateTime1.setDay(15);
+        dateTime1.setHour(12);
+        dateTime1.setMinute(30);
+        dateTime1.setSecond(0);
+
+        DateTimeDto dateTime2 = new DateTimeDto();
+        dateTime2.setYear(2023);
+        dateTime2.setMonth(5);
+        dateTime2.setDay(15);
+        dateTime2.setHour(12);
+        dateTime2.setMinute(30);
+        dateTime2.setSecond(0);
+
+        assertEquals(dateTime1, dateTime2);
+    }
 }

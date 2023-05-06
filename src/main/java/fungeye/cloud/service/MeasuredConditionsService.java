@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,12 @@ import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 public class MeasuredConditionsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MeasuredConditionsService.class);
+
+    // Defines the locale for the time offset
+    // TODO: Take user time zone
+    private final ZoneId zone = ZoneId.of("Europe/Copenhagen");
+    private LocalDateTime now = LocalDateTime.now();
+    private ZoneOffset zoneOffSet = zone.getRules().getOffset(now);
 
     private final MeasuredConditionRepository repository;
     private final BoxRepository boxRepository;
@@ -40,7 +48,7 @@ public class MeasuredConditionsService {
         List<MeasuredCondition> result = new ArrayList<>();
 
         for (MeasuredCondition condition : conditions) {
-            LocalDateTime dateTime = LocalDateTime.ofInstant(condition.getId().getDateTime(), ZoneOffset.ofHours(0));
+            LocalDateTime dateTime = LocalDateTime.ofInstant(condition.getId().getDateTime(), zoneOffSet);
 
             if (!(
                     (param.getYear() != null && dateTime.getYear() != param.getYear()) ||
