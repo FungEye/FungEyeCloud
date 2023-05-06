@@ -1,12 +1,8 @@
 package fungeye.cloud.domain.enities.users;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import org.junit.jupiter.api.*;
-import org.mockito.*;
 
 public class RoleTest {
     @Test
@@ -18,10 +14,10 @@ public class RoleTest {
         Role role3 = new Role();
         role3.setId(2);
 
-        assertTrue(role1.equals(role2));
-        assertFalse(role1.equals(role3));
-        assertFalse(role1.equals(null));
-        assertFalse(role1.equals(new Object()));
+        assertEquals(role1, role2);
+        assertNotEquals(role1, role3);
+        assertNotEquals(null, role1);
+        assertNotEquals(role1, new Object());
     }
 
     @Test
