@@ -1,14 +1,12 @@
 package fungeye.cloud.service.mappers;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.time.*;
-
+import fungeye.cloud.domain.dtos.DateTimeDto;
 import org.junit.jupiter.api.Test;
 
-import fungeye.cloud.domain.dtos.DateTimeDto;
+import java.time.Instant;
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DateTimeMapperTest {
 

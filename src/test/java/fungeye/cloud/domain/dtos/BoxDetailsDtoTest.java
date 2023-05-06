@@ -1,8 +1,5 @@
 package fungeye.cloud.domain.dtos;
 
-import fungeye.cloud.domain.dtos.BoxDetailsDto;
-import fungeye.cloud.domain.dtos.GrowDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class BoxDetailsDtoTest {
 

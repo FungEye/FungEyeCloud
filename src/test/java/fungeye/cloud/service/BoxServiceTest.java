@@ -1,12 +1,9 @@
 package fungeye.cloud.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.persistence.repository.BoxRepository;
-import fungeye.cloud.service.mappers.BoxMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

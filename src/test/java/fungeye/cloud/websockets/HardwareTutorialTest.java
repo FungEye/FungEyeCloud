@@ -3,33 +3,22 @@ package fungeye.cloud.websockets;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
 import fungeye.cloud.service.MeasuredConditionsService;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 public class HardwareTutorialTest {
 

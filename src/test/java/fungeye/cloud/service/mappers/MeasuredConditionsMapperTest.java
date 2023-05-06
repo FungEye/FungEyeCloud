@@ -8,13 +8,8 @@ import fungeye.cloud.domain.enities.MeasuredConditionId;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 class MeasuredConditionsMapperTest {
 

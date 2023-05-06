@@ -1,9 +1,8 @@
 package fungeye.cloud.service.mappers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
-import fungeye.cloud.domain.dtos.MushroomDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -46,7 +45,7 @@ public class MushroomMapperTest {
         when(mushroomMock.getGrow()).thenReturn(growMock);
         when(growMock.getId()).thenReturn(GROW_ID);
 
-        MushroomDto mushroomDto = mushroomMapper.mapToMushroomDto(mushroomMock);
+        MushroomDto mushroomDto = MushroomMapper.mapToMushroomDto(mushroomMock);
 
         assertEquals(MUSHROOM_ID, mushroomDto.getId());
         assertEquals(MUSHROOM_NAME, mushroomDto.getName());
@@ -65,7 +64,7 @@ public class MushroomMapperTest {
         when(mushroomMock.getGrow()).thenReturn(growMock);
         when(growMock.getId()).thenReturn(GROW_ID);
 
-        List<MushroomDto> mushroomDtoList = mushroomMapper.mapToMushroomDtoList(mushroomSet);
+        List<MushroomDto> mushroomDtoList = MushroomMapper.mapToMushroomDtoList(mushroomSet);
 
         assertEquals(1, mushroomDtoList.size());
 
@@ -81,7 +80,7 @@ public class MushroomMapperTest {
     public void testMapToMushroomDtoListEmpty() {
         Set<Mushroom> mushroomSet = Collections.emptySet();
 
-        List<MushroomDto> mushroomDtoList = mushroomMapper.mapToMushroomDtoList(mushroomSet);
+        List<MushroomDto> mushroomDtoList = MushroomMapper.mapToMushroomDtoList(mushroomSet);
 
         assertEquals(0, mushroomDtoList.size());
     }

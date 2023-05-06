@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -33,8 +34,8 @@ public class GrowMapperTest {
         grow.setIsActive(true);
         grow.setDateStarted(dateStarted);
         grow.setDevelopmentStage("Early");
-        for (Mushroom mush:
-             mushrooms) {
+        for (Mushroom mush :
+                mushrooms) {
             mush.setGrow(grow);
         }
         grow.setMushrooms(mushrooms);
@@ -42,7 +43,6 @@ public class GrowMapperTest {
 
         // Act
         GrowDto dto = GrowMapper.mapToGrowDto(grow);
-
 
 
         // Assert
@@ -77,7 +77,7 @@ public class GrowMapperTest {
         grow1.setIsActive(true);
         grow1.setDateStarted(dateStarted);
         grow1.setDevelopmentStage("Early");
-        for (Mushroom mush:
+        for (Mushroom mush :
                 mushrooms) {
             mush.setGrow(grow1);
         }
@@ -89,7 +89,7 @@ public class GrowMapperTest {
         grow2.setIsActive(true);
         grow2.setDateStarted(dateStarted);
         grow2.setDevelopmentStage("Early");
-        for (Mushroom mush:
+        for (Mushroom mush :
                 mushrooms) {
             mush.setGrow(grow2);
         }
