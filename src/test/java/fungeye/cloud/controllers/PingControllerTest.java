@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Objects;
 
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(PingControllerTest.class)
@@ -30,8 +31,8 @@ class PingControllerTest {
     public void ping() throws Exception {
         PingController pingController = new PingController();
         ResponseEntity<String> response = pingController.ping();
-        assert (response.getStatusCode()).equals(HttpStatus.OK);
-        assert Objects.equals(response.getBody(), "");
+        assertEquals("Http OK", response.getStatusCode(), HttpStatus.OK);
+        assertEquals("Body empty", response.getBody(), "");
     }
 
     @Test

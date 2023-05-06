@@ -2,8 +2,7 @@ package fungeye.cloud.domain.dtos;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DateTimeDtoTest {
 
@@ -49,5 +48,45 @@ public class DateTimeDtoTest {
         // Test inequality of objects with different properties
         assertNotEquals(dateTimeDto1, dateTimeDto3);
         assertNotEquals(dateTimeDto1.hashCode(), dateTimeDto3.hashCode());
+    }
+
+    @Test
+    public void detailedTestEquals() {
+        DateTimeDto dto1 = new DateTimeDto(2023, 5, 6, 10, 30, 0);
+        DateTimeDto dto2 = new DateTimeDto(2023, 5, 6, 10, 30, 0);
+        DateTimeDto dto3 = new DateTimeDto(2023, 5, 6, 10, 30, 0);
+        DateTimeDto dto4 = new DateTimeDto(2023, 4, 6, 10, 30, 0);
+        DateTimeDto dto5 = new DateTimeDto(2023, 5, 7, 10, 30, 0);
+        DateTimeDto dto6 = new DateTimeDto(2023, 5, 6, 9, 30, 0);
+        DateTimeDto dto7 = new DateTimeDto(2023, 5, 6, 10, 31, 0);
+        DateTimeDto dto8 = new DateTimeDto(2023, 5, 6, 10, 30, 1);
+
+        // reflexive
+        assertTrue(dto1.equals(dto1));
+
+        // symmetric
+        assertTrue(dto1.equals(dto2));
+        assertTrue(dto2.equals(dto1));
+
+        // transitive
+        assertTrue(dto1.equals(dto2));
+        assertTrue(dto2.equals(dto3));
+        assertTrue(dto1.equals(dto3));
+
+        // consistent
+        assertTrue(dto1.equals(dto2));
+        assertTrue(dto1.equals(dto2));
+        assertTrue(dto1.equals(dto2));
+
+        // not equal
+        assertFalse(dto1.equals(dto4));
+        assertFalse(dto1.equals(dto5));
+        assertFalse(dto1.equals(dto6));
+        assertFalse(dto1.equals(dto7));
+        assertFalse(dto1.equals(dto8));
+
+        // null and other object
+        assertFalse(dto1.equals(null));
+        assertFalse(dto1.equals(new Object()));
     }
 }
