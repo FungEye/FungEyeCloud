@@ -65,9 +65,15 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Download Artifacts
+      - name: Download JAR Artifact
         uses: actions/download-artifact@v2
         with:
+          name: FungEyeJar
+          path: staging
+      - name: Download app.yaml Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: AppYAML
           path: staging
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v0.4.0
