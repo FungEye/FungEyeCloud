@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MushroomDtoTest {
+class MushroomDtoTest {
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         Long id = 1L;
         String name = "Shiitake";
         String description = "A type of edible mushroom";

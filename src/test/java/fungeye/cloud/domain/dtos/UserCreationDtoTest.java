@@ -12,17 +12,17 @@ class UserCreationDtoTest {
     private UserCreationDto userCreationDto;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         userCreationDto = new UserCreationDto(username, password);
     }
 
     @Test
-    public void testConstructorWithUserAndPass() {
+    void testConstructorWithUserAndPass() {
         assertEquals(username, userCreationDto.getUsername());
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         userCreationDto.setUsername("doe");
         assertEquals("doe", userCreationDto.getUsername());
 

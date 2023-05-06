@@ -32,7 +32,7 @@ class UserControllerTest {
 
 
     @Test
-    public void createUser() throws Exception {
+    void createUser() throws Exception {
         UserCreationDto dto = new UserCreationDto("john", "pass123ff");
         ObjectMapper mapper = new ObjectMapper();
 
@@ -45,7 +45,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void login() throws Exception {
+    void login() throws Exception {
         given(userService.login("john", "pass123ff")).willReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/user")

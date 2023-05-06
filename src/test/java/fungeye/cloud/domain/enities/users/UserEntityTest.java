@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserEntityTest {
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         UserEntity user = new UserEntity();
 
         user.setUsername("john");
