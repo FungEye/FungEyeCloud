@@ -28,7 +28,7 @@ public class SpeciesCreationDTO {
     public void setIdealCondition(IdealCondition idealCondition) {
         this.idealCondition = idealCondition;
     }
-    
+
     @Override
     public String toString() {
         return "SpeciesDTO{" +
