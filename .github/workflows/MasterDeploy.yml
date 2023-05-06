@@ -42,7 +42,7 @@ jobs:
         run: |
           echo "runtime: java17" > staging/app.yaml
           echo "env: standard" >> staging/app.yaml
-          echo "instance_class: B1" >> staging/app.yaml
+          echo "instance_class: B2" >> staging/app.yaml
           echo "handlers:" >> staging/app.yaml
           echo "  - url: /.*" >> staging/app.yaml
           echo "    script: cloud-0.0.1-SNAPSHOT.jar" >> staging/app.yaml
