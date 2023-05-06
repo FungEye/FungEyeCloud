@@ -60,6 +60,8 @@ class DateTimeDtoTest {
         DateTimeDto dto6 = new DateTimeDto(2023, 5, 6, 9, 30, 0);
         DateTimeDto dto7 = new DateTimeDto(2023, 5, 6, 10, 31, 0);
         DateTimeDto dto8 = new DateTimeDto(2023, 5, 6, 10, 30, 1);
+        DateTimeDto dto9 = new DateTimeDto(2022, 5, 6, 10, 30, 1);
+
 
         // reflexive
         assertEquals(dto1, dto1);
@@ -84,6 +86,7 @@ class DateTimeDtoTest {
         assertNotEquals(dto1, dto6);
         assertNotEquals(dto1, dto7);
         assertNotEquals(dto1, dto8);
+        assertNotEquals(dto9, dto8);
 
         // null and other object
         assertNotEquals(null, dto1);
