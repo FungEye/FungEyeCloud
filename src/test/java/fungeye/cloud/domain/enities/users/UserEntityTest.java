@@ -1,18 +1,16 @@
-package fungeye.cloud.domain.enities;
+package fungeye.cloud.domain.enities.users;
 
-import fungeye.cloud.domain.enities.users.UserEntity;
-import org.junit.jupiter.api.BeforeEach;
+import fungeye.cloud.domain.enities.Box;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class UserTest {
+class UserEntityTest {
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         UserEntity user = new UserEntity();
 
         user.setUsername("john");

@@ -6,7 +6,6 @@ import fungeye.cloud.service.BoxService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -22,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(BoxController.class)
-public class BoxControllerTest {
+class BoxControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,7 +32,7 @@ public class BoxControllerTest {
     private BoxController boxController;
 
     @Test
-    public void testCreateBox() throws Exception {
+    void testCreateBox() throws Exception {
         BoxDto boxDto = new BoxDto();
         boxDto.setId(1L);
 
@@ -47,7 +45,7 @@ public class BoxControllerTest {
     }
 
     @Test
-    public void testGetBoxById() throws Exception {
+    void testGetBoxById() throws Exception {
         BoxDetailsDto boxDetailsDto = new BoxDetailsDto();
         boxDetailsDto.setId(1L);
 

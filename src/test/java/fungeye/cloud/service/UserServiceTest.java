@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,14 +33,14 @@ class UserServiceTest {
     }
 
     @Test
-    public void testCreateUser_success() {
+    void testCreateUser_success() {
         when(userRepository.save(any(UserEntity.class))).thenReturn(user);
 
         assertTrue(userService.createUser(new UserCreationDto("username", "password")));
     }
 
     @Test
-    public void testCreateUser_failure() {
+    void testCreateUser_failure() {
         UserCreationDto dto = new UserCreationDto("testuser", "password");
         when(userRepository.save(any(UserEntity.class))).thenReturn(null);
 
@@ -48,7 +48,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void testCreateUser_exception() {
+    void testCreateUser_exception() {
         UserCreationDto dto = new UserCreationDto("testuser", "password");
         when(userRepository.save(any(UserEntity.class))).thenThrow(new RuntimeException());
 

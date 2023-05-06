@@ -4,7 +4,7 @@ import fungeye.cloud.domain.dtos.UserCreationDto;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserMapperTest {
 

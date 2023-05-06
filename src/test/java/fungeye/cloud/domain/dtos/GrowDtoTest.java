@@ -8,10 +8,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class GrowDtoTest {
+class GrowDtoTest {
 
     @Test
-    public void testCreateGrowDto() {
+    void testCreateGrowDto() {
         // Arrange
         Long id = 1L;
         DateTimeDto date = new DateTimeDto(2023, 4, 14, 10, 30, 0);
@@ -34,7 +34,7 @@ public class GrowDtoTest {
     }
 
     @Test
-    public void testSettersAndGetters() {
+    void testSettersAndGetters() {
         // Arrange
         Long id = 1L;
         DateTimeDto date = new DateTimeDto(2023, 4, 14, 10, 30, 0);
