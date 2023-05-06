@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -75,7 +76,6 @@ public class HardwareTutorial implements WebSocket.Listener {
         }
     }
 
-
     //onOpen()
     public void onOpen(WebSocket webSocket) {
         // This WebSocket will invoke onText, onBinary, onPing, onPong or onClose methods on the associated listener (i.e. receive methods) up to n more times
@@ -87,7 +87,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     public void onError(WebSocket webSocket, Throwable error) {
         LOGGER.error("A " + error.getCause() + " exception was thrown.");
         LOGGER.error("Message: " + error.getLocalizedMessage());
-        LOGGER.error(error.getStackTrace().toString());
+        LOGGER.error(Arrays.toString(error.getStackTrace()));
         webSocket.abort();
     }
 

@@ -6,10 +6,10 @@ import fungeye.cloud.service.MeasuredConditionsService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -17,8 +17,10 @@ import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
@@ -28,6 +30,9 @@ class HardwareTutorialTest {
 
     @MockBean
     private MeasuredConditionsService measurementService;
+
+    @Captor
+    ArgumentCaptor<String> stringCaptor;
 
     @BeforeEach
     void setUp() {
@@ -41,6 +46,57 @@ class HardwareTutorialTest {
         WebSocket webSocket = mock(WebSocket.class);
         hardwareTutorial.onOpen(webSocket);
         verify(webSocket, times(1)).request(1);
+    }
+
+// Todo: Improve when downlink is initially tested
+
+//    @Test
+//    public void sendDownLinkTest() {
+//        String expectedJsonTelegram = "{\"key\":\"value\"}";  // Replace with your expected JSON message
+//
+//        WebSocket mockWebSocket = mock(WebSocket.class);
+//        CompletableFuture<WebSocket> mockCompletableFuture = mock(CompletableFuture.class);
+//        when(mockCompletableFuture.join()).thenReturn(mockWebSocket);
+//
+//        SSLContext mockSslContext = mock(SSLContext.class);
+//
+//        HttpClient mockHttpClient = mock(HttpClient.class);
+//        when(HttpClient.newBuilder()).thenReturn(mock(HttpClient.Builder.class));
+//        when(HttpClient.newBuilder().sslContext(mockSslContext)).thenReturn(mock(HttpClient.Builder.class));
+//        when(HttpClient.newBuilder().sslContext(mockSslContext).build()).thenReturn(mockHttpClient);
+//        when(mockHttpClient.newWebSocketBuilder()).thenReturn(mock(mockHttpClient.newWebSocketBuilder().getClass()));
+//        when(mockHttpClient.newWebSocketBuilder().buildAsync(any(URI.class), any(WebSocket.Listener.class))).thenReturn(mockCompletableFuture);
+//
+//        HardwareTutorial mockedHardwareTutorial = spy(new HardwareTutorial(measurementService));
+//        doReturn(mockHttpClient).when(mockedHardwareTutorial).onOpen(mockWebSocket);
+//        doNothing().when(mockedHardwareTutorial).onOpen(any(WebSocket.class));
+//        doNothing().when(mockedHardwareTutorial).onError(any(WebSocket.class), any(Throwable.class));
+//        doNothing().when(mockedHardwareTutorial).onClose(any(WebSocket.class), anyInt(), anyString());
+//        doNothing().when(mockedHardwareTutorial).onPing(any(WebSocket.class), any(ByteBuffer.class));
+//        doNothing().when(mockedHardwareTutorial).onPong(any(WebSocket.class), any(ByteBuffer.class));
+//        doNothing().when(mockedHardwareTutorial).sendDownLink(expectedJsonTelegram);
+//
+//        mockedHardwareTutorial.sendDownLink(expectedJsonTelegram);
+//
+//        verify(mockWebSocket).sendText(stringCaptor.capture(), eq(true));
+//        String actualJsonTelegram = stringCaptor.getValue();
+//
+//        assertEquals("Message comparison", expectedJsonTelegram, actualJsonTelegram);
+//    }
+
+    @Test
+    void onClose() {
+        WebSocket webSocket = mock(WebSocket.class);
+        // Arrange
+        int statusCode = 1000;
+        String reason = "Normal closure";
+        when(webSocket.sendText(anyString(), anyBoolean())).thenReturn(mock(CompletableFuture.class));
+
+        // Act
+        CompletionStage<?> result = hardwareTutorial.onClose(webSocket, statusCode, reason);
+
+        // Assert
+        assertNotNull(result);
     }
 
     @Test

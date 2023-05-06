@@ -13,6 +13,9 @@ class UserEntityTest {
     void testGettersAndSetters() {
         UserEntity user = new UserEntity();
 
+        user.setId(1);
+        assertEquals(1, user.getId());
+
         user.setUsername("john");
         assertEquals("john", user.getUsername());
 
@@ -21,6 +24,15 @@ class UserEntityTest {
 
         Box box = new Box();
         Set<Box> boxes = new HashSet<>();
+
+        Set<Role> roles = new HashSet<>();
+        Role role1 = new Role();
+        role1.setId(1);
+        role1.setName("bean");
+        roles.add(role1);
+        user.setRoles(roles);
+        Set<Role> retrievedRole = user.getRoles();
+        assertEquals(retrievedRole.toArray()[0], role1);
 
         user.setBoxes(boxes);
         assertEquals(boxes, user.getBoxes());
