@@ -3,12 +3,12 @@ package fungeye.cloud.domain.dtos;
 import fungeye.cloud.domain.enities.IdealCondition;
 
 
-public class SpeciesDTO {
+public class SpeciesCreationDTO {
     String name;
 
     IdealCondition idealCondition;
 
-    public SpeciesDTO(String name, IdealCondition condition) {
+    public SpeciesCreationDTO(String name, IdealCondition condition) {
         this.name = name;
         this.idealCondition = condition;
     }
@@ -28,7 +28,7 @@ public class SpeciesDTO {
     public void setIdealCondition(IdealCondition idealCondition) {
         this.idealCondition = idealCondition;
     }
-    
+
     @Override
     public String toString() {
         return "SpeciesDTO{" +
