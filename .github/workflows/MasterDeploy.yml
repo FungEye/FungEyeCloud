@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
+
 jobs:
   tests:
     name: Unit tests
@@ -53,6 +54,11 @@ jobs:
         with:
           name: FungEyeJar
           path: staging
+      - name: Upload app.yaml Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: AppYAML
+          path: staging/app.yaml
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v0.4.0
         with:
