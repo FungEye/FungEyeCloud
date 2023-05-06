@@ -62,31 +62,31 @@ class DateTimeDtoTest {
         DateTimeDto dto8 = new DateTimeDto(2023, 5, 6, 10, 30, 1);
 
         // reflexive
-        assertTrue(dto1.equals(dto1));
+        assertEquals(dto1, dto1);
 
         // symmetric
-        assertTrue(dto1.equals(dto2));
-        assertTrue(dto2.equals(dto1));
+        assertEquals(dto1, dto2);
+        assertEquals(dto2, dto1);
 
         // transitive
-        assertTrue(dto1.equals(dto2));
-        assertTrue(dto2.equals(dto3));
-        assertTrue(dto1.equals(dto3));
+        assertEquals(dto1, dto2);
+        assertEquals(dto2, dto3);
+        assertEquals(dto1, dto3);
 
         // consistent
-        assertTrue(dto1.equals(dto2));
-        assertTrue(dto1.equals(dto2));
-        assertTrue(dto1.equals(dto2));
+        assertEquals(dto1, dto2);
+        assertEquals(dto1, dto2);
+        assertEquals(dto1, dto2);
 
         // not equal
-        assertFalse(dto1.equals(dto4));
-        assertFalse(dto1.equals(dto5));
-        assertFalse(dto1.equals(dto6));
-        assertFalse(dto1.equals(dto7));
-        assertFalse(dto1.equals(dto8));
+        assertNotEquals(dto1, dto4);
+        assertNotEquals(dto1, dto5);
+        assertNotEquals(dto1, dto6);
+        assertNotEquals(dto1, dto7);
+        assertNotEquals(dto1, dto8);
 
         // null and other object
-        assertFalse(dto1.equals(null));
-        assertFalse(dto1.equals(new Object()));
+        assertNotEquals(null, dto1);
+        assertNotEquals(dto1, new Object());
     }
 }
