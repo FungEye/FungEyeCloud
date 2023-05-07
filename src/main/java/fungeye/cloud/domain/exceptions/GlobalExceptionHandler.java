@@ -49,16 +49,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(eo, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleFailedAuthException(AuthenticationCredentialsNotFoundException e, WebRequest request) {
-        ErrorObject eo = new ErrorObject();
-        eo.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-        eo.setMessage("Authentication invalid.");
-        eo.setTimestamp(new Date());
-
-        return new ResponseEntity<>(eo, HttpStatus.UNAUTHORIZED);
-    }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorObject> handleUndefinedException(Exception e, WebRequest request) {
         ErrorObject eo = new ErrorObject();
