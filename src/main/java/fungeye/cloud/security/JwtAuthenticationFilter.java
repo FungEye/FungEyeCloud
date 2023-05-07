@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        try {
+
             String token = getJwtFromRequest(request);
             if (StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {
                 String username = tokenGenerator.getUsernameFromJwt(token);
@@ -44,12 +44,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        }
-        catch (AuthenticationCredentialsNotFoundException e) {
-            LOGGER.error(e.getMessage());
-            throw new ServletException(e);
-        }
-
     }
 
     private String getJwtFromRequest(HttpServletRequest req) {
