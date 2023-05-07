@@ -1,86 +1,98 @@
 package fungeye.cloud.service;
 
+import fungeye.cloud.domain.dtos.AuthResponseDto;
 import fungeye.cloud.domain.dtos.UserCreationDto;
+import fungeye.cloud.domain.dtos.UserLoginDto;
+import fungeye.cloud.domain.enities.users.Role;
 import fungeye.cloud.domain.enities.users.UserEntity;
+import fungeye.cloud.domain.exceptions.NotUniqueException;
+import fungeye.cloud.persistence.repository.RoleRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
+import fungeye.cloud.security.JwtGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private RoleRepository roleRepository;
+    @Mock
+    private AuthenticationManager authenticationManager;
+    @Mock
+    private JwtGenerator jwtGenerator;
 
-    private UserService userService;
+    private UserService service;
+
     private UserEntity user;
+    private UserCreationDto createDto;
+    private UserLoginDto loginDto;
+    private AuthResponseDto authDto;
+    private Role userRole;
 
     @BeforeEach
-    void setup() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(userRepository);
-
+        service = new UserService(userRepository, roleRepository, authenticationManager, jwtGenerator);
         user = new UserEntity();
         user.setUsername("username");
         user.setPassword("password");
+        userRole = new Role();
+        userRole.setName("USER");
+
+        createDto = null;
+        loginDto = null;
+        authDto = new AuthResponseDto("ACCESSTOKEN");
     }
 
     @Test
-    void testCreateUser_success() {
+    void createUser_success() throws NotUniqueException {
+        createDto = new UserCreationDto(user.getUsername(), user.getPassword());
+        loginDto = new UserLoginDto(user.getUsername(), user.getPassword());
         when(userRepository.save(any(UserEntity.class))).thenReturn(user);
+        when(roleRepository.findByName(anyString())).thenReturn(Optional.of(userRole));
 
-        assertTrue(userService.createUser(new UserCreationDto("username", "password")));
+        assertEquals(loginDto, service.createUser(createDto));
     }
 
     @Test
-    void testCreateUser_failure() {
-        UserCreationDto dto = new UserCreationDto("testuser", "password");
-        when(userRepository.save(any(UserEntity.class))).thenReturn(null);
+    void createUser_failure() {
+        createDto = new UserCreationDto(user.getUsername(), user.getPassword());
+        when(userRepository.existsByUsername(anyString())).thenReturn(true);
 
-        assertFalse(userService.createUser(dto));
+        assertThrows(NotUniqueException.class, () -> service.createUser(createDto));
     }
 
     @Test
-    void testCreateUser_exception() {
-        UserCreationDto dto = new UserCreationDto("testuser", "password");
-        when(userRepository.save(any(UserEntity.class))).thenThrow(new RuntimeException());
+    void login_success() {
+        loginDto = new UserLoginDto(user.getUsername(), user.getPassword());
+        when(jwtGenerator.generateToken(any())).thenReturn(authDto.getAccessToken());
 
-        assertFalse(userService.createUser(dto));
+        assertEquals(service.login(loginDto), authDto);
     }
 
     @Test
-    void testLogin() {
-        String username = "username";
-        String password = "password";
-        when(userRepository.findByUsername(username)).thenReturn(java.util.Optional.of(user));
+    void login_failed() {
+        loginDto = new UserLoginDto(user.getUsername(), "wrongpassword");
+        when(authenticationManager.authenticate(any(Authentication.class))).thenThrow(BadCredentialsException.class);
 
-        boolean isLoggedIn = userService.login(username, password);
-        assertTrue(isLoggedIn);
-    }
-
-    @Test
-    void testLoginInvalidPassword() {
-        String badPassword = "badPassword";
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
-
-        boolean isLoggedIn = userService.login(user.getUsername(), badPassword);
-        assertFalse(isLoggedIn);
-    }
-
-    @Test
-    void testLoginInvalidUser() {
-        String username = "username";
-        String password = "password";
-        when(userRepository.findByUsername(username)).thenReturn(java.util.Optional.empty());
-
-        boolean isLoggedIn = userService.login(username, password);
-        Assertions.assertFalse(isLoggedIn);
+        assertThrows(BadCredentialsException.class, () -> service.login(loginDto));
     }
 }
