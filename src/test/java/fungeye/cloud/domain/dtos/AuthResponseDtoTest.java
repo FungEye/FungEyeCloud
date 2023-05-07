@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 
 class AuthResponseDtoTest {
 
@@ -26,4 +27,32 @@ class AuthResponseDtoTest {
         assertEquals(token, dto.getAccessToken());
     }
 
+    @Test
+    void setAccessToken() {
+        dto.setAccessToken("NEW TOKEN");
+        assertEquals("NEW TOKEN", dto.getAccessToken());
+    }
+
+    @Test
+    void setTokenType() {
+        dto.setTokenType("NEW");
+        assertEquals("NEW", dto.getTokenType());
+    }
+
+    @Test
+    void testEquals() {
+        AuthResponseDto toCompare = new AuthResponseDto("token");
+        assertEquals(dto, toCompare);
+    }
+
+    @Test
+    void canEqual() {
+        assertTrue(dto.canEqual(new AuthResponseDto("TEST")));
+    }
+
+
+    @Test
+    void testToString() {
+        assertEquals("AuthResponseDto(accessToken=token, tokenType=Bearer: )", dto.toString());
+    }
 }

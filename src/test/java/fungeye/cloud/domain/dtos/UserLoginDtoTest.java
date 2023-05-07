@@ -28,4 +28,20 @@ class UserLoginDtoTest {
 
         assertEquals(password, dto.getPassword());
     }
+
+    @Test
+    void testEquals() {
+        UserLoginDto toCompare = new UserLoginDto(username, password);
+        assertEquals(dto, toCompare);
+    }
+
+    @Test
+    void canEqual() {
+        assertTrue(dto.canEqual(new UserLoginDto(username, password)));
+    }
+
+    @Test
+    void testToString() {
+        assertEquals("UserLoginDto(username=john, password=pass123ff)", dto.toString());
+    }
 }
