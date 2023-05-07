@@ -8,17 +8,17 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GrowTest {
+class GrowTest {
 
     @Test
-    public void testGetId() {
+    void testGetId() {
         Grow grow = new Grow();
         grow.setId(1L);
         assertEquals(Long.valueOf(1), grow.getId());
     }
 
     @Test
-    public void testGetDateStarted() {
+    void testGetDateStarted() {
         Grow grow = new Grow();
         LocalDate dateStarted = LocalDate.of(2022, 12, 31);
         grow.setDateStarted(dateStarted);
@@ -26,7 +26,7 @@ public class GrowTest {
     }
 
     @Test
-    public void testGetDevelopmentStage() {
+    void testGetDevelopmentStage() {
         Grow grow = new Grow();
         String developmentStage = "fruiting";
         grow.setDevelopmentStage(developmentStage);
@@ -34,7 +34,7 @@ public class GrowTest {
     }
 
     @Test
-    public void testGetIsActive() {
+    void testGetIsActive() {
         Grow grow = new Grow();
         Boolean isActive = true;
         grow.setIsActive(isActive);
@@ -42,7 +42,7 @@ public class GrowTest {
     }
 
     @Test
-    public void testGetBox() {
+    void testGetBox() {
         Grow grow = new Grow();
         Box box = new Box();
         grow.setBox(box);
@@ -50,7 +50,7 @@ public class GrowTest {
     }
 
     @Test
-    public void testGetMushrooms() {
+    void testGetMushrooms() {
         Grow grow = new Grow();
         Mushroom mushroom = new Mushroom();
         Set<Mushroom> mushrooms = new LinkedHashSet<>();

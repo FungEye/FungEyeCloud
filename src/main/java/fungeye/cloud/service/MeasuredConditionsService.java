@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List;;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
@@ -40,7 +40,7 @@ public class MeasuredConditionsService {
         List<MeasuredCondition> result = new ArrayList<>();
 
         for (MeasuredCondition condition : conditions) {
-            LocalDateTime dateTime = LocalDateTime.ofInstant(condition.getId().getDateTime(), ZoneOffset.ofHours(0));
+            LocalDateTime dateTime = LocalDateTime.ofInstant(condition.getId().getDateTime(), ZoneId.systemDefault());
 
             if (!(
                     (param.getYear() != null && dateTime.getYear() != param.getYear()) ||

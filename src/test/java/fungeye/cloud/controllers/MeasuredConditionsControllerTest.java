@@ -19,8 +19,10 @@ import java.util.Collections;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
+
 @WebMvcTest(value = MeasuredConditionsController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 public class MeasuredConditionsControllerTest {
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -29,7 +31,7 @@ public class MeasuredConditionsControllerTest {
     private MeasuredConditionsService service;
 
     @Test
-    public void getMeasuredConditions_ReturnsListOfMeasuredConditions() throws Exception {
+    void getMeasuredConditions_ReturnsListOfMeasuredConditions() throws Exception {
         // Arrange
         MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
         idDto.setBoxId(1L);
@@ -51,7 +53,7 @@ public class MeasuredConditionsControllerTest {
     }
 
     @Test
-    public void getLatestMeasurements_ReturnsLatestMeasuredCondition() throws Exception {
+    void getLatestMeasurements_ReturnsLatestMeasuredCondition() throws Exception {
         // Arrange
         MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
         idDto.setBoxId(1L);

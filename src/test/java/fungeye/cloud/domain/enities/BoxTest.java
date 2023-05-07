@@ -7,17 +7,17 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BoxTest {
+class BoxTest {
 
     @Test
-    public void testGetId() {
+    void testGetId() {
         Box box = new Box();
         box.setId(1L);
         assertEquals(Long.valueOf(1), box.getId());
     }
 
     @Test
-    public void testGetGrows() {
+    void testGetGrows() {
         Box box = new Box();
         Grow grow = new Grow();
         Set<Grow> grows = new LinkedHashSet<>();
@@ -27,7 +27,7 @@ public class BoxTest {
     }
 
     @Test
-    public void testGetMeasuredConditions() {
+    void testGetMeasuredConditions() {
         Box box = new Box();
         MeasuredCondition measuredCondition = new MeasuredCondition();
         Set<MeasuredCondition> measuredConditions = new LinkedHashSet<>();

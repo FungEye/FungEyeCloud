@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class IdealConditionIdTest {
+class IdealConditionIdTest {
 
     @Test
-    public void testEqualsAndHashCode() {
+    void testEqualsAndHashCode() {
         IdealConditionId id1 = new IdealConditionId();
         id1.setMushroomId(1L);
         id1.setDevelopmentStage("stage1");

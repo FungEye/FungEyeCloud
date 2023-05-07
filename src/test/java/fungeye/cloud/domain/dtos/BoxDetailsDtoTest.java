@@ -1,8 +1,5 @@
 package fungeye.cloud.domain.dtos;
 
-import fungeye.cloud.domain.dtos.BoxDetailsDto;
-import fungeye.cloud.domain.dtos.GrowDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
-public class BoxDetailsDtoTest {
+class BoxDetailsDtoTest {
 
     @Mock
     private MeasuredConditionDto measuredConditionDtoMock;
@@ -25,7 +21,7 @@ public class BoxDetailsDtoTest {
     private BoxDetailsDto boxDetailsDto;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         List<MeasuredConditionDto> measuredConditions = new ArrayList<>();
         measuredConditions.add(measuredConditionDtoMock);
@@ -35,7 +31,7 @@ public class BoxDetailsDtoTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(1L, boxDetailsDto.getId());
         assertEquals(1, boxDetailsDto.getConditions().size());
         assertEquals(measuredConditionDtoMock, boxDetailsDto.getConditions().get(0));
@@ -44,7 +40,7 @@ public class BoxDetailsDtoTest {
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         List<MeasuredConditionDto> newMeasuredConditions = new ArrayList<>();
         newMeasuredConditions.add(measuredConditionDtoMock);
         List<GrowDto> newGrows = new ArrayList<>();
