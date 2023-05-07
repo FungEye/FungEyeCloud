@@ -49,7 +49,7 @@ class AuthControllerTest {
         UserCreationDto dto = new UserCreationDto("john", "pass123ff");
 
 
-        given(userService.createUser(dto)).willReturn(any(AuthResponseDto.class));
+        given(userService.createUser(dto)).willReturn(any(UserLoginDto.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/register")
                         .content(mapper.writeValueAsString(dto))

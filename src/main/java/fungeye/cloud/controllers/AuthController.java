@@ -26,8 +26,8 @@ public class AuthController {
     @SneakyThrows
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> register(@RequestBody UserCreationDto dto) {
-
-        return new ResponseEntity<>(userService.createUser(dto), HttpStatus.CREATED);
+        UserLoginDto login = userService.createUser(dto);
+        return new ResponseEntity<>(userService.login(login), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

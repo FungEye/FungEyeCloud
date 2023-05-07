@@ -39,7 +39,7 @@ public class UserService {
         this.jwtGenerator = jwtGenerator;
     }
 
-    public AuthResponseDto createUser(UserCreationDto dto) throws NotUniqueException {
+    public UserLoginDto createUser(UserCreationDto dto) throws NotUniqueException {
 
         if (userRepository.existsByUsername(dto.getUsername())) {
             throw new NotUniqueException("User with username: " + dto.getUsername() + " already exists");
@@ -53,7 +53,7 @@ public class UserService {
         user.setRoles(Collections.singleton(roles));
 
         UserEntity created = userRepository.save(user);
-        return login(new UserLoginDto(created.getUsername(), created.getPassword()));
+        return new UserLoginDto(created.getUsername(), created.getPassword());
 
     }
 

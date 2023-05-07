@@ -9,27 +9,23 @@ import fungeye.cloud.domain.exceptions.NotUniqueException;
 import fungeye.cloud.persistence.repository.RoleRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.security.JwtGenerator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Mock
@@ -41,63 +37,60 @@ class UserServiceTest {
     @Mock
     private JwtGenerator jwtGenerator;
 
-    private UserService userService;
-
+    private UserService service;
 
     private UserEntity user;
-    private Role role;
-    private AuthResponseDto dto;
+    private UserCreationDto createDto;
+    private UserLoginDto loginDto;
+    private AuthResponseDto authDto;
+    private Role userRole;
 
     @BeforeEach
-    void setup() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(userRepository, roleRepository,
-                authenticationManager, jwtGenerator);
-
+        service = new UserService(userRepository, roleRepository, authenticationManager, jwtGenerator);
         user = new UserEntity();
         user.setUsername("username");
         user.setPassword("password");
+        userRole = new Role();
+        userRole.setName("USER");
 
-        role = new Role();
-        role.setName("USER");
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-
-        user.setRoles(roles);
-        dto = null;
-
-    }
-
-
-    @Test
-    void testLogin() {
-        String username = "username";
-        String password = "password";
-        when(userRepository.findByUsername(username)).thenReturn(java.util.Optional.of(user));
-
-        dto = userService.login(new UserLoginDto(username, password));
-        assertNotNull(dto);
-    }
-
-
-    @Test
-    void testLoginInvalidPassword() {
-        String badPassword = "badPassword";
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
-
-        dto = userService.login(new UserLoginDto(user.getUsername(), badPassword));
-        assertNotNull(dto);
+        createDto = null;
+        loginDto = null;
+        authDto = new AuthResponseDto("ACCESSTOKEN");
     }
 
     @Test
-    void testLoginInvalidUser() {
-        String username = "username";
-        String password = "password";
-        when(userRepository.findByUsername(username)).thenReturn(java.util.Optional.empty());
+    void createUser_success() throws NotUniqueException {
+        createDto = new UserCreationDto(user.getUsername(), user.getPassword());
+        loginDto = new UserLoginDto(user.getUsername(), user.getPassword());
+        when(userRepository.save(any(UserEntity.class))).thenReturn(user);
+        when(roleRepository.findByName(anyString())).thenReturn(Optional.of(userRole));
 
-        dto = userService.login(new UserLoginDto(username, password));
-        System.out.println(dto.toString());
-        
+        assertEquals(loginDto, service.createUser(createDto));
     }
 
+    @Test
+    void createUser_failure() {
+        createDto = new UserCreationDto(user.getUsername(), user.getPassword());
+        when(userRepository.existsByUsername(anyString())).thenReturn(true);
+
+        assertThrows(NotUniqueException.class, () -> service.createUser(createDto));
+    }
+
+    @Test
+    void login_success() {
+        loginDto = new UserLoginDto(user.getUsername(), user.getPassword());
+        when(jwtGenerator.generateToken(any())).thenReturn(authDto.getAccessToken());
+
+        assertEquals(service.login(loginDto), authDto);
+    }
+
+    @Test
+    void login_failed() {
+        loginDto = new UserLoginDto(user.getUsername(), "wrongpassword");
+        when(authenticationManager.authenticate(any(Authentication.class))).thenThrow(BadCredentialsException.class);
+
+        assertThrows(BadCredentialsException.class, () -> service.login(loginDto));
+    }
 }
