@@ -24,12 +24,12 @@ public class MeasuredConditionsMapper {
         return dto;
     }
 
-    public static MeasuredConditionDto mapToDto(MeasuredCondition condtion )
+    public static MeasuredConditionDto mapToDto(MeasuredCondition condition)
     {
         MeasuredConditionDto dto = new MeasuredConditionDto();
-        dto.setId(mapToIdDto(condtion.getId()));
-        dto.setTemperature(condtion.getTemperature());
-        dto.setHumidity(condtion.getHumidity());
+        dto.setId(mapToIdDto(condition.getId()));
+        dto.setTemperature(condition.getTemperature());
+        dto.setHumidity(condition.getHumidity());
 
         return dto;
     }

@@ -1,12 +1,13 @@
 package fungeye.cloud.domain.dtos;
 
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
-public class MushroomDtoTest {
+import static org.assertj.core.api.Assertions.assertThat;
+
+class MushroomDtoTest {
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         Long id = 1L;
         String name = "Shiitake";
         String description = "A type of edible mushroom";
