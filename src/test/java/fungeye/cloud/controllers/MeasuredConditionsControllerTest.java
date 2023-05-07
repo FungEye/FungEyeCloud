@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 
 
 @WebMvcTest(value = MeasuredConditionsController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
-public class MeasuredConditionsControllerTest {
+class MeasuredConditionsControllerTest {
 
 
     @Autowired

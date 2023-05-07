@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(value = BoxController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
-public class BoxControllerTest {
+class BoxControllerTest {
 
 
     @Autowired
