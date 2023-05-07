@@ -15,6 +15,11 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     // Needed because authentication happens before the servlet "hits" the actual system - so we cannot handle exceptions like normal
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+        try {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+        }
+        catch (Exception e) {
+            // Do nothing
+        }
     }
 }

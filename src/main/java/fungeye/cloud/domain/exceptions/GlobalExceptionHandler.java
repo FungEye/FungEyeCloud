@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +44,16 @@ public class GlobalExceptionHandler {
         ErrorObject eo = new ErrorObject();
         eo.setStatusCode(HttpStatus.UNAUTHORIZED.value());
         eo.setMessage(e.getMessage());
+        eo.setTimestamp(new Date());
+
+        return new ResponseEntity<>(eo, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<ErrorObject> handleFailedAuthException(AuthenticationCredentialsNotFoundException e, WebRequest request) {
+        ErrorObject eo = new ErrorObject();
+        eo.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+        eo.setMessage("Authentication invalid.");
         eo.setTimestamp(new Date());
 
         return new ResponseEntity<>(eo, HttpStatus.UNAUTHORIZED);
