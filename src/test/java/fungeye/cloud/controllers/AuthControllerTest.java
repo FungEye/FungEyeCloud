@@ -45,7 +45,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void createUser() throws Exception {
+    void createUser() throws Exception {
         UserCreationDto dto = new UserCreationDto("john", "pass123ff");
 
 
@@ -58,7 +58,7 @@ class AuthControllerTest {
     }
 
     @Test
-    public void loginUserExisting() throws Exception {
+    void loginUserExisting() throws Exception {
         UserLoginDto dto = new UserLoginDto("john", "pass123ff");
 
         given(userService.login(dto)).willReturn(any(AuthResponseDto.class));

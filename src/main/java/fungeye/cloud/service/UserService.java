@@ -49,7 +49,8 @@ public class UserService {
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
 
-        Role roles = roleRepository.findByName("USER").get();
+
+        Role roles = roleRepository.findByName("USER").orElseThrow();
         user.setRoles(Collections.singleton(roles));
 
         UserEntity created = userRepository.save(user);

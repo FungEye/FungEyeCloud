@@ -20,13 +20,12 @@ public class JwtGenerator {
         Date currentDate = new Date();
         Date expiryDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(currentDate)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
-        return token;
     }
 
     public String getUsernameFromJwt(String token) {
