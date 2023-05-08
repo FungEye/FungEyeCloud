@@ -33,7 +33,6 @@ public class IdealConditionService {
             for (IdealCondition condition:
                  found) {
                 outDtos.add(IdealConditionsMapper.mapToIdealConditionDto(condition));
-                System.out.println(IdealConditionsMapper.mapToIdealConditionDto(condition).toString());
             }
             return outDtos;
         }

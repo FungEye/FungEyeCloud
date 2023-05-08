@@ -10,9 +10,9 @@ public class IdealConditionsMapper {
         dto.setMushroomId(idealCondition.getId().getMushroomId());
         dto.setDevelopmentStage(idealCondition.getId().getDevelopmentStage());
         dto.setTempHigh(idealCondition.getTemperatureHigh());
-        dto.setTempLow(dto.getTempLow());
-        dto.setHumidityHigh(dto.getHumidityHigh());
-        dto.setHumidityLow(dto.getHumidityLow());
+        dto.setTempLow(idealCondition.getTemperatureLow());
+        dto.setHumidityHigh(idealCondition.getHumidityHigh());
+        dto.setHumidityLow(idealCondition.getHumidityLow());
 
         return dto;
     }
