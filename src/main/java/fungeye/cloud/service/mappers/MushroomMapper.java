@@ -1,5 +1,6 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.enities.Mushroom;
 
@@ -18,6 +19,14 @@ public class MushroomMapper {
         dto.setGrowId(mush.getGrow().getId());
 
         return dto;
+    }
+
+    public static Mushroom mapCreateToMushroom(MushroomCreationDTO dto) {
+        Mushroom mushroom = new Mushroom();
+        mushroom.setName(dto.getName());
+        mushroom.setDescription(dto.getDescription());
+
+        return mushroom;
     }
 
     public static List<MushroomDto> mapToMushroomDtoList(Set<Mushroom> list)
