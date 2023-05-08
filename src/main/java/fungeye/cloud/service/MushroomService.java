@@ -26,7 +26,7 @@ public class MushroomService {
 
     public MushroomDto getById(Long id)
     {
-        if (repository.existsById(id)) {
+        if (repository.findById(id).isPresent()) {
             return MushroomMapper.mapToMushroomDto(repository.findById(id).get());
         }
         else
