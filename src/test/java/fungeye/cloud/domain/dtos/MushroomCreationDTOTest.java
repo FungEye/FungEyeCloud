@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MushroomCreationDTOTest {
+class MushroomCreationDTOTest {
 
     @Test
-    public void testMushroomCreationDTO() {
+    void testMushroomCreationDTO() {
         // Create a new MushroomCreationDTO object with a name and description
         MushroomCreationDTO mushroom = new MushroomCreationDTO("Shiitake", "A type of edible mushroom commonly used in Japanese cuisine");
 
@@ -18,7 +18,7 @@ public class MushroomCreationDTOTest {
     }
 
     @Test
-    public void testSetters() {
+    void testSetters() {
         // Create a new MushroomCreationDTO object with default constructor
         MushroomCreationDTO mushroom = new MushroomCreationDTO();
 
@@ -32,7 +32,7 @@ public class MushroomCreationDTOTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // Create a new MushroomCreationDTO object with a name and description
         MushroomCreationDTO mushroom = new MushroomCreationDTO("Button", "A small, white mushroom commonly used in salads and soups");
 

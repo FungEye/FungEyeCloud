@@ -8,16 +8,26 @@ import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class BoxMapperTest {
+
+    @Test
+    void testPrivateConstructor() throws NoSuchMethodException {
+        Constructor<BoxMapper> constructor = BoxMapper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, constructor::newInstance);
+    }
 
     @Test
     void testMapToSimpleDto() {

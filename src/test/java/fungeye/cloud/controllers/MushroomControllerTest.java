@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class MushroomControllerTest {
+class MushroomControllerTest {
 
     @Mock
     private MushroomService service;
@@ -24,13 +24,13 @@ public class MushroomControllerTest {
     private MushroomController controller;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
         controller = new MushroomController(service);
     }
 
     @Test
-    public void createMushroom_shouldCreateAndReturnMushroomDto() {
+    void createMushroom_shouldCreateAndReturnMushroomDto() {
         MushroomCreationDTO mushroomCreationDTO = new MushroomCreationDTO();
         mushroomCreationDTO.setName("Portobello");
         mushroomCreationDTO.setDescription("Large mushroom with a meaty texture.");
@@ -50,7 +50,7 @@ public class MushroomControllerTest {
     }
 
     @Test
-    public void getMushroomById_shouldReturnMushroomDto() {
+    void getMushroomById_shouldReturnMushroomDto() {
         Long mushroomId = 1L;
 
         MushroomDto mushroomDto = new MushroomDto();
@@ -68,7 +68,7 @@ public class MushroomControllerTest {
     }
 
     @Test
-    public void getAllMushrooms_shouldReturnListOfMushroomDtos() {
+    void getAllMushrooms_shouldReturnListOfMushroomDtos() {
         List<MushroomDto> mushroomDtos = new ArrayList<>();
         MushroomDto mushroomDto1 = new MushroomDto();
         mushroomDto1.setId(1L);

@@ -9,12 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 class MushroomMapperTest {
@@ -34,6 +37,13 @@ class MushroomMapperTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    void testPrivateConstructor() throws NoSuchMethodException {
+        Constructor<MushroomMapper> constructor = MushroomMapper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, constructor::newInstance);
     }
 
     @Test

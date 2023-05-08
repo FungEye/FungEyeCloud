@@ -16,8 +16,6 @@ import java.util.List;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
-;
-
 @Service
 public class MeasuredConditionsService {
 
@@ -59,6 +57,6 @@ public class MeasuredConditionsService {
         MeasuredCondition toCreate = mapToEntity(dto);
         toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
         MeasuredConditionDto response = mapToDto(repository.save(toCreate));
-        LOGGER.info("Measurement persisted in database for box # " + response.getId().getBoxId());
+        LOGGER.info(String.format("Measurement persisted in database for box # %d", response.getId().getBoxId()));
     }
 }

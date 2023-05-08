@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class IdealConditionsMapperTest {
     private IdealCondition idealCondition;
     private IdealConditionDto dto;
@@ -30,6 +35,13 @@ class IdealConditionsMapperTest {
         dto.setTempLow(24.0);
         dto.setHumidityHigh(80.0);
         dto.setHumidityLow(70.0);
+    }
+
+    @Test
+    void testPrivateConstructor() throws NoSuchMethodException {
+        Constructor<IdealConditionsMapper> constructor = IdealConditionsMapper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, constructor::newInstance);
     }
 
     @Test

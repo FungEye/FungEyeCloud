@@ -7,11 +7,21 @@ import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MeasuredConditionsMapperTest {
+
+    @Test
+    void testPrivateConstructor() throws NoSuchMethodException {
+        Constructor<MeasuredConditionsMapper> constructor = MeasuredConditionsMapper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, constructor::newInstance);
+    }
 
     @Test
     void testMapToIdDto() {

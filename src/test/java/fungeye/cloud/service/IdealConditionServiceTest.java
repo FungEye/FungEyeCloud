@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class IdealConditionServiceTest {
 
@@ -118,5 +118,17 @@ class IdealConditionServiceTest {
         assertEquals(22, dto2.getTempHigh());
         assertEquals(75, dto2.getHumidityLow());
         assertEquals(85, dto2.getHumidityHigh());
+    }
+
+    @Test
+    void testGetByMushroomIdWithNoResults() {
+        Long mushroomId = 1L;
+        Mockito.when(repository.findByMushroom_Id(mushroomId)).thenReturn(Collections.emptyList());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getByMushroomId(mushroomId);
+        });
+
+        assertEquals("No ideal conditions were found for that mushroom", exception.getMessage());
     }
 }

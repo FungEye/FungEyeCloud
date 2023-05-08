@@ -3,6 +3,8 @@ package fungeye.cloud.domain.dtos;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class MushroomDtoTest {
 
@@ -32,4 +34,22 @@ class MushroomDtoTest {
         assertThat(mushroomDto.getName()).isEqualTo(newName);
         assertThat(mushroomDto.getDescription()).isEqualTo(newDescription);
     }
+    @Test
+    void testHashCode() {
+        MushroomDto dto1 = new MushroomDto(1L, "button", "white mushroom");
+        MushroomDto dto2 = new MushroomDto(1L, "button", "white mushroom");
+        MushroomDto dto3 = new MushroomDto(2L, "portobello", "brown mushroom");
+
+        assertEquals(dto1.hashCode(), dto2.hashCode());
+        assertNotEquals(dto1.hashCode(), dto3.hashCode());
+    }
+
+    @Test
+    void testToString() {
+        MushroomDto dto = new MushroomDto(1L, "button", "white mushroom");
+        String expected = "MushroomDto{id=1, name='button', description='white mushroom'}";
+
+        assertEquals(expected, dto.toString());
+    }
+
 }

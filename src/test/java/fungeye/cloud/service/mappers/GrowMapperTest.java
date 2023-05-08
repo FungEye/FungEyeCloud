@@ -6,15 +6,23 @@ import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GrowMapperTest {
+
+    @Test
+    void testPrivateConstructor() throws NoSuchMethodException {
+        Constructor<GrowMapper> constructor = GrowMapper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, constructor::newInstance);
+    }
 
     @Test
     void testMapToGrowDto() {

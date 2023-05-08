@@ -3,8 +3,11 @@ package fungeye.cloud.domain.enities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MushroomTest {
 
@@ -12,21 +15,21 @@ class MushroomTest {
     void testSetAndGetId() {
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
-        Assertions.assertEquals(1L, mushroom.getId());
+        assertEquals(1L, mushroom.getId());
     }
 
     @Test
     void testSetAndGetName() {
         Mushroom mushroom = new Mushroom();
         mushroom.setName("Button Mushroom");
-        Assertions.assertEquals("Button Mushroom", mushroom.getName());
+        assertEquals("Button Mushroom", mushroom.getName());
     }
 
     @Test
     void testSetAndGetDescription() {
         Mushroom mushroom = new Mushroom();
         mushroom.setDescription("A type of edible mushroom.");
-        Assertions.assertEquals("A type of edible mushroom.", mushroom.getDescription());
+        assertEquals("A type of edible mushroom.", mushroom.getDescription());
     }
 
     @Test
@@ -38,6 +41,17 @@ class MushroomTest {
         idealConditions.add(idealCondition1);
         idealConditions.add(idealCondition2);
         mushroom.setIdealConditions(idealConditions);
-        Assertions.assertEquals(idealConditions, mushroom.getIdealConditions());
+        assertEquals(idealConditions, mushroom.getIdealConditions());
+    }
+
+    @Test
+    public void testToString() {
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        mushroom.setName("Button Mushroom");
+        mushroom.setDescription("A common edible mushroom");
+        String expected = "Mushroom{id=1, name='Button Mushroom', description='A common edible mushroom', idealConditions=[]}";
+        String actual = mushroom.toString();
+        assertEquals(expected, actual);
     }
 }

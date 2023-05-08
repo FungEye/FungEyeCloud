@@ -3,13 +3,22 @@ package fungeye.cloud.service.mappers;
 import fungeye.cloud.domain.dtos.DateTimeDto;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DateTimeMapperTest {
 
+    @Test
+    void testPrivateConstructor() throws NoSuchMethodException {
+        Constructor<DateTimeMapper> constructor = DateTimeMapper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, constructor::newInstance);
+    }
     @Test
     void testMapToDateDtoWithInstant() {
         // Given
