@@ -14,7 +14,8 @@ import java.util.Date;
 
 import static fungeye.cloud.security.SecurityConstants.JWT_EXPIRATION;
 import static fungeye.cloud.security.SecurityConstants.JWT_SECRET;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
