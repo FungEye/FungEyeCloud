@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin //not sure if needed todo
+@CrossOrigin
 @RestController
 @RequestMapping("/")
 public class BoxController {
