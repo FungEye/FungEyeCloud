@@ -15,7 +15,6 @@ public class GrowMapper {
     {
         GrowDto dto = new GrowDto();
         dto.setId(grow.getId());
-        dto.setMushroomDtoList(mapToMushroomDtoList(grow.getMushrooms()));
         dto.setActive(grow.getIsActive());
         dto.setDate(mapToDateDto(grow.getDateStarted()));
         dto.setStage(grow.getDevelopmentStage());

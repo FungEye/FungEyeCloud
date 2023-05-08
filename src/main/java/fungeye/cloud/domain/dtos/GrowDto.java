@@ -10,7 +10,6 @@ public class GrowDto {
     private String stage;
     private boolean active;
     private Long boxId;
-    private List<MushroomDto> mushroomDtoList;
 
 
 
@@ -20,7 +19,6 @@ public class GrowDto {
         this.stage = stage;
         this.active = active;
         this.boxId = boxId;
-        this.mushroomDtoList = mushroomDtoList;
     }
 
     public GrowDto() {
@@ -64,13 +62,5 @@ public class GrowDto {
 
     public void setBoxId(Long boxId) {
         this.boxId = boxId;
-    }
-
-    public List<MushroomDto> getMushroomDtoList() {
-        return mushroomDtoList;
-    }
-
-    public void setMushroomDtoList(List<MushroomDto> mushroomDtoList) {
-        this.mushroomDtoList = mushroomDtoList;
     }
 }

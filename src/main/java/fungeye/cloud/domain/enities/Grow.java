@@ -40,9 +40,6 @@ public class Grow {
     @JoinColumn(name = "box_id", nullable = false)
     private Box box;
 
-    @OneToMany(mappedBy = "grow")
-    private Set<Mushroom> mushrooms = new LinkedHashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -81,13 +78,5 @@ public class Grow {
 
     public void setBox(Box box) {
         this.box = box;
-    }
-
-    public Set<Mushroom> getMushrooms() {
-        return mushrooms;
-    }
-
-    public void setMushrooms(Set<Mushroom> mushrooms) {
-        this.mushrooms = mushrooms;
     }
 }

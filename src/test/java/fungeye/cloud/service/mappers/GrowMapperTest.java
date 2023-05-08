@@ -34,7 +34,6 @@ class GrowMapperTest {
         grow.setIsActive(true);
         grow.setDateStarted(dateStarted);
         grow.setDevelopmentStage("Early");
-        grow.setMushrooms(mushrooms);
 
 
         // Act
@@ -45,7 +44,6 @@ class GrowMapperTest {
         assertNotNull(dto);
         assertEquals(grow.getId(), dto.getId());
         assertEquals(box.getId(), dto.getBoxId());
-        assertEquals(mushrooms.size(), dto.getMushroomDtoList().size());
         assertEquals(grow.getIsActive(), dto.isActive());
         assertEquals(dateStarted.getDayOfMonth(), dto.getDate().getDay());
         assertEquals(dateStarted.getMonthValue(), dto.getDate().getMonth());
@@ -73,7 +71,6 @@ class GrowMapperTest {
         grow1.setIsActive(true);
         grow1.setDateStarted(dateStarted);
         grow1.setDevelopmentStage("Early");
-        grow1.setMushrooms(mushrooms);
 
         Grow grow2 = new Grow();
         grow2.setId(2L);
@@ -81,7 +78,6 @@ class GrowMapperTest {
         grow2.setIsActive(true);
         grow2.setDateStarted(dateStarted);
         grow2.setDevelopmentStage("Early");
-        grow2.setMushrooms(mushrooms);
 
         Set<Grow> grows = new HashSet<>();
         grows.add(grow1);

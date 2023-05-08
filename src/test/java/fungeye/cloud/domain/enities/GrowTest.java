@@ -48,14 +48,4 @@ class GrowTest {
         grow.setBox(box);
         assertEquals(box, grow.getBox());
     }
-
-    @Test
-    void testGetMushrooms() {
-        Grow grow = new Grow();
-        Mushroom mushroom = new Mushroom();
-        Set<Mushroom> mushrooms = new LinkedHashSet<>();
-        mushrooms.add(mushroom);
-        grow.setMushrooms(mushrooms);
-        assertEquals(mushrooms, grow.getMushrooms());
-    }
 }

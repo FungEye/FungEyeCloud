@@ -30,7 +30,6 @@ class GrowDtoTest {
         assertEquals(stage, growDto.getStage());
         assertEquals(active, growDto.isActive());
         assertEquals(boxId, growDto.getBoxId());
-        assertEquals(mushroomDtoList, growDto.getMushroomDtoList());
     }
 
     @Test
@@ -50,8 +49,7 @@ class GrowDtoTest {
         growDto.setDate(date);
         growDto.setStage(stage);
         growDto.setActive(active);
-        growDto.setBoxId(boxId);
-        growDto.setMushroomDtoList(mushroomDtoList);
+        growDto.setBoxId(boxId);;
 
         // Assert
         assertEquals(id, growDto.getId());
@@ -59,6 +57,5 @@ class GrowDtoTest {
         assertEquals(stage, growDto.getStage());
         assertEquals(active, growDto.isActive());
         assertEquals(boxId, growDto.getBoxId());
-        assertEquals(mushroomDtoList, growDto.getMushroomDtoList());
     }
 }
