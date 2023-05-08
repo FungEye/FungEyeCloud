@@ -38,4 +38,20 @@ class MeasuredConditionTest {
         measuredCondition.setHumidity(humidity);
         assertEquals(humidity, measuredCondition.getHumidity());
     }
+
+    @Test
+    void testGetCO2() {
+        Double co2 = 800.0;
+        MeasuredCondition measuredCondition = new MeasuredCondition();
+        measuredCondition.setCo2(co2);
+        assertEquals(co2, measuredCondition.getCo2());
+    }
+    @Test
+    void testGetLight() {
+        Double light = 75.0;
+        MeasuredCondition measuredCondition = new MeasuredCondition();
+        measuredCondition.setLight(light);
+        assertEquals(light, measuredCondition.getLight());
+    }
+
 }

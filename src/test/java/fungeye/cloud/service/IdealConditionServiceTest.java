@@ -6,7 +6,6 @@ import fungeye.cloud.domain.enities.IdealConditionId;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.persistence.repository.IdealConditionRepository;
 import fungeye.cloud.service.mappers.IdealConditionsMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
