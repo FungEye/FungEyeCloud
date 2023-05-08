@@ -2,7 +2,6 @@ package fungeye.cloud.persistence.repository;
 
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.IdealConditionId;
-import fungeye.cloud.domain.enities.Mushroom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

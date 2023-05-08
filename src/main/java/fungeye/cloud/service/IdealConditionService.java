@@ -28,7 +28,7 @@ public class IdealConditionService {
         List<IdealCondition> found = repository.findByMushroom_Id(mushroomId);
 
         List<IdealConditionDto> outDtos = new ArrayList<>();
-        if (found != null)
+        if (found != null || found.size() > 0)
         {
             for (IdealCondition condition:
                  found) {

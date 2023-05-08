@@ -32,9 +32,8 @@ class MushroomMapperTest {
     private Grow growMock;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
-        mushroomMapper = new MushroomMapper();
     }
 
     @Test
@@ -80,7 +79,7 @@ class MushroomMapperTest {
     }
 
     @Test
-    public void testMapCreateToMushroom() {
+    void testMapCreateToMushroom() {
         MushroomCreationDTO dto = new MushroomCreationDTO();
         dto.setName("Button Mushroom");
         dto.setDescription("A common mushroom");

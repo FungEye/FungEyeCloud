@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MushroomService {
@@ -26,8 +27,10 @@ public class MushroomService {
 
     public MushroomDto getById(Long id)
     {
-        if (repository.findById(id).isPresent()) {
-            return MushroomMapper.mapToMushroomDto(repository.findById(id).get());
+        Optional<Mushroom> mushroom = repository.findById(id);
+        if (mushroom.isPresent())
+        {
+            return MushroomMapper.mapToMushroomDto(mushroom.get());
         }
         else
         {

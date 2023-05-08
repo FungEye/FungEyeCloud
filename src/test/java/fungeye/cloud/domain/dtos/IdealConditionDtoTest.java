@@ -3,7 +3,7 @@ package fungeye.cloud.domain.dtos;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class IdealConditionDtoTest {
+class IdealConditionDtoTest {
 
     @Test
     void testSetDevelopmentStage() {

@@ -18,10 +18,9 @@ class GrowDtoTest {
         String stage = "Growing";
         boolean active = true;
         Long boxId = 2L;
-        List<MushroomDto> mushroomDtoList = new ArrayList<>();
 
         // Act
-        GrowDto growDto = new GrowDto(id, date, stage, active, boxId, mushroomDtoList);
+        GrowDto growDto = new GrowDto(id, date, stage, active, boxId);
 
         // Assert
         assertNotNull(growDto);

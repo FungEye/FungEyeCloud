@@ -1,9 +1,5 @@
 package fungeye.cloud.domain.dtos;
 
-import fungeye.cloud.domain.enities.IdealCondition;
-
-import java.util.List;
-
 
 public class MushroomCreationDTO {
     private String name;

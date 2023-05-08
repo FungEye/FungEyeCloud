@@ -10,9 +10,6 @@ public class IdealConditionDto {
     private double humidityHigh;
     private double humidityLow;
 
-    public IdealConditionDto() {
-    }
-
     public Long getMushroomId() {
         return mushroomId;
     }

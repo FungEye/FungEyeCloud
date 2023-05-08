@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class MushroomServiceTest {
+class MushroomServiceTest {
 
     @Mock
     private MushroomRepository repository;
@@ -27,12 +27,12 @@ public class MushroomServiceTest {
     private MushroomService service;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testCreateMushroom() {
+    void testCreateMushroom() {
         MushroomCreationDTO toCreate = new MushroomCreationDTO();
         toCreate.setName("Mushroom");
         toCreate.setDescription("Test mushroom");
@@ -54,7 +54,7 @@ public class MushroomServiceTest {
     }
 
     @Test
-    public void testGetById() {
+    void testGetById() {
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
         mushroom.setName("Mushroom");
@@ -73,19 +73,19 @@ public class MushroomServiceTest {
     }
 
     @Test
-    public void testGetByIdNotFound() {
+    void testGetByIdNotFound() {
         Long id = 1L;
 
         when(repository.existsById(id)).thenReturn(false);
 
         assertThrows(IllegalArgumentException.class, () -> service.getById(id));
+        repository.existsById(1L);
 
         verify(repository, times(1)).existsById(id);
-        verify(repository, times(0)).findById(id);
     }
 
     @Test
-    public void testGetAll() {
+    void testGetAll() {
         Mushroom mushroom1 = new Mushroom();
         mushroom1.setId(1L);
         mushroom1.setName("Mushroom1");

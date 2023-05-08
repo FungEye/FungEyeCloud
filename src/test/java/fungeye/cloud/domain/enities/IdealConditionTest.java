@@ -57,19 +57,19 @@ class IdealConditionTest {
     @Test
     void testEqualsSameObject() {
         IdealCondition idealCondition = new IdealCondition();
-        assertTrue(idealCondition.equals(idealCondition));
+        assertEquals(idealCondition, idealCondition);
     }
 
     @Test
     void testEqualsNull() {
         IdealCondition idealCondition = new IdealCondition();
-        assertFalse(idealCondition.equals(null));
+        assertNotEquals(null, idealCondition);
     }
 
     @Test
     void testEqualsDifferentClass() {
         IdealCondition idealCondition = new IdealCondition();
-        assertFalse(idealCondition.equals(new Object()));
+        assertNotEquals(idealCondition, new Object());
     }
 
     @Test
@@ -79,7 +79,7 @@ class IdealConditionTest {
         mushroom.setId(1L);
         IdealCondition idealCondition1 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
         IdealCondition idealCondition2 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
-        assertTrue(idealCondition1.equals(idealCondition2));
+        assertEquals(idealCondition1, idealCondition2);
     }
 
     @Test
@@ -90,7 +90,7 @@ class IdealConditionTest {
         mushroom.setId(1L);
         IdealCondition idealCondition1 = new IdealCondition(id1, mushroom, 25.0, 20.0, 80.0, 70.0);
         IdealCondition idealCondition2 = new IdealCondition(id2, mushroom, 25.0, 20.0, 80.0, 70.0);
-        assertFalse(idealCondition1.equals(idealCondition2));
+        assertNotEquals(idealCondition1, idealCondition2);
     }
 
     @Test

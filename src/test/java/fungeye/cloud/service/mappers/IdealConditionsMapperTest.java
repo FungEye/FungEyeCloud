@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IdealConditionsMapperTest {
+class IdealConditionsMapperTest {
     private IdealCondition idealCondition;
     private IdealConditionDto dto;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         idealCondition = new IdealCondition();
         IdealConditionId id = new IdealConditionId();
         id.setMushroomId(1L);
@@ -33,13 +33,13 @@ public class IdealConditionsMapperTest {
     }
 
     @Test
-    public void testMapToIdealConditionDto() {
+    void testMapToIdealConditionDto() {
         IdealConditionDto mappedDto = IdealConditionsMapper.mapToIdealConditionDto(idealCondition);
         Assertions.assertEquals(dto, mappedDto);
     }
 
     @Test
-    public void testMapToIdealCondition() {
+    void testMapToIdealCondition() {
         IdealCondition mappedIdealCondition = IdealConditionsMapper.mapToIdealCondition(dto);
         Assertions.assertEquals(idealCondition, mappedIdealCondition);
     }

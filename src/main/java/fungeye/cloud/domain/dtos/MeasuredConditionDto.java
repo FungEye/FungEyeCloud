@@ -3,7 +3,6 @@ package fungeye.cloud.domain.dtos;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 /**
  * A DTO for the {@link fungeye.cloud.domain.enities.MeasuredCondition} entity

@@ -1,8 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
 
-import java.util.List;
-
 public class GrowDto {
 
     private Long id;
@@ -13,7 +11,7 @@ public class GrowDto {
 
 
 
-    public GrowDto(Long id, DateTimeDto date, String stage, boolean active, Long boxId, List<MushroomDto> mushroomDtoList) {
+    public GrowDto(Long id, DateTimeDto date, String stage, boolean active, Long boxId) {
         this.id = id;
         this.date = date;
         this.stage = stage;

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 public class MushroomMapper {
+    private MushroomMapper() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static MushroomDto mapToMushroomDto(Mushroom mush)
     {

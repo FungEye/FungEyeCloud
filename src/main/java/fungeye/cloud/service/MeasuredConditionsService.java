@@ -9,13 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.List;;
+import java.util.List;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
+
+;
 
 @Service
 public class MeasuredConditionsService {

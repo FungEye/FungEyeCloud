@@ -5,6 +5,10 @@ import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.IdealConditionId;
 
 public class IdealConditionsMapper {
+    private IdealConditionsMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static IdealConditionDto mapToIdealConditionDto (IdealCondition idealCondition) {
         IdealConditionDto dto = new IdealConditionDto();
         dto.setMushroomId(idealCondition.getId().getMushroomId());
