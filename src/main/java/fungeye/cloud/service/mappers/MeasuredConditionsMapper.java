@@ -13,7 +13,9 @@ import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToInstant;
 
 public class MeasuredConditionsMapper {
-
+    private MeasuredConditionsMapper() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static MeasuredConditionIdDto mapToIdDto(MeasuredConditionId conditionId)
     {

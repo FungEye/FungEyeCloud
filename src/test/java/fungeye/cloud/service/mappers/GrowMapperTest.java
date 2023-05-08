@@ -6,15 +6,23 @@ import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GrowMapperTest {
+
+    @Test
+    void testPrivateConstructor() throws NoSuchMethodException {
+        Constructor<GrowMapper> constructor = GrowMapper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, constructor::newInstance);
+    }
 
     @Test
     void testMapToGrowDto() {
@@ -34,11 +42,6 @@ class GrowMapperTest {
         grow.setIsActive(true);
         grow.setDateStarted(dateStarted);
         grow.setDevelopmentStage("Early");
-        for (Mushroom mush :
-                mushrooms) {
-            mush.setGrow(grow);
-        }
-        grow.setMushrooms(mushrooms);
 
 
         // Act
@@ -49,7 +52,6 @@ class GrowMapperTest {
         assertNotNull(dto);
         assertEquals(grow.getId(), dto.getId());
         assertEquals(box.getId(), dto.getBoxId());
-        assertEquals(mushrooms.size(), dto.getMushroomDtoList().size());
         assertEquals(grow.getIsActive(), dto.isActive());
         assertEquals(dateStarted.getDayOfMonth(), dto.getDate().getDay());
         assertEquals(dateStarted.getMonthValue(), dto.getDate().getMonth());
@@ -77,11 +79,6 @@ class GrowMapperTest {
         grow1.setIsActive(true);
         grow1.setDateStarted(dateStarted);
         grow1.setDevelopmentStage("Early");
-        for (Mushroom mush :
-                mushrooms) {
-            mush.setGrow(grow1);
-        }
-        grow1.setMushrooms(mushrooms);
 
         Grow grow2 = new Grow();
         grow2.setId(2L);
@@ -89,11 +86,6 @@ class GrowMapperTest {
         grow2.setIsActive(true);
         grow2.setDateStarted(dateStarted);
         grow2.setDevelopmentStage("Early");
-        for (Mushroom mush :
-                mushrooms) {
-            mush.setGrow(grow2);
-        }
-        grow2.setMushrooms(mushrooms);
 
         Set<Grow> grows = new HashSet<>();
         grows.add(grow1);

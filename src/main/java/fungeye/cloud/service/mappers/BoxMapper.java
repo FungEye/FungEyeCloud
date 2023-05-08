@@ -9,6 +9,10 @@ import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.mapToDtoLis
 
 public class BoxMapper {
 
+    private BoxMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static BoxDto mapToSimpleDto(Box box)
     {
         BoxDto dto = new BoxDto();

@@ -9,11 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.List;;
+import java.util.List;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
@@ -58,6 +57,6 @@ public class MeasuredConditionsService {
         MeasuredCondition toCreate = mapToEntity(dto);
         toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
         MeasuredConditionDto response = mapToDto(repository.save(toCreate));
-        LOGGER.info("Measurement persisted in database for box # " + response.getId().getBoxId());
+        LOGGER.info(String.format("Measurement persisted in database for box # %d", response.getId().getBoxId()));
     }
 }

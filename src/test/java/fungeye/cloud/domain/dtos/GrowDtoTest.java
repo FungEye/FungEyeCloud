@@ -18,10 +18,9 @@ class GrowDtoTest {
         String stage = "Growing";
         boolean active = true;
         Long boxId = 2L;
-        List<MushroomDto> mushroomDtoList = new ArrayList<>();
 
         // Act
-        GrowDto growDto = new GrowDto(id, date, stage, active, boxId, mushroomDtoList);
+        GrowDto growDto = new GrowDto(id, date, stage, active, boxId);
 
         // Assert
         assertNotNull(growDto);
@@ -30,7 +29,6 @@ class GrowDtoTest {
         assertEquals(stage, growDto.getStage());
         assertEquals(active, growDto.isActive());
         assertEquals(boxId, growDto.getBoxId());
-        assertEquals(mushroomDtoList, growDto.getMushroomDtoList());
     }
 
     @Test
@@ -50,8 +48,7 @@ class GrowDtoTest {
         growDto.setDate(date);
         growDto.setStage(stage);
         growDto.setActive(active);
-        growDto.setBoxId(boxId);
-        growDto.setMushroomDtoList(mushroomDtoList);
+        growDto.setBoxId(boxId);;
 
         // Assert
         assertEquals(id, growDto.getId());
@@ -59,6 +56,5 @@ class GrowDtoTest {
         assertEquals(stage, growDto.getStage());
         assertEquals(active, growDto.isActive());
         assertEquals(boxId, growDto.getBoxId());
-        assertEquals(mushroomDtoList, growDto.getMushroomDtoList());
     }
 }

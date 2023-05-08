@@ -29,6 +29,15 @@ public class IdealConditionId implements Serializable {
     @Column(name = "development_stage", nullable = false)
     private String developmentStage;
 
+    public IdealConditionId() {
+
+    }
+
+    public IdealConditionId(Long mushroomId, String developmentStage) {
+        this.mushroomId = mushroomId;
+        this.developmentStage = developmentStage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,5 +66,13 @@ public class IdealConditionId implements Serializable {
 
     public void setDevelopmentStage(String developmentStage) {
         this.developmentStage = developmentStage;
+    }
+
+    @Override
+    public String toString() {
+        return "IdealConditionId{" +
+                "mushroomId=" + mushroomId +
+                ", developmentStage='" + developmentStage + '\'' +
+                '}';
     }
 }

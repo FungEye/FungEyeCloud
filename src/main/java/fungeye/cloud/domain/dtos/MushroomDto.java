@@ -1,17 +1,17 @@
 package fungeye.cloud.domain.dtos;
 
+import java.util.Objects;
+
 public class MushroomDto {
 
     private Long id;
     private String name;
     private String description;
-    private Long growId;
 
-    public MushroomDto(Long id, String name, String description, Long growId) {
+    public MushroomDto(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.growId = growId;
     }
 
     public MushroomDto() {
@@ -41,11 +41,25 @@ public class MushroomDto {
         this.description = description;
     }
 
-    public Long getGrowId() {
-        return growId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MushroomDto that = (MushroomDto) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description);
     }
 
-    public void setGrowId(Long growId) {
-        this.growId = growId;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
+    }
+
+    @Override
+    public String toString() {
+        return "MushroomDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

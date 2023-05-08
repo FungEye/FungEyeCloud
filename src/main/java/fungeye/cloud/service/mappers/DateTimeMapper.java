@@ -2,9 +2,16 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.DateTimeDto;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class DateTimeMapper {
+
+    private DateTimeMapper() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static DateTimeDto mapToDateDto(Instant instant)
     {

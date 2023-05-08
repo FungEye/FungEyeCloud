@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @Entity
@@ -33,6 +35,18 @@ public class IdealCondition {
     @NotNull
     @Column(name = "humidity_low", nullable = false)
     private Double humidityLow;
+
+    public IdealCondition() {
+    }
+
+    public IdealCondition(IdealConditionId id, Mushroom mushroom, Double temperatureHigh, Double temperatureLow, Double humidityHigh, Double humidityLow) {
+        this.id = id;
+        this.mushroom = mushroom;
+        this.temperatureHigh = temperatureHigh;
+        this.temperatureLow = temperatureLow;
+        this.humidityHigh = humidityHigh;
+        this.humidityLow = humidityLow;
+    }
 
     public IdealConditionId getId() {
         return id;
@@ -80,5 +94,30 @@ public class IdealCondition {
 
     public void setHumidityLow(Double humidityLow) {
         this.humidityLow = humidityLow;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IdealCondition that = (IdealCondition) o;
+        return Objects.equals(id, that.id) && Objects.equals(mushroom, that.mushroom) && Objects.equals(temperatureHigh, that.temperatureHigh) && Objects.equals(temperatureLow, that.temperatureLow) && Objects.equals(humidityHigh, that.humidityHigh) && Objects.equals(humidityLow, that.humidityLow);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, mushroom, temperatureHigh, temperatureLow, humidityHigh, humidityLow);
+    }
+
+    @Override
+    public String toString() {
+        return "IdealCondition{" +
+                "id=" + id +
+                ", mushroom=" + mushroom +
+                ", temperatureHigh=" + temperatureHigh +
+                ", temperatureLow=" + temperatureLow +
+                ", humidityHigh=" + humidityHigh +
+                ", humidityLow=" + humidityLow +
+                '}';
     }
 }

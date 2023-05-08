@@ -2,7 +2,7 @@ package fungeye.cloud.domain.enities;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class IdealConditionTest {
 
@@ -52,6 +52,91 @@ class IdealConditionTest {
         Double humidityLow = 50.0;
         condition.setHumidityLow(humidityLow);
         assertEquals(humidityLow, condition.getHumidityLow());
+    }
+
+    @Test
+    void testEqualsSameObject() {
+        IdealCondition idealCondition = new IdealCondition();
+        assertEquals(idealCondition, idealCondition);
+    }
+
+    @Test
+    void testEqualsNull() {
+        IdealCondition idealCondition = new IdealCondition();
+        assertNotEquals(null, idealCondition);
+    }
+
+    @Test
+    void testEqualsDifferentClass() {
+        IdealCondition idealCondition = new IdealCondition();
+        assertNotEquals(idealCondition, new Object());
+    }
+
+    @Test
+    void testEqualsEqualObjects() {
+        IdealConditionId id = new IdealConditionId(1L, "Fruiting");
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        IdealCondition idealCondition1 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
+        IdealCondition idealCondition2 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
+        assertEquals(idealCondition1, idealCondition2);
+    }
+
+    @Test
+    void testEqualsNotEqualObjects() {
+        IdealConditionId id1 = new IdealConditionId(1L, "Fruiting");
+        IdealConditionId id2 = new IdealConditionId(2L, "Fruiting");
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        IdealCondition idealCondition1 = new IdealCondition(id1, mushroom, 25.0, 20.0, 80.0, 70.0);
+        IdealCondition idealCondition2 = new IdealCondition(id2, mushroom, 25.0, 20.0, 80.0, 70.0);
+        assertNotEquals(idealCondition1, idealCondition2);
+    }
+
+    @Test
+    void testHashCodeEqualObjects() {
+        IdealConditionId id = new IdealConditionId(1L, "Fruiting");
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        IdealCondition idealCondition1 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
+        IdealCondition idealCondition2 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
+        assertEquals(idealCondition1.hashCode(), idealCondition2.hashCode());
+    }
+
+    @Test
+    void testHashCodeNotEqualObjects() {
+        IdealConditionId id1 = new IdealConditionId(1L, "Fruiting");
+        IdealConditionId id2 = new IdealConditionId(2L, "Fruiting");
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        IdealCondition idealCondition1 = new IdealCondition(id1, mushroom, 25.0, 20.0, 80.0, 70.0);
+        IdealCondition idealCondition2 = new IdealCondition(id2, mushroom, 25.0, 20.0, 80.0, 70.0);
+        assertNotEquals(idealCondition1.hashCode(), idealCondition2.hashCode());
+    }
+
+    @Test
+    public void testToString() {
+        // Arrange
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        mushroom.setName("Shiitake");
+        IdealConditionId id = new IdealConditionId(1L, "Fruiting");
+        IdealCondition idealCondition = new IdealCondition();
+        idealCondition.setId(id);
+        idealCondition.setMushroom(mushroom);
+        idealCondition.setTemperatureHigh(25.0);
+        idealCondition.setTemperatureLow(20.0);
+        idealCondition.setHumidityHigh(80.0);
+        idealCondition.setHumidityLow(70.0);
+
+        // Act
+        String actualString = idealCondition.toString();
+
+        // Assert
+        String expectedString = "IdealCondition{id=IdealConditionId{mushroomId=1, developmentStage='Fruiting'}," +
+                " mushroom=Mushroom{id=1, name='Shiitake', description='null', idealConditions=[]}," +
+                " temperatureHigh=25.0, temperatureLow=20.0, humidityHigh=80.0, humidityLow=70.0}";
+        assertEquals(expectedString, actualString);
     }
 
 }
