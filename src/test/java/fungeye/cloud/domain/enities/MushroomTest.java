@@ -30,14 +30,6 @@ class MushroomTest {
     }
 
     @Test
-    void testSetAndGetGrow() {
-        Mushroom mushroom = new Mushroom();
-        Grow grow = new Grow();
-        mushroom.setGrow(grow);
-        Assertions.assertEquals(grow, mushroom.getGrow());
-    }
-
-    @Test
     void testSetAndGetIdealConditions() {
         Mushroom mushroom = new Mushroom();
         IdealCondition idealCondition1 = new IdealCondition();

@@ -34,10 +34,6 @@ class GrowMapperTest {
         grow.setIsActive(true);
         grow.setDateStarted(dateStarted);
         grow.setDevelopmentStage("Early");
-        for (Mushroom mush :
-                mushrooms) {
-            mush.setGrow(grow);
-        }
         grow.setMushrooms(mushrooms);
 
 
@@ -77,10 +73,6 @@ class GrowMapperTest {
         grow1.setIsActive(true);
         grow1.setDateStarted(dateStarted);
         grow1.setDevelopmentStage("Early");
-        for (Mushroom mush :
-                mushrooms) {
-            mush.setGrow(grow1);
-        }
         grow1.setMushrooms(mushrooms);
 
         Grow grow2 = new Grow();
@@ -89,10 +81,6 @@ class GrowMapperTest {
         grow2.setIsActive(true);
         grow2.setDateStarted(dateStarted);
         grow2.setDevelopmentStage("Early");
-        for (Mushroom mush :
-                mushrooms) {
-            mush.setGrow(grow2);
-        }
         grow2.setMushrooms(mushrooms);
 
         Set<Grow> grows = new HashSet<>();

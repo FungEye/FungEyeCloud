@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -27,10 +28,6 @@ public class Mushroom {
     @Size(max = 255)
     @Column(name = "description")
     private String description;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "grow_id")
-    private Grow grow;
 
     @OneToMany(mappedBy = "mushroom")
     private Set<IdealCondition> idealConditions = new LinkedHashSet<>();
@@ -59,19 +56,34 @@ public class Mushroom {
         this.description = description;
     }
 
-    public Grow getGrow() {
-        return grow;
-    }
-
-    public void setGrow(Grow grow) {
-        this.grow = grow;
-    }
-
     public Set<IdealCondition> getIdealConditions() {
         return idealConditions;
     }
 
     public void setIdealConditions(Set<IdealCondition> idealConditions) {
         this.idealConditions = idealConditions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mushroom mushroom = (Mushroom) o;
+        return Objects.equals(id, mushroom.id) && Objects.equals(name, mushroom.name) && Objects.equals(description, mushroom.description) && Objects.equals(idealConditions, mushroom.idealConditions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, idealConditions);
+    }
+
+    @Override
+    public String toString() {
+        return "Mushroom{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", idealConditions=" + idealConditions +
+                '}';
     }
 }
