@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/")
@@ -29,5 +31,12 @@ public class MushroomController {
     {
         MushroomDto found = service.getById(id);
         return new ResponseEntity<>(found, HttpStatus.FOUND);
+    }
+
+    @GetMapping(value = "/mushroom")
+    public ResponseEntity<List<MushroomDto>> getAllMushrooms()
+    {
+        List<MushroomDto> all = service.getAll();
+        return new ResponseEntity<>(all, HttpStatus.FOUND);
     }
 }

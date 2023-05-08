@@ -7,6 +7,9 @@ import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class MushroomService {
     private MushroomRepository repository;
@@ -30,5 +33,15 @@ public class MushroomService {
         {
             throw new IllegalArgumentException("Mushroom not found");
         }
+    }
+
+    public List<MushroomDto> getAll() {
+        List<Mushroom> allMushrooms = repository.findAll();
+        List<MushroomDto> dtos = new ArrayList<>();
+        for (Mushroom mushroom:
+             allMushrooms) {
+            dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+        }
+        return dtos;
     }
 }
