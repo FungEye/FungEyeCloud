@@ -2,22 +2,22 @@ package fungeye.cloud.domain.dtos;
 
 import java.util.Objects;
 
-public class IdealConditionCreationDto {
-    private int mushroomId;
+public class IdealConditionDto {
+    private Long mushroomId;
     private String developmentStage;
     private double tempHigh;
     private double tempLow;
     private double humidityHigh;
     private double humidityLow;
 
-    public IdealConditionCreationDto() {
+    public IdealConditionDto() {
     }
 
-    public int getMushroomId() {
+    public Long getMushroomId() {
         return mushroomId;
     }
 
-    public void setMushroomId(int mushroomId) {
+    public void setMushroomId(Long mushroomId) {
         this.mushroomId = mushroomId;
     }
 
@@ -71,7 +71,7 @@ public class IdealConditionCreationDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IdealConditionCreationDto that = (IdealConditionCreationDto) o;
+        IdealConditionDto that = (IdealConditionDto) o;
         return mushroomId == that.mushroomId && Double.compare(that.tempHigh, tempHigh) == 0 && Double.compare(that.tempLow, tempLow) == 0 && Double.compare(that.humidityHigh, humidityHigh) == 0 && Double.compare(that.humidityLow, humidityLow) == 0 && Objects.equals(developmentStage, that.developmentStage);
     }
 
@@ -82,7 +82,7 @@ public class IdealConditionCreationDto {
 
     @Override
     public String toString() {
-        return "IdealConditionCreationDto{" +
+        return "IdealConditionDto{" +
                 "mushroomId=" + mushroomId +
                 ", developmentStage='" + developmentStage + '\'' +
                 ", tempHigh=" + tempHigh +
