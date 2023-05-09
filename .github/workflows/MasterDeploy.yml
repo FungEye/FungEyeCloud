@@ -45,7 +45,7 @@ jobs:
           echo "env: flex" >> staging/app.yaml
           echo "runtime_config:" >> staging/app.yaml
           echo "operating_system: "ubuntu22" >> staging/app.yaml
-          echo "runtime_version: "17"" >> staging/app.yaml
+          echo "runtime_version: '17'" >> staging/app.yaml
           
           
 
