@@ -3,6 +3,7 @@ package fungeye.cloud.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,6 +41,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll() // All calls to /api/auth/ is allowed
+                .requestMatchers(HttpMethod.GET, "/_ah/**").permitAll() // allows GAE to start and stop service
                 .anyRequest().authenticated() //
                 .and()
                 .httpBasic(); // Http instead of Https
