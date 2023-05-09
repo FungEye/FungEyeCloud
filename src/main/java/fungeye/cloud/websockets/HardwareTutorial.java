@@ -163,6 +163,10 @@ public class HardwareTutorial implements WebSocket.Listener {
             condDto.setHumidity(humidity);
             condDto.setTemperature(temperature);
             measurementService.addMeasuredCondition(condDto);
+            sendDownLink(
+                    "{cmd : 'tx';EUI : 0004A30B00ED6757;port: 1;data: 0001}"
+
+            );
         }
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
