@@ -2,20 +2,22 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.GrowDto;
 import fungeye.cloud.domain.enities.Grow;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
-import static fungeye.cloud.service.mappers.MushroomMapper.mapToMushroomDtoList;
 
 public class GrowMapper {
+    private GrowMapper() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static GrowDto mapToGrowDto (Grow grow)
     {
         GrowDto dto = new GrowDto();
         dto.setId(grow.getId());
-        dto.setMushroomDtoList(mapToMushroomDtoList(grow.getMushrooms()));
         dto.setActive(grow.getIsActive());
         dto.setDate(mapToDateDto(grow.getDateStarted()));
         dto.setStage(grow.getDevelopmentStage());

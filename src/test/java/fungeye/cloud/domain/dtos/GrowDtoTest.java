@@ -8,20 +8,19 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class GrowDtoTest {
+class GrowDtoTest {
 
     @Test
-    public void testCreateGrowDto() {
+    void testCreateGrowDto() {
         // Arrange
         Long id = 1L;
         DateTimeDto date = new DateTimeDto(2023, 4, 14, 10, 30, 0);
         String stage = "Growing";
         boolean active = true;
         Long boxId = 2L;
-        List<MushroomDto> mushroomDtoList = new ArrayList<>();
 
         // Act
-        GrowDto growDto = new GrowDto(id, date, stage, active, boxId, mushroomDtoList);
+        GrowDto growDto = new GrowDto(id, date, stage, active, boxId);
 
         // Assert
         assertNotNull(growDto);
@@ -30,11 +29,10 @@ public class GrowDtoTest {
         assertEquals(stage, growDto.getStage());
         assertEquals(active, growDto.isActive());
         assertEquals(boxId, growDto.getBoxId());
-        assertEquals(mushroomDtoList, growDto.getMushroomDtoList());
     }
 
     @Test
-    public void testSettersAndGetters() {
+    void testSettersAndGetters() {
         // Arrange
         Long id = 1L;
         DateTimeDto date = new DateTimeDto(2023, 4, 14, 10, 30, 0);
@@ -50,8 +48,7 @@ public class GrowDtoTest {
         growDto.setDate(date);
         growDto.setStage(stage);
         growDto.setActive(active);
-        growDto.setBoxId(boxId);
-        growDto.setMushroomDtoList(mushroomDtoList);
+        growDto.setBoxId(boxId);;
 
         // Assert
         assertEquals(id, growDto.getId());
@@ -59,6 +56,5 @@ public class GrowDtoTest {
         assertEquals(stage, growDto.getStage());
         assertEquals(active, growDto.isActive());
         assertEquals(boxId, growDto.getBoxId());
-        assertEquals(mushroomDtoList, growDto.getMushroomDtoList());
     }
 }

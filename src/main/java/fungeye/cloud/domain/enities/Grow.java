@@ -9,8 +9,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -39,9 +37,6 @@ public class Grow {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "box_id", nullable = false)
     private Box box;
-
-    @OneToMany(mappedBy = "grow")
-    private Set<Mushroom> mushrooms = new LinkedHashSet<>();
 
     public Long getId() {
         return id;
@@ -81,13 +76,5 @@ public class Grow {
 
     public void setBox(Box box) {
         this.box = box;
-    }
-
-    public Set<Mushroom> getMushrooms() {
-        return mushrooms;
-    }
-
-    public void setMushrooms(Set<Mushroom> mushrooms) {
-        this.mushrooms = mushrooms;
     }
 }

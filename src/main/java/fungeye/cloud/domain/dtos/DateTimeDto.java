@@ -1,5 +1,7 @@
 package fungeye.cloud.domain.dtos;
 
+import java.util.Objects;
+
 public class DateTimeDto {
 
     private int year;
@@ -68,5 +70,18 @@ public class DateTimeDto {
 
     public int getSecond() {
         return second;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DateTimeDto that = (DateTimeDto) o;
+        return year == that.year && month == that.month && day == that.day && hour == that.hour && minute == that.minute && second == that.second;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(year, month, day, hour, minute, second);
     }
 }

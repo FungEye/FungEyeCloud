@@ -1,44 +1,37 @@
 package fungeye.cloud.domain.enities;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class MushroomTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class MushroomTest {
 
     @Test
-    public void testSetAndGetId() {
+    void testSetAndGetId() {
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
-        Assertions.assertEquals(1L, mushroom.getId());
+        assertEquals(1L, mushroom.getId());
     }
 
     @Test
-    public void testSetAndGetName() {
+    void testSetAndGetName() {
         Mushroom mushroom = new Mushroom();
         mushroom.setName("Button Mushroom");
-        Assertions.assertEquals("Button Mushroom", mushroom.getName());
+        assertEquals("Button Mushroom", mushroom.getName());
     }
 
     @Test
-    public void testSetAndGetDescription() {
+    void testSetAndGetDescription() {
         Mushroom mushroom = new Mushroom();
         mushroom.setDescription("A type of edible mushroom.");
-        Assertions.assertEquals("A type of edible mushroom.", mushroom.getDescription());
+        assertEquals("A type of edible mushroom.", mushroom.getDescription());
     }
 
     @Test
-    public void testSetAndGetGrow() {
-        Mushroom mushroom = new Mushroom();
-        Grow grow = new Grow();
-        mushroom.setGrow(grow);
-        Assertions.assertEquals(grow, mushroom.getGrow());
-    }
-
-    @Test
-    public void testSetAndGetIdealConditions() {
+    void testSetAndGetIdealConditions() {
         Mushroom mushroom = new Mushroom();
         IdealCondition idealCondition1 = new IdealCondition();
         IdealCondition idealCondition2 = new IdealCondition();
@@ -46,6 +39,17 @@ public class MushroomTest {
         idealConditions.add(idealCondition1);
         idealConditions.add(idealCondition2);
         mushroom.setIdealConditions(idealConditions);
-        Assertions.assertEquals(idealConditions, mushroom.getIdealConditions());
+        assertEquals(idealConditions, mushroom.getIdealConditions());
+    }
+
+    @Test
+    public void testToString() {
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        mushroom.setName("Button Mushroom");
+        mushroom.setDescription("A common edible mushroom");
+        String expected = "Mushroom{id=1, name='Button Mushroom', description='A common edible mushroom', idealConditions=[]}";
+        String actual = mushroom.toString();
+        assertEquals(expected, actual);
     }
 }

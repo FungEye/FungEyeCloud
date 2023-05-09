@@ -13,7 +13,9 @@ import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToInstant;
 
 public class MeasuredConditionsMapper {
-
+    private MeasuredConditionsMapper() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static MeasuredConditionIdDto mapToIdDto(MeasuredConditionId conditionId)
     {
@@ -24,12 +26,12 @@ public class MeasuredConditionsMapper {
         return dto;
     }
 
-    public static MeasuredConditionDto mapToDto(MeasuredCondition condtion )
+    public static MeasuredConditionDto mapToDto(MeasuredCondition condition)
     {
         MeasuredConditionDto dto = new MeasuredConditionDto();
-        dto.setId(mapToIdDto(condtion.getId()));
-        dto.setTemperature(condtion.getTemperature());
-        dto.setHumidity(condtion.getHumidity());
+        dto.setId(mapToIdDto(condition.getId()));
+        dto.setTemperature(condition.getTemperature());
+        dto.setHumidity(condition.getHumidity());
 
         return dto;
     }

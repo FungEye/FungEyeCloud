@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -25,6 +26,26 @@ public class GlobalExceptionHandler {
 
         logger.error(e.getMessage(), eo);
         return new ResponseEntity<>(eo, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotUniqueException.class)
+    public ResponseEntity<ErrorObject> handleNotUniqueException(NotUniqueException e, WebRequest request) {
+        ErrorObject eo = new ErrorObject();
+        eo.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        eo.setMessage(e.getMessage());
+        eo.setTimestamp(new Date());
+
+        return new ResponseEntity<>(eo, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorObject> handleBadCredentialsException(BadCredentialsException e, WebRequest request) {
+        ErrorObject eo = new ErrorObject();
+        eo.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+        eo.setMessage(e.getMessage());
+        eo.setTimestamp(new Date());
+
+        return new ResponseEntity<>(eo, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

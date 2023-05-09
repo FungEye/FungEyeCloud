@@ -1,8 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
 
-import java.util.List;
-
 public class GrowDto {
 
     private Long id;
@@ -10,17 +8,15 @@ public class GrowDto {
     private String stage;
     private boolean active;
     private Long boxId;
-    private List<MushroomDto> mushroomDtoList;
 
 
 
-    public GrowDto(Long id, DateTimeDto date, String stage, boolean active, Long boxId, List<MushroomDto> mushroomDtoList) {
+    public GrowDto(Long id, DateTimeDto date, String stage, boolean active, Long boxId) {
         this.id = id;
         this.date = date;
         this.stage = stage;
         this.active = active;
         this.boxId = boxId;
-        this.mushroomDtoList = mushroomDtoList;
     }
 
     public GrowDto() {
@@ -64,13 +60,5 @@ public class GrowDto {
 
     public void setBoxId(Long boxId) {
         this.boxId = boxId;
-    }
-
-    public List<MushroomDto> getMushroomDtoList() {
-        return mushroomDtoList;
-    }
-
-    public void setMushroomDtoList(List<MushroomDto> mushroomDtoList) {
-        this.mushroomDtoList = mushroomDtoList;
     }
 }
