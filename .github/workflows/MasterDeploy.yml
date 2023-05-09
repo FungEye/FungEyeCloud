@@ -42,13 +42,18 @@ jobs:
       - name: Create app.yaml
         run: |
           echo "runtime: java17" > staging/app.yaml
-          echo "env: standard" >> staging/app.yaml
-          echo "instance_class: B2" >> staging/app.yaml
+          echo "env: flex" >> staging/app.yaml
+          echo "instance_class: F2" >> staging/app.yaml
           echo "handlers:" >> staging/app.yaml
           echo "  - url: /.*" >> staging/app.yaml
           echo "    script: cloud-0.0.1-SNAPSHOT.jar" >> staging/app.yaml
-          echo "manual_scaling:" >> staging/app.yaml
-          echo "  instances: 1" >> staging/app.yaml
+          echo "automatic_scaling:" >> staging/app.yaml
+          echo "min_idle_instances: automatic" >> staging/app.yaml
+          echo "max_idle_instances: automatic" >> staging/app.yaml
+          echo "min_pending_latency: automatic" >> staging/app.yaml
+          echo "max_pending_latency: automatic" >> staging/app.yaml
+
+
       - name: Upload JAR Artifact
         uses: actions/upload-artifact@v3
         with:
