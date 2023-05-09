@@ -163,6 +163,10 @@ public class HardwareTutorial implements WebSocket.Listener {
             condDto.setHumidity(humidity);
             condDto.setTemperature(temperature);
             measurementService.addMeasuredCondition(condDto);
+            sendDownLink(
+                    "{cmd : 'tx';EUI : 0004A30B00ED6757;port: 1;data: 0001}"
+
+            );
         }
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
@@ -171,27 +175,32 @@ public class HardwareTutorial implements WebSocket.Listener {
 
 
 
+/* this is just for testing purposes, not real constructor
+    public static void main(String[] args) {
+        // This constructor does not work anymore with the new injection in the above
+       HardwareTutorial beep = new HardwareTutorial( measurementService);
+        // Assuming dataValue is "01160107041a0000"
+        String testHex = "01160107041a0000";
+        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
+        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
+        int co2 = Integer.parseInt(testHex.substring(8, 12), 16);
+       int light = Integer.parseInt(testHex.substring(12, 16), 16);
 
-//    public static void main(String[] args) {
-//        // This constructor does not work anymore with the new injection in the above
-//        HardwareTutorial beep = new HardwareTutorial();
-//        // Assuming dataValue is "01160107041a0000"
-//        String testHex = "01160107041a0000";
-//        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
-//        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
-//        int co2 = Integer.parseInt(testHex.substring(8, 12), 16);
-//        int light = Integer.parseInt(testHex.substring(12, 16), 16);
-//
-//
-//        double temperature = tempRaw / 10.0f;
-//        double humidity = humRaw / 10.0f;
-//        double CO2 = co2 / 1.0f;
-//
-//        System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
-//        System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
-//        System.out.println("CO2: " + String.format("%.2f", CO2) + "ppm");
-//        System.out.println("Light: " + light + "lm");
-//    }
+        double temperature = tempRaw / 10.0f;
+        double humidity = humRaw / 10.0f;
+        double CO2 = co2 / 1.0f;
+
+        System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
+       System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
+       System.out.println("CO2: " + String.format("%.2f", CO2) + "ppm");
+        System.out.println("Light: " + light + "lm");
+        sendDownLink(
+                "{cmd : 'tx';EUI : 0004A30B00ED6757;port: 1;data: 0001}"
+
+        );
+    }
+
+ */
 
 }
 
