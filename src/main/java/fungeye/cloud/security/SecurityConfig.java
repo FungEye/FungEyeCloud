@@ -41,10 +41,13 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll() // All calls to /api/auth/ is allowed
-                .requestMatchers(HttpMethod.GET, "/_ah/**").permitAll() // allows GAE to start and stop service
+                .requestMatchers("/_ah/start").permitAll() // allows GAE to start
+                .requestMatchers("/_ah/stop").permitAll() // allows GAE to stop again
+                .requestMatchers("/swagger-ui/**").permitAll() // Swagger
+                .requestMatchers("/v3/**").permitAll() // Swagger
                 .anyRequest().authenticated() //
                 .and()
-                .httpBasic(); // Http instead of Https
+                .httpBasic();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
