@@ -41,7 +41,7 @@ jobs:
       - run: mkdir staging && cp target/*.jar staging
       - name: Create app.yaml
         run: |
-          echo "runtime: java17" > staging/app.yaml
+          echo "runtime: java" > staging/app.yaml
           echo "env: flex" >> staging/app.yaml
           
 
