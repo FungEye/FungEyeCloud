@@ -17,6 +17,10 @@ public class IdealConditionsMapper {
         dto.setTempLow(idealCondition.getTemperatureLow());
         dto.setHumidityHigh(idealCondition.getHumidityHigh());
         dto.setHumidityLow(idealCondition.getHumidityLow());
+        dto.setCo2High(idealCondition.getCo2High());
+        dto.setCo2Low(idealCondition.getCo2Low());
+        dto.setLightHigh(idealCondition.getLightHigh());
+        dto.setLightLow(idealCondition.getLightLow());
 
         return dto;
     }
@@ -33,6 +37,10 @@ public class IdealConditionsMapper {
         idealCondition.setTemperatureLow(dto.getTempLow());
         idealCondition.setHumidityHigh(dto.getHumidityHigh());
         idealCondition.setHumidityLow(dto.getHumidityLow());
+        idealCondition.setCo2High(dto.getCo2High());
+        idealCondition.setCo2Low(dto.getCo2Low());
+        idealCondition.setLightHigh(dto.getLightHigh());
+        idealCondition.setLightLow(dto.getLightLow());
 
         return idealCondition;
 

@@ -32,6 +32,8 @@ public class MeasuredConditionsMapper {
         dto.setId(mapToIdDto(condition.getId()));
         dto.setTemperature(condition.getTemperature());
         dto.setHumidity(condition.getHumidity());
+        dto.setCo2(condition.getCo2());
+        dto.setLight(condition.getLight());
 
         return dto;
     }
@@ -62,6 +64,8 @@ public class MeasuredConditionsMapper {
         ent.setId(id);
         ent.setHumidity(dto.getHumidity());
         ent.setTemperature(dto.getTemperature());
+        ent.setCo2(dto.getCo2());
+        ent.setLight(dto.getLight());
 
         return ent;
     }
