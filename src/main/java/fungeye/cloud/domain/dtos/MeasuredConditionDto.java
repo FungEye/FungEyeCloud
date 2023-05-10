@@ -10,6 +10,8 @@ import java.io.Serializable;
 @Data
 public class MeasuredConditionDto implements Serializable {
     private MeasuredConditionIdDto id;
+    private Double co2;
+    private Double light;
     private Double temperature;
     private Double humidity;
 
@@ -21,6 +23,13 @@ public class MeasuredConditionDto implements Serializable {
         return id;
     }
 
+    public Double getCo2() { return co2; }
+
+    public void setCo2(Double co2) { this.co2 = co2; }
+
+    public void setLight(Double light) { this.light = light; }
+
+    public Double getLight() { return light; }
 
     public Double getTemperature() {
         return temperature;
