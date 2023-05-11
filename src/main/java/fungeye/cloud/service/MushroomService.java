@@ -27,19 +27,12 @@ public class MushroomService {
     {
         Mushroom toSave = MushroomMapper.mapCreateToMushroom(toCreate);
         Optional<UserEntity> user = userRepository.findById(toCreate.getUserId());
-        if (user.isPresent())
-        {
-            toSave.setUser(user.get());
-        } else if (toCreate.getUserId() == 0) {
-            UserEntity passUser = new UserEntity();
-            passUser.setId(0);
-            toSave.setUser(passUser);
-        }
+        user.ifPresent(toSave::setUser);
         Mushroom saved = repository.save(toSave);
         return MushroomMapper.mapToMushroomDto(saved);
     }
 
-    public MushroomDto getById(Long id)
+    public MushroomDto getByMushroomId(Long id)
     {
         Optional<Mushroom> mushroom = repository.findById(id);
         if (mushroom.isPresent())
@@ -52,11 +45,20 @@ public class MushroomService {
         }
     }
 
-    public List<MushroomDto> getAll() {
-        List<Mushroom> allMushrooms = repository.findAll();
+    public List<MushroomDto> getAllDefault() {
+        // 3 is the admin userId
+        return getMushroomDtos(3);
+    }
+
+    public List<MushroomDto> getCustom(int userId) {
+        return getMushroomDtos(userId);
+    }
+
+    private List<MushroomDto> getMushroomDtos(int userId) {
+        List<Mushroom> allDefaultMushrooms = repository.findByUser_Id(userId);
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom:
-             allMushrooms) {
+                allDefaultMushrooms) {
             dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
         }
         return dtos;

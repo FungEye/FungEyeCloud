@@ -29,13 +29,24 @@ public class MushroomController {
 
     @GetMapping(value = "/mushroom/{id}")
     public ResponseEntity<MushroomDto> getMushroomById(@PathVariable Long id) {
-        MushroomDto found = service.getById(id);
+        MushroomDto found = service.getByMushroomId(id);
         return new ResponseEntity<>(found, HttpStatus.FOUND);
     }
 
     @GetMapping(value = "/mushroom")
-    public ResponseEntity<List<MushroomDto>> getAllMushrooms() {
-        List<MushroomDto> all = service.getAll();
+    public ResponseEntity<List<MushroomDto>> getAllDefaultMushrooms() {
+        List<MushroomDto> all = service.getAllDefault();
         return new ResponseEntity<>(all, HttpStatus.FOUND);
     }
+
+    @GetMapping(value = "/mushroom/custom/{userId}")
+    public ResponseEntity<List<MushroomDto>> getDefaultAndCustom(@PathVariable int userId)
+    {
+        List<MushroomDto> allDefault = service.getAllDefault();
+        List<MushroomDto> custom = service.getCustom(userId);
+        custom.addAll(allDefault);
+        return new ResponseEntity<>(custom, HttpStatus.FOUND);
+    }
+
+
 }
