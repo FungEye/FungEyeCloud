@@ -2,6 +2,7 @@ package fungeye.cloud.service;
 
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.MushroomUpdateDto;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.service.mappers.MushroomMapper;
@@ -38,7 +39,8 @@ public class MushroomService {
         }
     }
 
-    public List<MushroomDto> getAll() {
+    public List<MushroomDto> getAll()
+    {
         List<Mushroom> allMushrooms = repository.findAll();
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom:
@@ -46,5 +48,17 @@ public class MushroomService {
             dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
         }
         return dtos;
+    }
+
+    public Mushroom updateMushroom(MushroomUpdateDto dto)
+    {
+        Optional<Mushroom> toUpdate = repository.findById(dto.getId());
+        if(toUpdate.isPresent())
+        {
+            return MushroomMapper.mapUpdateMushroomDto(repository.save(dto));
+        }
+        else {
+            throw  new IllegalArgumentException("Mushroom not found");
+        }
     }
 }

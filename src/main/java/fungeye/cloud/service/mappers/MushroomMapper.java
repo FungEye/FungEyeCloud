@@ -2,6 +2,7 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.MushroomUpdateDto;
 import fungeye.cloud.domain.enities.Mushroom;
 
 import java.util.ArrayList;
@@ -37,5 +38,16 @@ public class MushroomMapper {
         list.forEach(mushroom -> dtoList.add(mapToMushroomDto(mushroom)));
 
         return dtoList;
+    }
+
+    public static MushroomUpdateDto mapUpdateMushroomDto(Mushroom mush)
+    {
+        MushroomUpdateDto dto = new MushroomUpdateDto();
+        dto.setId(mush.getId());
+        dto.setDescription(mush.getDescription());
+        dto.setName(mush.getName());
+        dto.setIdealConditions(mush.getIdealConditions());
+
+        return dto;
     }
 }
