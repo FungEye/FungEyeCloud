@@ -71,7 +71,7 @@ jobs:
           VM_ZONE="europe-west3-c"
 
           # SSH into the VM and update the container
-          gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "echo echo '${{ secrets.GCESK }}' | base64 --decode | sudo docker login -u _json_key --password-stdin https://eu.gcr.io
+          gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "echo '${{ secrets.GCESK }}' | base64 --decode | sudo docker login -u _json_key --password-stdin https://eu.gcr.io"
           gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker pull eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/martybobo/fungeye:${{ github.sha }}"
           gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker stop fungeyecontainer"
           gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker rm fungeyecontainer"
