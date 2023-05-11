@@ -10,13 +10,6 @@ public class MushroomCreationDTO {
     public MushroomCreationDTO() {
     }
 
-    public MushroomCreationDTO(String name, String description, String origin, int userId) {
-        this.setName(name);
-        this.setDescription(description);
-        this.setOrigin(origin);
-        this.setUserId(userId);
-    }
-
     public String getName() {
         return name;
     }

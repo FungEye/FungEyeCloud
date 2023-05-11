@@ -9,14 +9,7 @@ public class MushroomDto {
     private String description;
     private String origin;
     private int userId;
-
-    public MushroomDto(Long id, String name, String description, String origin, int userId) {
-        this.setId(id);
-        this.setName(name);
-        this.setDescription(description);
-        this.setOrigin(origin);
-        this.setUserId(userId);
-    }
+    
 
     public MushroomDto() {
     }

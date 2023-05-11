@@ -10,21 +10,9 @@ class MushroomDtoTest {
 
     @Test
     void testGettersAndSetters() {
-        Long id = 1L;
-        String name = "Shiitake";
-        String description = "A type of edible mushroom";
-        String origin = "Japan";
-        int userId = 1;
+        MushroomDto mushroomDto = new MushroomDto();
 
-        MushroomDto mushroomDto = new MushroomDto(id, name, description, origin, 1);
-
-        assertEquals(id, mushroomDto.getId());
-        assertEquals(name, mushroomDto.getName());
-        assertEquals(description, mushroomDto.getDescription());
-        assertEquals(origin, mushroomDto.getOrigin());
-        assertEquals(userId, mushroomDto.getUserId());
-
-        Long newId = 3L;
+        Long newId = 2L;
         String newName = "Portobello";
         String newDescription = "A large, meaty mushroom";
         String newOrigin = "France";
@@ -42,18 +30,39 @@ class MushroomDtoTest {
     }
     @Test
     void testHashCode() {
-        MushroomDto dto1 = new MushroomDto(1L, "button", "white mushroom", "France", 0);
-        MushroomDto dto2 = new MushroomDto(1L, "button", "white mushroom", "France", 0);
-        MushroomDto dto3 = new MushroomDto(2L, "portobello", "brown mushroom", "French", 1);
+        MushroomDto dto1 = new MushroomDto();
+        dto1.setId(1L);
+        dto1.setName("button");
+        dto1.setDescription("white mushroom");
+        dto1.setOrigin("France");
+        dto1.setUserId(2);
+        MushroomDto dto2 = new MushroomDto();
+        dto2.setId(1L);
+        dto2.setName("button");
+        dto2.setDescription("white mushroom");
+        dto2.setOrigin("France");
+        dto2.setUserId(2);
+        MushroomDto dto3 = new MushroomDto();
+        dto3.setId(1L);
+        dto3.setName("portobello");
+        dto3.setDescription("brown mushroom");
+        dto3.setOrigin("French");
+        dto3.setUserId(1);
+
 
         assertEquals(dto1.hashCode(), dto2.hashCode());
-        assertNotEquals(dto1.hashCode(), dto3.hashCode());
+        assertNotEquals(dto2.hashCode(), dto3.hashCode());
     }
 
     @Test
     void testToString() {
-        MushroomDto dto = new MushroomDto(1L, "button", "white mushroom", "France", 0);
-        String expected = "MushroomDto{id=1, name='button', description='white mushroom', origin='France', userId=0}";
+        MushroomDto dto = new MushroomDto();
+        dto.setId(1L);
+        dto.setName("button");
+        dto.setDescription("white mushroom");
+        dto.setOrigin("France");
+        dto.setUserId(2);
+        String expected = "MushroomDto{id=1, name='button', description='white mushroom', origin='France', userId=2}";
 
         assertEquals(expected, dto.toString());
     }
