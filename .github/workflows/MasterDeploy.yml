@@ -3,7 +3,7 @@ name: CI/CD Pipeline Master Deployment
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ rework-to-use-compute-engine-and-docker ]
 
 jobs:
   tests:
