@@ -19,6 +19,7 @@ public class MushroomMapper {
         dto.setId(mush.getId());
         dto.setDescription(mush.getDescription());
         dto.setName(mush.getName());
+        dto.setOrigin(mush.getOrigin());
 
         return dto;
     }
@@ -27,6 +28,7 @@ public class MushroomMapper {
         Mushroom mushroom = new Mushroom();
         mushroom.setName(dto.getName());
         mushroom.setDescription(dto.getDescription());
+        mushroom.setOrigin(dto.getOrigin());
 
         return mushroom;
     }

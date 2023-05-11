@@ -7,11 +7,13 @@ public class MushroomDto {
     private Long id;
     private String name;
     private String description;
+    private String origin;
 
-    public MushroomDto(Long id, String name, String description) {
+    public MushroomDto(Long id, String name, String description, String origin) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.origin = origin;
     }
 
     public MushroomDto() {
@@ -41,17 +43,25 @@ public class MushroomDto {
         this.description = description;
     }
 
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MushroomDto that = (MushroomDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(origin, that.origin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description);
+        return Objects.hash(id, name, description, origin);
     }
 
     @Override
@@ -60,6 +70,7 @@ public class MushroomDto {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", origin='" + origin + '\'' +
                 '}';
     }
 }
