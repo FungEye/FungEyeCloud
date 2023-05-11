@@ -54,8 +54,8 @@ public class IdealCondition {
     public IdealCondition(IdealConditionId id, Mushroom mushroom,
                           Double temperatureHigh, Double temperatureLow,
                           Double humidityHigh, Double humidityLow,
-                          Double co2Low, Double co2High,
-                          Double lightLow, Double lightHigh) {
+                          Double co2High, Double co2Low,
+                          Double lightHigh, Double lightLow) {
         this.id = id;
         this.mushroom = mushroom;
         this.temperatureHigh = temperatureHigh;
@@ -171,10 +171,10 @@ public class IdealCondition {
                 ", temperatureLow=" + temperatureLow +
                 ", humidityHigh=" + humidityHigh +
                 ", humidityLow=" + humidityLow +
-                ", co2Low=" + co2Low +
                 ", co2High=" + co2High +
-                ", lightLow=" + lightLow +
+                ", co2Low=" + co2Low +
                 ", lightHigh=" + lightHigh +
+                ", lightLow=" + lightLow +
                 '}';
     }
 }

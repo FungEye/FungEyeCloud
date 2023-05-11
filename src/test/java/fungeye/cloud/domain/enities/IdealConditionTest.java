@@ -78,8 +78,8 @@ class IdealConditionTest {
         IdealConditionId id = new IdealConditionId(1L, "Fruiting");
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
-        IdealCondition idealCondition1 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
-        IdealCondition idealCondition2 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
+        IdealCondition idealCondition1 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0, 800.0, 200.0, 1000.0, 200.0);
+        IdealCondition idealCondition2 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0, 800.0, 200.0, 1000.0, 200.0);
         assertEquals(idealCondition1, idealCondition2);
     }
 
@@ -89,8 +89,8 @@ class IdealConditionTest {
         IdealConditionId id2 = new IdealConditionId(2L, "Fruiting");
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
-        IdealCondition idealCondition1 = new IdealCondition(id1, mushroom, 25.0, 20.0, 80.0, 70.0);
-        IdealCondition idealCondition2 = new IdealCondition(id2, mushroom, 25.0, 20.0, 80.0, 70.0);
+        IdealCondition idealCondition1 = new IdealCondition(id1, mushroom, 25.0, 20.0, 80.0, 70.0, 800.0, 200.0, 1000.0, 200.0);
+        IdealCondition idealCondition2 = new IdealCondition(id2, mushroom, 25.0, 20.0, 80.0, 70.0, 800.0, 200.0, 1000.0, 200.0);
         assertNotEquals(idealCondition1, idealCondition2);
     }
 
@@ -99,8 +99,8 @@ class IdealConditionTest {
         IdealConditionId id = new IdealConditionId(1L, "Fruiting");
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
-        IdealCondition idealCondition1 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
-        IdealCondition idealCondition2 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0);
+        IdealCondition idealCondition1 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0, 800.0, 200.0, 1000.0, 200.0);
+        IdealCondition idealCondition2 = new IdealCondition(id, mushroom, 25.0, 20.0, 80.0, 70.0, 800.0, 200.0, 1000.0, 200.0);
         assertEquals(idealCondition1.hashCode(), idealCondition2.hashCode());
     }
 
@@ -110,8 +110,8 @@ class IdealConditionTest {
         IdealConditionId id2 = new IdealConditionId(2L, "Fruiting");
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
-        IdealCondition idealCondition1 = new IdealCondition(id1, mushroom, 25.0, 20.0, 80.0, 70.0);
-        IdealCondition idealCondition2 = new IdealCondition(id2, mushroom, 25.0, 20.0, 80.0, 70.0);
+        IdealCondition idealCondition1 = new IdealCondition(id1, mushroom, 25.0, 20.0, 80.0, 70.0, 800.0, 200.0, 1000.0, 200.0);
+        IdealCondition idealCondition2 = new IdealCondition(id2, mushroom, 25.0, 20.0, 80.0, 70.0, 800.0, 200.0, 1000.0, 200.0);
         assertNotEquals(idealCondition1.hashCode(), idealCondition2.hashCode());
     }
 
@@ -129,6 +129,10 @@ class IdealConditionTest {
         idealCondition.setTemperatureLow(20.0);
         idealCondition.setHumidityHigh(80.0);
         idealCondition.setHumidityLow(70.0);
+        idealCondition.setCo2High(1000.0);
+        idealCondition.setCo2Low(200.0);
+        idealCondition.setLightHigh(1000.0);
+        idealCondition.setLightLow(100.0);
 
         // Act
         String actualString = idealCondition.toString();
@@ -136,7 +140,8 @@ class IdealConditionTest {
         // Assert
         String expectedString = "IdealCondition{id=IdealConditionId{mushroomId=1, developmentStage='Fruiting'}," +
                 " mushroom=Mushroom{id=1, name='Shiitake', description='null', idealConditions=[]}," +
-                " temperatureHigh=25.0, temperatureLow=20.0, humidityHigh=80.0, humidityLow=70.0}";
+                " temperatureHigh=25.0, temperatureLow=20.0, humidityHigh=80.0, humidityLow=70.0," +
+                " co2High=1000.0, co2Low=200.0, lightHigh=1000.0, lightLow=100.0}";
         assertEquals(expectedString, actualString);
     }
 

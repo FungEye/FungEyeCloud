@@ -47,6 +47,10 @@ class IdealConditionServiceTest {
         savedCondition.setTemperatureLow(conditionToSave.getTemperatureLow());
         savedCondition.setHumidityHigh(conditionToSave.getHumidityHigh());
         savedCondition.setHumidityLow(conditionToSave.getHumidityLow());
+        savedCondition.setCo2High(conditionToSave.getCo2High());
+        savedCondition.setCo2Low(conditionToSave.getCo2Low());
+        savedCondition.setLightHigh(conditionToSave.getLightHigh());
+        savedCondition.setLightLow(conditionToSave.getLightLow());
 
         Mockito.when(repository.save(conditionToSave)).thenReturn(savedCondition);
 
@@ -60,6 +64,10 @@ class IdealConditionServiceTest {
         assertEquals(dtoIn.getTempLow(), dtoOut.getTempLow());
         assertEquals(dtoIn.getHumidityHigh(), dtoOut.getHumidityHigh());
         assertEquals(dtoIn.getHumidityLow(), dtoOut.getHumidityLow());
+        assertEquals(dtoIn.getCo2High(), dtoOut.getCo2High());
+        assertEquals(dtoIn.getCo2Low(), dtoOut.getCo2Low());
+        assertEquals(dtoIn.getLightHigh(), dtoOut.getLightHigh());
+        assertEquals(dtoIn.getLightLow(), dtoOut.getLightLow());
     }
 
     @Test
@@ -77,6 +85,10 @@ class IdealConditionServiceTest {
         idealCondition1.setTemperatureHigh(25.0);
         idealCondition1.setHumidityLow(60.0);
         idealCondition1.setHumidityHigh(80.0);
+        idealCondition1.setCo2High(800.0);
+        idealCondition1.setCo2Low(200.0);
+        idealCondition1.setLightHigh(1000.0);
+        idealCondition1.setLightLow(100.0);
 
         IdealCondition idealCondition2 = new IdealCondition();
         idealCondition2.setId(new IdealConditionId(mushroomId, "Pinhead formation"));
@@ -85,6 +97,10 @@ class IdealConditionServiceTest {
         idealCondition2.setTemperatureHigh(22.0);
         idealCondition2.setHumidityLow(75.0);
         idealCondition2.setHumidityHigh(85.0);
+        idealCondition2.setCo2High(800.0);
+        idealCondition2.setCo2Low(200.0);
+        idealCondition2.setLightHigh(1000.0);
+        idealCondition2.setLightLow(100.0);
 
         List<IdealCondition> conditions = new ArrayList<>();
         conditions.add(idealCondition1);
@@ -112,11 +128,19 @@ class IdealConditionServiceTest {
         assertEquals(25, dto1.getTempHigh());
         assertEquals(60, dto1.getHumidityLow());
         assertEquals(80, dto1.getHumidityHigh());
+        assertEquals(200, dto1.getCo2Low());
+        assertEquals(800, dto1.getCo2High());
+        assertEquals(100, dto1.getLightLow());
+        assertEquals(1000, dto1.getLightHigh());
 
         assertEquals(18, dto2.getTempLow());
         assertEquals(22, dto2.getTempHigh());
         assertEquals(75, dto2.getHumidityLow());
         assertEquals(85, dto2.getHumidityHigh());
+        assertEquals(200, dto2.getCo2Low());
+        assertEquals(800, dto2.getCo2High());
+        assertEquals(100, dto2.getLightLow());
+        assertEquals(1000, dto2.getLightHigh());
     }
 
     @Test
