@@ -63,9 +63,10 @@ jobs:
       - name: Download Docker image from GCR
         run: |
           docker pull eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/martybobo/fungeye:${{ github.sha }}
-          docker tag eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/martybobo/fungeye:${{ github.sha }} my-app-image:${{ github.sha }}
+          docker tag eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/martybobo/fungeye:${{ github.sha }} martybobo/fungeye:${{ github.sha }}
       - name: Deploy Docker image to GCE
         run: |
           # Perform deployment to Google Compute Engine using the Docker image
           # Replace the following command with your actual deployment steps
           docker run -d --name fungeyecontainer martybobo/fungeye:${{ github.sha }}
+
