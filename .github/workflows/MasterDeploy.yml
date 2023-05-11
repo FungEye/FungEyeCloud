@@ -60,10 +60,15 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
       - name: Configure Docker to use GCR
         run: gcloud auth configure-docker eu.gcr.io
+        env:
+          DOCKER_CONFIG: /tmp/.docker
       - name: Download Docker image from GCR
         run: |
           docker pull eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/martybobo/fungeye:${{ github.sha }}
           docker tag eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/martybobo/fungeye:${{ github.sha }} martybobo/fungeye:${{ github.sha }}
+        env:
+          DOCKER_CONFIG: /tmp/.docker
+
       - name: Deploy Docker image to GCE
         run: |
           # Replace the following variables with your actual VM information
@@ -76,3 +81,6 @@ jobs:
           gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker stop fungeyecontainer"
           gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker rm fungeyecontainer"
           gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker run -d --name fungeyecontainer martybobo/fungeye:${{ github.sha }}"
+        env:
+          DOCKER_CONFIG: /tmp/.docker
+      
