@@ -48,8 +48,9 @@ jobs:
           echo "  runtime_version: \"17\"" >> staging/app.yaml
           echo "network:" >> staging/app.yaml
           echo "  session_affinity: true" >> staging/app.yaml
-          echo "forwarded_ports:" >> staging/app.yaml
-          echo "  -8080" >> staging/app.yaml
+          echo "  forwarded_ports:" >> staging/app.yaml
+          echo "    - 8080" >> staging/app.yaml
+      
 
       - name: Upload JAR Artifact
         uses: actions/upload-artifact@v3
