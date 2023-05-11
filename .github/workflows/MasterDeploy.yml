@@ -66,7 +66,12 @@ jobs:
           docker tag eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/martybobo/fungeye:${{ github.sha }} martybobo/fungeye:${{ github.sha }}
       - name: Deploy Docker image to GCE
         run: |
-          # Perform deployment to Google Compute Engine using the Docker image
-          # Replace the following command with your actual deployment steps
-          docker run -d --name fungeyecontainer martybobo/fungeye:${{ github.sha }}
+          # Replace the following variables with your actual VM information
+          VM_NAME="fungeye-vm"
+          VM_ZONE="europe-west3-c"
 
+          # SSH into the VM and update the container
+          gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker pull eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/martybobo/fungeye:${{ github.sha }}"
+          gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker stop fungeyecontainer"
+          gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker rm fungeyecontainer"
+          gcloud compute ssh $VM_NAME --zone $VM_ZONE --command "sudo docker run -d --name fungeyecontainer martybobo/fungeye:${{ github.sha }}"
