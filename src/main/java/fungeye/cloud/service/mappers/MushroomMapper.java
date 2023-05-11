@@ -2,7 +2,9 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.UserCreationDto;
 import fungeye.cloud.domain.enities.Mushroom;
+import fungeye.cloud.domain.enities.users.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class MushroomMapper {
         dto.setDescription(mush.getDescription());
         dto.setName(mush.getName());
         dto.setOrigin(mush.getOrigin());
+        dto.setUserId(mush.getUser().getId());
 
         return dto;
     }
@@ -29,6 +32,11 @@ public class MushroomMapper {
         mushroom.setName(dto.getName());
         mushroom.setDescription(dto.getDescription());
         mushroom.setOrigin(dto.getOrigin());
+
+        // Create a user with only an id
+        UserEntity user = new UserEntity();
+        user.setId(dto.getUserId());
+        mushroom.setUser(user);
 
         return mushroom;
     }

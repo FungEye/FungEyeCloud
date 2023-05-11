@@ -34,11 +34,13 @@ class MushroomControllerTest {
         MushroomCreationDTO mushroomCreationDTO = new MushroomCreationDTO();
         mushroomCreationDTO.setName("Portobello");
         mushroomCreationDTO.setDescription("Large mushroom with a meaty texture.");
+        mushroomCreationDTO.setUserId(0);
 
         MushroomDto mushroomDto = new MushroomDto();
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
+        mushroomDto.setUserId(0);
 
         when(service.createMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
 

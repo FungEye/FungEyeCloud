@@ -20,22 +20,21 @@ public class MushroomController {
     }
 
     @PostMapping("/mushroom")
-    public ResponseEntity<MushroomDto> createMushroom(@RequestBody MushroomCreationDTO dto)
-    {
+    public ResponseEntity<MushroomDto> createMushroom(
+            @RequestBody MushroomCreationDTO dto) {
         MushroomDto saved = service.createMushroom(dto);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
+
     }
 
     @GetMapping(value = "/mushroom/{id}")
-    public ResponseEntity<MushroomDto> getMushroomById(@PathVariable Long id)
-    {
+    public ResponseEntity<MushroomDto> getMushroomById(@PathVariable Long id) {
         MushroomDto found = service.getById(id);
         return new ResponseEntity<>(found, HttpStatus.FOUND);
     }
 
     @GetMapping(value = "/mushroom")
-    public ResponseEntity<List<MushroomDto>> getAllMushrooms()
-    {
+    public ResponseEntity<List<MushroomDto>> getAllMushrooms() {
         List<MushroomDto> all = service.getAll();
         return new ResponseEntity<>(all, HttpStatus.FOUND);
     }

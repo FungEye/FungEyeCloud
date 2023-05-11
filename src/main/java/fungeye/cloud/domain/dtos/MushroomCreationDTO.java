@@ -5,14 +5,16 @@ public class MushroomCreationDTO {
     private String name;
     private String description;
     private String origin;
+    private int userId;
 
     public MushroomCreationDTO() {
     }
 
-    public MushroomCreationDTO(String name, String description, String origin) {
-        this.name = name;
-        this.description = description;
-        this.origin = origin;
+    public MushroomCreationDTO(String name, String description, String origin, int userId) {
+        this.setName(name);
+        this.setDescription(description);
+        this.setOrigin(origin);
+        this.setUserId(userId);
     }
 
     public String getName() {
@@ -39,12 +41,21 @@ public class MushroomCreationDTO {
         this.origin = origin;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "MushroomCreationDTO{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", origin='" + origin + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 }

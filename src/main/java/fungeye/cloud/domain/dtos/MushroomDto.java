@@ -8,12 +8,14 @@ public class MushroomDto {
     private String name;
     private String description;
     private String origin;
+    private int userId;
 
-    public MushroomDto(Long id, String name, String description, String origin) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.origin = origin;
+    public MushroomDto(Long id, String name, String description, String origin, int userId) {
+        this.setId(id);
+        this.setName(name);
+        this.setDescription(description);
+        this.setOrigin(origin);
+        this.setUserId(userId);
     }
 
     public MushroomDto() {
@@ -51,6 +53,14 @@ public class MushroomDto {
         this.origin = origin;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,6 +81,7 @@ public class MushroomDto {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", origin='" + origin + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 }

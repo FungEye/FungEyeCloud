@@ -14,13 +14,15 @@ class MushroomDtoTest {
         String name = "Shiitake";
         String description = "A type of edible mushroom";
         String origin = "Japan";
+        int userId = 1;
 
-        MushroomDto mushroomDto = new MushroomDto(id, name, description, origin);
+        MushroomDto mushroomDto = new MushroomDto(id, name, description, origin, 1);
 
-        assertThat(mushroomDto.getId()).isEqualTo(id);
-        assertThat(mushroomDto.getName()).isEqualTo(name);
-        assertThat(mushroomDto.getDescription()).isEqualTo(description);
-        assertThat(mushroomDto.getOrigin()).isEqualTo(origin);
+        assertEquals(id, mushroomDto.getId());
+        assertEquals(name, mushroomDto.getName());
+        assertEquals(description, mushroomDto.getDescription());
+        assertEquals(origin, mushroomDto.getOrigin());
+        assertEquals(userId, mushroomDto.getUserId());
 
         Long newId = 3L;
         String newName = "Portobello";
@@ -40,9 +42,9 @@ class MushroomDtoTest {
     }
     @Test
     void testHashCode() {
-        MushroomDto dto1 = new MushroomDto(1L, "button", "white mushroom", "France");
-        MushroomDto dto2 = new MushroomDto(1L, "button", "white mushroom", "France");
-        MushroomDto dto3 = new MushroomDto(2L, "portobello", "brown mushroom", "French");
+        MushroomDto dto1 = new MushroomDto(1L, "button", "white mushroom", "France", 0);
+        MushroomDto dto2 = new MushroomDto(1L, "button", "white mushroom", "France", 0);
+        MushroomDto dto3 = new MushroomDto(2L, "portobello", "brown mushroom", "French", 1);
 
         assertEquals(dto1.hashCode(), dto2.hashCode());
         assertNotEquals(dto1.hashCode(), dto3.hashCode());
@@ -50,8 +52,8 @@ class MushroomDtoTest {
 
     @Test
     void testToString() {
-        MushroomDto dto = new MushroomDto(1L, "button", "white mushroom", "France");
-        String expected = "MushroomDto{id=1, name='button', description='white mushroom', origin='France'}";
+        MushroomDto dto = new MushroomDto(1L, "button", "white mushroom", "France", 0);
+        String expected = "MushroomDto{id=1, name='button', description='white mushroom', origin='France', userId=0}";
 
         assertEquals(expected, dto.toString());
     }
