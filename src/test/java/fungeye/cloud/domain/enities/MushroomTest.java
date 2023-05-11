@@ -43,12 +43,21 @@ class MushroomTest {
     }
 
     @Test
+    void testGetOrigin() {
+        Mushroom mushroom = new Mushroom();
+        mushroom.setOrigin("France");
+        assertEquals("France", mushroom.getOrigin());
+    }
+
+
+    @Test
     public void testToString() {
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
         mushroom.setName("Button Mushroom");
         mushroom.setDescription("A common edible mushroom");
-        String expected = "Mushroom{id=1, name='Button Mushroom', description='A common edible mushroom', idealConditions=[]}";
+        mushroom.setOrigin("France");
+        String expected = "Mushroom{id=1, name='Button Mushroom', description='A common edible mushroom', origin='France', idealConditions=[]}";
         String actual = mushroom.toString();
         assertEquals(expected, actual);
     }

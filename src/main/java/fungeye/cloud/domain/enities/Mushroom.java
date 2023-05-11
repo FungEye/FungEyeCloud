@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.enities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -29,6 +30,10 @@ public class Mushroom {
     @Column(name = "description")
     private String description;
 
+    @Size(max = 255)
+    @Column(name = "origin")
+    private String origin;
+
     @OneToMany(mappedBy = "mushroom")
     private Set<IdealCondition> idealConditions = new LinkedHashSet<>();
 
@@ -56,6 +61,14 @@ public class Mushroom {
         this.description = description;
     }
 
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
     public Set<IdealCondition> getIdealConditions() {
         return idealConditions;
     }
@@ -69,12 +82,12 @@ public class Mushroom {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mushroom mushroom = (Mushroom) o;
-        return Objects.equals(id, mushroom.id) && Objects.equals(name, mushroom.name) && Objects.equals(description, mushroom.description) && Objects.equals(idealConditions, mushroom.idealConditions);
+        return Objects.equals(id, mushroom.id) && Objects.equals(name, mushroom.name) && Objects.equals(description, mushroom.description) && Objects.equals(origin, mushroom.origin) && Objects.equals(idealConditions, mushroom.idealConditions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, idealConditions);
+        return Objects.hash(id, name, description, origin, idealConditions);
     }
 
     @Override
@@ -83,6 +96,7 @@ public class Mushroom {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", origin='" + origin + '\'' +
                 ", idealConditions=" + idealConditions +
                 '}';
     }

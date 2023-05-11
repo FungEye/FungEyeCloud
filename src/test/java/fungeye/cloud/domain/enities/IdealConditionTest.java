@@ -139,7 +139,7 @@ class IdealConditionTest {
 
         // Assert
         String expectedString = "IdealCondition{id=IdealConditionId{mushroomId=1, developmentStage='Fruiting'}," +
-                " mushroom=Mushroom{id=1, name='Shiitake', description='null', idealConditions=[]}," +
+                " mushroom=Mushroom{id=1, name='Shiitake', description='null', origin='null', idealConditions=[]}," +
                 " temperatureHigh=25.0, temperatureLow=20.0, humidityHigh=80.0, humidityLow=70.0," +
                 " co2High=1000.0, co2Low=200.0, lightHigh=1000.0, lightLow=100.0}";
         assertEquals(expectedString, actualString);
