@@ -26,6 +26,10 @@ class IdealConditionDtoTest {
         idealConditionDto1.setTempLow(20.0);
         idealConditionDto1.setHumidityHigh(80.0);
         idealConditionDto1.setHumidityLow(70.0);
+        idealConditionDto1.setLightHigh(30.0);
+        idealConditionDto1.setLightLow(20.5);
+        idealConditionDto1.setCo2High(60.4);
+        idealConditionDto1.setCo2Low(40.8);
 
         IdealConditionDto idealConditionDto2 = new IdealConditionDto();
         idealConditionDto2.setMushroomId(1L);
@@ -34,6 +38,10 @@ class IdealConditionDtoTest {
         idealConditionDto2.setTempLow(20.0);
         idealConditionDto2.setHumidityHigh(80.0);
         idealConditionDto2.setHumidityLow(70.0);
+        idealConditionDto1.setLightHigh(70.0);
+        idealConditionDto1.setLightLow(60.5);
+        idealConditionDto1.setCo2High(50.4);
+        idealConditionDto1.setCo2Low(40.8);
 
         IdealConditionDto idealConditionDto3 = new IdealConditionDto();
         idealConditionDto3.setMushroomId(2L);
@@ -42,6 +50,10 @@ class IdealConditionDtoTest {
         idealConditionDto3.setTempLow(25.0);
         idealConditionDto3.setHumidityHigh(90.0);
         idealConditionDto3.setHumidityLow(80.0);
+        idealConditionDto1.setLightHigh(50.0);
+        idealConditionDto1.setLightLow(30.5);
+        idealConditionDto1.setCo2High(50.4);
+        idealConditionDto1.setCo2Low(40.8);
 
         // test equals and hashCode
         Assertions.assertEquals(idealConditionDto1, idealConditionDto2);
