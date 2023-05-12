@@ -4,6 +4,7 @@ CREATE TABLE harvests
     mushroom_id BIGINT                                  NOT NULL,
     grow_id     BIGINT,
     weight      DOUBLE PRECISION                        NOT NULL,
+    date_harvested DATE                                NOT NULL,
     CONSTRAINT pk_harvests PRIMARY KEY (id)
 );
 
