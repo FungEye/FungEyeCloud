@@ -87,14 +87,6 @@ public class Grow {
         this.box = box;
     }
 
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
-
     public Mushroom getMushroom() {
         return mushroom;
     }

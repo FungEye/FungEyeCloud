@@ -7,7 +7,6 @@ import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Harvest;
 import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.persistence.repository.MushroomRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

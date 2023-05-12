@@ -2,7 +2,6 @@ package fungeye.cloud.domain.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,7 +9,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link fungeye.cloud.domain.enities.Harvest} entity
  */
-public class HarvestDetailsDto implements Serializable {
+public class HarvestDetailsDto extends HarvestCreationDto implements Serializable {
     private Long id;
     @Size(max = 255)
     @NotNull
@@ -36,27 +35,27 @@ public class HarvestDetailsDto implements Serializable {
     }
 
     public Long getGrowId() {
-        return growId;
+        return super.getGrowId();
     }
 
     public void setGrowId(Long growId) {
-        this.growId = growId;
+        super.setGrowId(growId);
     }
 
     public Double getWeight() {
-        return weight;
+        return super.getWeight();
     }
 
     public void setWeight(Double weight) {
-        this.weight = weight;
+        super.setWeight(weight);
     }
 
     public SimpleDateDto getHarvestDate() {
-        return harvestDate;
+        return super.getHarvestDate();
     }
 
     public void setHarvestDate(SimpleDateDto harvestDate) {
-        this.harvestDate = harvestDate;
+        super.setHarvestDate(harvestDate);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package fungeye.cloud.persistence.repository;
 
 import fungeye.cloud.domain.enities.Harvest;
-import fungeye.cloud.domain.enities.users.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,11 +1,12 @@
 package fungeye.cloud.domain.dtos;
 
+import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Objects;
 
-public class SimpleDateDto {
+public class SimpleDateDto implements Serializable {
     private int year;
     private int month;
     private int day;
