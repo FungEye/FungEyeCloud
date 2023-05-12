@@ -24,7 +24,14 @@ public class MushroomController {
             @RequestBody MushroomCreationDTO dto) {
         MushroomDto saved = service.createMushroom(dto);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
 
+    @PostMapping("/mushroom/custom")
+    public ResponseEntity<MushroomDto> createCustomMushroom(
+            @RequestBody MushroomCreationDTO dto) {
+        // They do the same thing, but this one isn't admin protected
+        MushroomDto saved = service.createMushroom(dto);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/mushroom/{id}")
