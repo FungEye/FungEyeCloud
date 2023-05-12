@@ -9,6 +9,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,6 +43,9 @@ public class Grow {
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "mushroom_id")
     private Mushroom mushroom;
+
+    @OneToMany(mappedBy = "grow", orphanRemoval = true)
+    private Set<Harvest> harvests = new LinkedHashSet<>();
 
     public Long getId() {
         return id;
@@ -80,5 +85,29 @@ public class Grow {
 
     public void setBox(Box box) {
         this.box = box;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Mushroom getMushroom() {
+        return mushroom;
+    }
+
+    public void setMushroom(Mushroom mushroom) {
+        this.mushroom = mushroom;
+    }
+
+    public Set<Harvest> getHarvests() {
+        return harvests;
+    }
+
+    public void setHarvests(Set<Harvest> harvests) {
+        this.harvests = harvests;
     }
 }
