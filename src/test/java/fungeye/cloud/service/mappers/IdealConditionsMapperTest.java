@@ -27,6 +27,10 @@ class IdealConditionsMapperTest {
         idealCondition.setTemperatureLow(24.0);
         idealCondition.setHumidityHigh(80.0);
         idealCondition.setHumidityLow(70.0);
+        idealCondition.setCo2High(800.0);
+        idealCondition.setCo2Low(200.0);
+        idealCondition.setLightHigh(1000.0);
+        idealCondition.setLightLow(200.0);
 
         dto = new IdealConditionDto();
         dto.setMushroomId(1L);
@@ -35,6 +39,10 @@ class IdealConditionsMapperTest {
         dto.setTempLow(24.0);
         dto.setHumidityHigh(80.0);
         dto.setHumidityLow(70.0);
+        dto.setCo2High(800.0);
+        dto.setCo2Low(200.0);
+        dto.setLightHigh(1000.0);
+        dto.setLightLow(200.0);
     }
 
     @Test

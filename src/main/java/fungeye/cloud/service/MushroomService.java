@@ -3,7 +3,9 @@ package fungeye.cloud.service;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.enities.Mushroom;
+import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.MushroomRepository;
+import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +16,23 @@ import java.util.Optional;
 @Service
 public class MushroomService {
     private MushroomRepository repository;
+    private UserRepository userRepository;
 
-    public MushroomService(MushroomRepository repository) {
+    public MushroomService(MushroomRepository repository, UserRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     public MushroomDto createMushroom(MushroomCreationDTO toCreate)
     {
         Mushroom toSave = MushroomMapper.mapCreateToMushroom(toCreate);
-        return MushroomMapper.mapToMushroomDto(repository.save(toSave));
+        Optional<UserEntity> user = userRepository.findById(toCreate.getUserId());
+        user.ifPresent(toSave::setUser);
+        Mushroom saved = repository.save(toSave);
+        return MushroomMapper.mapToMushroomDto(saved);
     }
 
-    public MushroomDto getById(Long id)
+    public MushroomDto getByMushroomId(Long id)
     {
         Optional<Mushroom> mushroom = repository.findById(id);
         if (mushroom.isPresent())
@@ -38,11 +45,20 @@ public class MushroomService {
         }
     }
 
-    public List<MushroomDto> getAll() {
-        List<Mushroom> allMushrooms = repository.findAll();
+    public List<MushroomDto> getAllDefault() {
+        // 3 is the admin userId
+        return getMushroomDtos(3);
+    }
+
+    public List<MushroomDto> getCustom(int userId) {
+        return getMushroomDtos(userId);
+    }
+
+    private List<MushroomDto> getMushroomDtos(int userId) {
+        List<Mushroom> allDefaultMushrooms = repository.findByUser_Id(userId);
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom:
-             allMushrooms) {
+                allDefaultMushrooms) {
             dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
         }
         return dtos;

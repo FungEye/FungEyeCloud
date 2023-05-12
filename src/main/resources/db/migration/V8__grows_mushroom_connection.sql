@@ -1,0 +1,5 @@
+ALTER TABLE grows
+    ADD mushroom_id BIGINT;
+
+ALTER TABLE grows
+    ADD CONSTRAINT FK_GROWS_ON_MUSHROOM FOREIGN KEY (mushroom_id) REFERENCES mushrooms (id);

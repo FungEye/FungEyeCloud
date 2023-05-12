@@ -2,7 +2,9 @@ package fungeye.cloud.service;
 
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
+import fungeye.cloud.domain.dtos.GrowDto;
 import fungeye.cloud.domain.enities.Box;
+import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,4 @@ public class BoxService {
     {
         return mapToBoxDto(repository.findById(id).orElseThrow());
     }
-
-
 }

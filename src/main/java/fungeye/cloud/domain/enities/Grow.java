@@ -38,6 +38,10 @@ public class Grow {
     @JoinColumn(name = "box_id", nullable = false)
     private Box box;
 
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "mushroom_id")
+    private Mushroom mushroom;
+
     public Long getId() {
         return id;
     }

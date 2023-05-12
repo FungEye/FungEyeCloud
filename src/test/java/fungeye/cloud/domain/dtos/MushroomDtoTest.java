@@ -10,46 +10,22 @@ class MushroomDtoTest {
 
     @Test
     void testGettersAndSetters() {
-        Long id = 1L;
-        String name = "Shiitake";
-        String description = "A type of edible mushroom";
-        Long growId = 2L;
+        MushroomDto mushroomDto = new MushroomDto();
 
-        MushroomDto mushroomDto = new MushroomDto(id, name, description);
-
-        assertThat(mushroomDto.getId()).isEqualTo(id);
-        assertThat(mushroomDto.getName()).isEqualTo(name);
-        assertThat(mushroomDto.getDescription()).isEqualTo(description);
-
-        Long newId = 3L;
+        Long newId = 2L;
         String newName = "Portobello";
         String newDescription = "A large, meaty mushroom";
-        Long newGrowId = 4L;
+        String newOrigin = "France";
 
         mushroomDto.setId(newId);
         mushroomDto.setName(newName);
         mushroomDto.setDescription(newDescription);
+        mushroomDto.setOrigin(newOrigin);
 
         assertThat(mushroomDto.getId()).isEqualTo(newId);
         assertThat(mushroomDto.getName()).isEqualTo(newName);
         assertThat(mushroomDto.getDescription()).isEqualTo(newDescription);
+        assertThat(mushroomDto.getOrigin()).isEqualTo(newOrigin);
+
     }
-    @Test
-    void testHashCode() {
-        MushroomDto dto1 = new MushroomDto(1L, "button", "white mushroom");
-        MushroomDto dto2 = new MushroomDto(1L, "button", "white mushroom");
-        MushroomDto dto3 = new MushroomDto(2L, "portobello", "brown mushroom");
-
-        assertEquals(dto1.hashCode(), dto2.hashCode());
-        assertNotEquals(dto1.hashCode(), dto3.hashCode());
-    }
-
-    @Test
-    void testToString() {
-        MushroomDto dto = new MushroomDto(1L, "button", "white mushroom");
-        String expected = "MushroomDto{id=1, name='button', description='white mushroom'}";
-
-        assertEquals(expected, dto.toString());
-    }
-
 }

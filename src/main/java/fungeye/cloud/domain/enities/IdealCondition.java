@@ -36,16 +36,36 @@ public class IdealCondition {
     @Column(name = "humidity_low", nullable = false)
     private Double humidityLow;
 
+    @Column(name = "co_2_low")
+    private Double co2Low;
+
+    @Column(name = "co_2_high")
+    private Double co2High;
+
+    @Column(name = "light_low")
+    private Double lightLow;
+
+    @Column(name = "light_high")
+    private Double lightHigh;
+
     public IdealCondition() {
     }
 
-    public IdealCondition(IdealConditionId id, Mushroom mushroom, Double temperatureHigh, Double temperatureLow, Double humidityHigh, Double humidityLow) {
+    public IdealCondition(IdealConditionId id, Mushroom mushroom,
+                          Double temperatureHigh, Double temperatureLow,
+                          Double humidityHigh, Double humidityLow,
+                          Double co2High, Double co2Low,
+                          Double lightHigh, Double lightLow) {
         this.id = id;
         this.mushroom = mushroom;
         this.temperatureHigh = temperatureHigh;
         this.temperatureLow = temperatureLow;
         this.humidityHigh = humidityHigh;
         this.humidityLow = humidityLow;
+        this.co2Low = co2Low;
+        this.co2High = co2High;
+        this.lightLow = lightLow;
+        this.lightHigh = lightHigh;
     }
 
     public IdealConditionId getId() {
@@ -96,17 +116,50 @@ public class IdealCondition {
         this.humidityLow = humidityLow;
     }
 
+    public Double getCo2Low() {
+        return co2Low;
+    }
+
+    public void setCo2Low(Double co2Low) {
+        this.co2Low = co2Low;
+    }
+
+    public Double getCo2High() {
+        return co2High;
+    }
+
+    public void setCo2High(Double co2High) {
+        this.co2High = co2High;
+    }
+
+    public Double getLightLow() {
+        return lightLow;
+    }
+
+    public void setLightLow(Double lightLow) {
+        this.lightLow = lightLow;
+    }
+
+    public Double getLightHigh() {
+        return lightHigh;
+    }
+
+    public void setLightHigh(Double lightHigh) {
+        this.lightHigh = lightHigh;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IdealCondition that = (IdealCondition) o;
-        return Objects.equals(id, that.id) && Objects.equals(mushroom, that.mushroom) && Objects.equals(temperatureHigh, that.temperatureHigh) && Objects.equals(temperatureLow, that.temperatureLow) && Objects.equals(humidityHigh, that.humidityHigh) && Objects.equals(humidityLow, that.humidityLow);
+        return Objects.equals(id, that.id) && Objects.equals(mushroom, that.mushroom) && Objects.equals(temperatureHigh, that.temperatureHigh) && Objects.equals(temperatureLow, that.temperatureLow) && Objects.equals(humidityHigh, that.humidityHigh) && Objects.equals(humidityLow, that.humidityLow) && Objects.equals(co2Low, that.co2Low) && Objects.equals(co2High, that.co2High) && Objects.equals(lightLow, that.lightLow) && Objects.equals(lightHigh, that.lightHigh);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, mushroom, temperatureHigh, temperatureLow, humidityHigh, humidityLow);
+        return Objects.hash(id, mushroom, temperatureHigh, temperatureLow, humidityHigh, humidityLow, co2Low, co2High, lightLow, lightHigh);
     }
 
     @Override
@@ -118,6 +171,10 @@ public class IdealCondition {
                 ", temperatureLow=" + temperatureLow +
                 ", humidityHigh=" + humidityHigh +
                 ", humidityLow=" + humidityLow +
+                ", co2High=" + co2High +
+                ", co2Low=" + co2Low +
+                ", lightHigh=" + lightHigh +
+                ", lightLow=" + lightLow +
                 '}';
     }
 }

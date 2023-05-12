@@ -1,0 +1,5 @@
+ALTER TABLE mushrooms
+    ADD COLUMN user_id int;
+
+ALTER TABLE mushrooms
+    ADD CONSTRAINT FK_MUSHROOMS_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);
