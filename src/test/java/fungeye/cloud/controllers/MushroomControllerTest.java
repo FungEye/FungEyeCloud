@@ -47,11 +47,14 @@ class MushroomControllerTest {
 
         when(service.createMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
 
-        ResponseEntity<MushroomDto> response = controller.createMushroom(mushroomCreationDTO);
+        ResponseEntity<MushroomDto> response1 = controller.createMushroom(mushroomCreationDTO);
+        ResponseEntity<MushroomDto> response2 = controller.createCustomMushroom(mushroomCreationDTO);
 
-        verify(service, times(1)).createMushroom(mushroomCreationDTO);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(mushroomDto, response.getBody());
+        verify(service, times(2)).createMushroom(mushroomCreationDTO);
+        assertEquals(HttpStatus.CREATED, response1.getStatusCode());
+        assertEquals(HttpStatus.CREATED, response2.getStatusCode());
+        assertEquals(mushroomDto, response1.getBody());
+        assertEquals(mushroomDto, response2.getBody());
     }
 
     @Test
