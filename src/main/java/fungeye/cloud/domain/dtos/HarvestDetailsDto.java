@@ -34,30 +34,6 @@ public class HarvestDetailsDto extends HarvestCreationDto implements Serializabl
         this.mushroomName = mushroomName;
     }
 
-    public Long getGrowId() {
-        return super.getGrowId();
-    }
-
-    public void setGrowId(Long growId) {
-        super.setGrowId(growId);
-    }
-
-    public Double getWeight() {
-        return super.getWeight();
-    }
-
-    public void setWeight(Double weight) {
-        super.setWeight(weight);
-    }
-
-    public SimpleDateDto getHarvestDate() {
-        return super.getHarvestDate();
-    }
-
-    public void setHarvestDate(SimpleDateDto harvestDate) {
-        super.setHarvestDate(harvestDate);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
