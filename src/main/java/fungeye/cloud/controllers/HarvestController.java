@@ -20,7 +20,8 @@ public class HarvestController {
     public ResponseEntity<HarvestDetailsDto> createHarvest(@RequestBody HarvestCreationDto dto) {
 
         // TODO Move to service and actually process information
-        HarvestDetailsDto response = new HarvestDetailsDto(1L);
+        HarvestDetailsDto response = new HarvestDetailsDto();
+        response.setId(1L);
         response.setHarvestDate(dto.getHarvestDate());
         response.setMushroomName("Dummy Data for creating a harvest");
         response.setWeight(2.4);
@@ -35,7 +36,8 @@ public class HarvestController {
         // TODO Move to service class and do stuff
         List<HarvestDetailsDto> response = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            HarvestDetailsDto dto = new HarvestDetailsDto(((long) i + 2));
+            HarvestDetailsDto dto = new HarvestDetailsDto();
+            dto.setId((long) i + 2);
             dto.setHarvestDate(new SimpleDateDto(2023, 5, 12));
             dto.setMushroomName(String.format("Dummy harvest # %d", i +1 ));
             dto.setWeight((i + 1) * 1.08);
@@ -43,7 +45,7 @@ public class HarvestController {
             response.add(dto);
         }
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.FOUND);
     }
 
 
