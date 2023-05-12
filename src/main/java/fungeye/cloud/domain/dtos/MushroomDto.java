@@ -2,19 +2,14 @@ package fungeye.cloud.domain.dtos;
 
 import java.util.Objects;
 
-public class MushroomDto {
+public class MushroomDto extends MushroomCreationDTO{
 
     private Long id;
     private String name;
     private String description;
     private String origin;
+    private int userId;
 
-    public MushroomDto(Long id, String name, String description, String origin) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.origin = origin;
-    }
 
     public MushroomDto() {
     }
@@ -25,30 +20,6 @@ public class MushroomDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
     }
 
     @Override
@@ -71,6 +42,7 @@ public class MushroomDto {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", origin='" + origin + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 }
