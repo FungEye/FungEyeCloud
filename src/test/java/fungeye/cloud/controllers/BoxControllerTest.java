@@ -15,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,5 +59,19 @@ class BoxControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/box1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
+    void testGetAllBoxes() throws Exception {
+        BoxDetailsDto boxDetailsDto = new BoxDetailsDto();
+        boxDetailsDto.setId(1L);
+
+        List<BoxDetailsDto> dtos = new ArrayList<>();
+        dtos.add(boxDetailsDto);
+
+        given(boxService.getAll()).willReturn(dtos);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/boxes"))
+                .andExpect(status().isOk());
     }
 }
