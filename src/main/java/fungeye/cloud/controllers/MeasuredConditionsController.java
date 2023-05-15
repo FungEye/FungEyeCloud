@@ -1,7 +1,9 @@
 package fungeye.cloud.controllers;
 
+import fungeye.cloud.domain.dtos.HistoricalMeasurementDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.SearchConditionsParam;
+import fungeye.cloud.domain.dtos.SingleMeasurementDto;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +24,12 @@ public class MeasuredConditionsController {
     }
 
     @GetMapping(value = "box{id}/measurements")
-    public ResponseEntity<List<MeasuredConditionDto>> getMeasuredConditions(@PathVariable("id")Long id,
+    public ResponseEntity<List<MeasuredConditionDto>> getMeasuredConditions(@PathVariable("id") Long id,
                                                                             @RequestParam Optional<Integer> day,
                                                                             @RequestParam Optional<Integer> month,
                                                                             @RequestParam Optional<Integer> year,
                                                                             @RequestParam Optional<Integer> hour,
-                                                                            @RequestParam Optional<Integer> minute)
-
-    {
+                                                                            @RequestParam Optional<Integer> minute) {
         SearchConditionsParam param = new SearchConditionsParam();
 
         day.ifPresent(param::setDay);
@@ -39,12 +39,19 @@ public class MeasuredConditionsController {
         minute.ifPresent(param::setMinute);
         param.setId(id);
 
-       return new ResponseEntity<>(service.getMeasuredConditions(param), HttpStatus.OK);
+        return new ResponseEntity<>(service.getMeasuredConditions(param), HttpStatus.OK);
     }
 
+    //TODO Probably add new endpoint? /historical (because fuck naming conventions amirite?)
+    @GetMapping(value = "/measurements/historical")
+    public ResponseEntity<HistoricalMeasurementDto> getHistoricalMeasurements() {
+
+        return new ResponseEntity<>(service.getHistoricalMeasurements(), HttpStatus.OK);
+    }
+
+
     @GetMapping(value = "box{id}/measurements/latest")
-    public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id")Long id)
-    {
+    public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.getLatestMeasuredCondition(id), HttpStatus.OK);
     }
 }

@@ -1,7 +1,9 @@
 package fungeye.cloud.service;
 
+import fungeye.cloud.domain.dtos.HistoricalMeasurementDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.SearchConditionsParam;
+import fungeye.cloud.domain.dtos.SingleMeasurementDto;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
@@ -58,5 +60,42 @@ public class MeasuredConditionsService {
         toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
         MeasuredConditionDto response = mapToDto(repository.save(toCreate));
         LOGGER.info(String.format("Measurement persisted in database for box # %d", response.getId().getBoxId()));
+    }
+
+    public HistoricalMeasurementDto getHistoricalMeasurements() {
+        List<MeasuredCondition> measuredConditions = repository.findAllByBox_Id(1L);
+        HistoricalMeasurementDto result = new HistoricalMeasurementDto();
+        result.setTemperature(new ArrayList<>());
+        result.setLight(new ArrayList<>());
+        result.setHumidity(new ArrayList<>());
+        result.setCo2(new ArrayList<>());
+        for (MeasuredCondition cond: measuredConditions
+             ) {
+            // Temperature
+            SingleMeasurementDto temp = new SingleMeasurementDto();
+            temp.setValue(cond.getTemperature());
+            temp.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
+            result.getTemperature().add(temp);
+
+            // Humidity
+            SingleMeasurementDto humidity = new SingleMeasurementDto();
+            humidity.setValue(cond.getHumidity());
+            humidity.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
+            result.getHumidity().add(humidity);
+
+            // CO2
+            SingleMeasurementDto co2 = new SingleMeasurementDto();
+            co2.setValue(cond.getCo2());
+            co2.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
+            result.getCo2().add(co2);
+
+            // Light
+            SingleMeasurementDto light = new SingleMeasurementDto();
+            light.setValue(cond.getLight());
+            light.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
+            result.getLight().add(light);
+        }
+
+        return result;
     }
 }
