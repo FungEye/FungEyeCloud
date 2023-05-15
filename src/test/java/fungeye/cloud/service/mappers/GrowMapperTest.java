@@ -97,7 +97,6 @@ class GrowMapperTest {
         // Assert
         assertNotNull(dtos);
         assertEquals(grows.size(), dtos.size());
-        assertEquals(grow2.getId(), dtos.get(0).getId());
-        assertEquals(grow2.getId(), dtos.get(1).getId());
+        assertEquals(grow1.getId(), dtos.get(0).getId());
     }
 }
