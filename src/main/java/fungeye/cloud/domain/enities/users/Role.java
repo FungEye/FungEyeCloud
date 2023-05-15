@@ -1,10 +1,7 @@
 package fungeye.cloud.domain.enities.users;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.Hibernate;
-
-import java.util.Objects;
+import lombok.Data;
 
 @Data
 @Entity

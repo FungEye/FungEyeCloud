@@ -1,6 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
-import lombok.*;
+import lombok.Data;
 
 import java.util.List;
 

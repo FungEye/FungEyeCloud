@@ -2,9 +2,7 @@ package fungeye.cloud.domain.enities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-import java.util.Objects;
+import lombok.Data;
 
 @Data
 @Entity

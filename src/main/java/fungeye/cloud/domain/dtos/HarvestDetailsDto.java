@@ -2,10 +2,9 @@ package fungeye.cloud.domain.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A DTO for the {@link fungeye.cloud.domain.enities.Harvest} entity

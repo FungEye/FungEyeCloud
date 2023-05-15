@@ -2,7 +2,6 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
-import fungeye.cloud.domain.dtos.UserCreationDto;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 

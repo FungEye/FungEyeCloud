@@ -2,11 +2,9 @@ package fungeye.cloud.domain.enities;
 
 import fungeye.cloud.domain.enities.users.UserEntity;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Data;
 
 import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Data

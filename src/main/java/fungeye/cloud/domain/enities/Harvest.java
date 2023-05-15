@@ -1,10 +1,9 @@
 package fungeye.cloud.domain.enities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Data
 @Entity

@@ -4,11 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /*
 JPA struggles with composite keys, so we are using these classes to help with reading

@@ -2,7 +2,6 @@ package fungeye.cloud.controllers;
 
 import fungeye.cloud.domain.dtos.HarvestCreationDto;
 import fungeye.cloud.domain.dtos.HarvestDetailsDto;
-import fungeye.cloud.domain.exceptions.ErrorObject;
 import fungeye.cloud.service.HarvestService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,9 +13,8 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

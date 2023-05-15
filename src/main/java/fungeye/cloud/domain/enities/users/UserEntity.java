@@ -2,7 +2,7 @@ package fungeye.cloud.domain.enities.users;
 
 import fungeye.cloud.domain.enities.Box;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

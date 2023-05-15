@@ -1,6 +1,5 @@
 package fungeye.cloud.domain.enities;
 
-import fungeye.cloud.domain.enities.users.Role;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.verify;
 
 class BoxTest {

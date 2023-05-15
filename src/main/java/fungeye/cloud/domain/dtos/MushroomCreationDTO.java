@@ -1,7 +1,7 @@
 package fungeye.cloud.domain.dtos;
 
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class MushroomCreationDTO {

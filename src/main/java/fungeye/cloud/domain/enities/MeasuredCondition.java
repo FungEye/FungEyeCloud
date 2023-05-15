@@ -1,7 +1,7 @@
 package fungeye.cloud.domain.enities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

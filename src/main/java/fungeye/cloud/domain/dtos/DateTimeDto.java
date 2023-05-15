@@ -1,8 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
-import lombok.*;
-
-import java.util.Objects;
+import lombok.Data;
 
 @Data
 public class DateTimeDto {

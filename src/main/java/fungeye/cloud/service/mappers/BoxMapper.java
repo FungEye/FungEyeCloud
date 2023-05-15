@@ -2,7 +2,6 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
-import fungeye.cloud.domain.dtos.GrowDto;
 import fungeye.cloud.domain.enities.Box;
 
 import java.util.ArrayList;

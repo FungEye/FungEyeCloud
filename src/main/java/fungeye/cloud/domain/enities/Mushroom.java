@@ -1,16 +1,14 @@
 package fungeye.cloud.domain.enities;
 
 import fungeye.cloud.domain.enities.users.UserEntity;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Data
