@@ -1,6 +1,9 @@
 package fungeye.cloud.domain.dtos;
 
 
+import lombok.*;
+
+@Data
 public class GrowDto {
 
     private Long id;
@@ -8,8 +11,6 @@ public class GrowDto {
     private String stage;
     private boolean active;
     private Long boxId;
-
-
 
     public GrowDto(Long id, DateTimeDto date, String stage, boolean active, Long boxId) {
         this.id = id;
@@ -20,45 +21,5 @@ public class GrowDto {
     }
 
     public GrowDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public DateTimeDto getDate() {
-        return date;
-    }
-
-    public void setDate(DateTimeDto date) {
-        this.date = date;
-    }
-
-    public String getStage() {
-        return stage;
-    }
-
-    public void setStage(String stage) {
-        this.stage = stage;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Long getBoxId() {
-        return boxId;
-    }
-
-    public void setBoxId(Long boxId) {
-        this.boxId = boxId;
     }
 }

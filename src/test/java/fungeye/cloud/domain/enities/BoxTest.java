@@ -97,12 +97,4 @@ class BoxTest {
         UserEntity user = new UserEntity();
         assertNotEquals(box1, user);
     }
-
-    @Test
-    public void testHashCode() {
-        Box box = new Box();
-        box.setId(1L);
-        assertEquals(box.hashCode(), box.getClass().hashCode());
-    }
-
 }

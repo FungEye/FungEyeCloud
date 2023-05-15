@@ -1,6 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -16,13 +16,5 @@ public class BoxDto implements Serializable {
     }
 
     public BoxDto() {
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

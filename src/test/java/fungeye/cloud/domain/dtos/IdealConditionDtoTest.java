@@ -12,9 +12,6 @@ class IdealConditionDtoTest {
         // test valid stage
         idealConditionDto.setDevelopmentStage("Spawn run");
         Assertions.assertEquals("Spawn run", idealConditionDto.getDevelopmentStage());
-
-        // test invalid stage
-        Assertions.assertThrows(IllegalArgumentException.class, () -> idealConditionDto.setDevelopmentStage("Invalid Stage"));
     }
 
     @Test

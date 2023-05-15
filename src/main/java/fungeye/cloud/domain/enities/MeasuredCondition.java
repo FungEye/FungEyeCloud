@@ -1,13 +1,11 @@
 package fungeye.cloud.domain.enities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "measured_conditions")
 public class MeasuredCondition {
@@ -32,35 +30,4 @@ public class MeasuredCondition {
     @Column(name = "light")
     private Double light;
 
-    public MeasuredConditionId getId() {
-        return id;
-    }
-
-    public void setId(MeasuredConditionId id) {
-        this.id = id;
-    }
-
-    public Box getBox() {
-        return box;
-    }
-
-    public void setBox(Box box) {
-        this.box = box;
-    }
-
-    public Double getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
-    }
-
-    public Double getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(Double humidity) {
-        this.humidity = humidity;
-    }
 }

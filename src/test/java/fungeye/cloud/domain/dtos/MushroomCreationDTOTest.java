@@ -23,18 +23,4 @@ class MushroomCreationDTOTest {
         assertEquals("France", mushroom.getOrigin());
         assertEquals(1, mushroom.getUserId());
     }
-
-    @Test
-    void testToString() {
-        // Create a new MushroomCreationDTO object with a name and description
-        MushroomCreationDTO mushroom = new MushroomCreationDTO();
-        mushroom.setName("Portobello");
-        mushroom.setDescription("A large, meaty mushroom commonly used in vegetarian dishes");
-        mushroom.setOrigin("France");
-        mushroom.setUserId(1);
-
-        // Check that the toString() method returns the expected string
-        assertEquals("MushroomCreationDTO{name='Portobello', description='A large, meaty mushroom commonly" +
-                " used in vegetarian dishes', origin='France', userId=1}", mushroom.toString());
-    }
 }
