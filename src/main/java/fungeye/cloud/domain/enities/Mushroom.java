@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -38,6 +39,8 @@ public class Mushroom {
     @Column(name = "origin")
     private String origin;
 
+
+
     @OneToMany(mappedBy = "mushroom")
     private Set<IdealCondition> idealConditions = new LinkedHashSet<>();
 
@@ -45,6 +48,9 @@ public class Mushroom {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = true)
     private UserEntity user;
+
+    @Column(name = "archived")
+    private Boolean archived = false;
 
     public Long getId() {
         return id;

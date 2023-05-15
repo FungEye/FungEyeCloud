@@ -55,5 +55,11 @@ public class MushroomController {
         return new ResponseEntity<>(custom, HttpStatus.FOUND);
     }
 
+    @PutMapping(value ="/mushroom/{id}")
+    public ResponseEntity<String> archiveMushroom(@PathVariable long id) {
+        service.archiveMushroom(id);
+        return ResponseEntity.ok("Archived");
+    }
+
 
 }
