@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.enities;
 
+import fungeye.cloud.domain.enities.users.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -44,5 +45,9 @@ public class Grow {
 
     @OneToMany(mappedBy = "grow", orphanRemoval = true)
     private Set<Harvest> harvests = new LinkedHashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
 }
