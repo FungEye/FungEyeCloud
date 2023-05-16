@@ -48,6 +48,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(eo, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorObject> handleIllegalArgumentException(IllegalArgumentException e, WebRequest request) {
+        ErrorObject eo = new ErrorObject();
+        eo.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        eo.setMessage(e.getMessage());
+        eo.setTimestamp(new Date());
+
+        return new ResponseEntity<>(eo, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorObject> handleUndefinedException(Exception e, WebRequest request) {
         ErrorObject eo = new ErrorObject();
