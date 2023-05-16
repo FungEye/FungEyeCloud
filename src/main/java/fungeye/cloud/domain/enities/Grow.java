@@ -1,6 +1,5 @@
 package fungeye.cloud.domain.enities;
 
-import fungeye.cloud.domain.enities.users.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

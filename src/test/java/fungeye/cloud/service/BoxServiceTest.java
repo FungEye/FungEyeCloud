@@ -88,10 +88,4 @@ class BoxServiceTest {
         verify(repository, times(1)).findAll();
 
     }
-
-    @Test
-    void testGetAllBoxesByUsername() throws Exception
-    {
-        // todo
-    }
 }

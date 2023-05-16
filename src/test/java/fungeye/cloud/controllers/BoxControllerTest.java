@@ -74,11 +74,4 @@ class BoxControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/boxes"))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    void testGetAllBoxesByUsername() throws Exception
-    {
-
-        // todo - What method is this supposed to test??
-    }
 }

@@ -47,9 +47,8 @@ public class GrowService {
     {
         Grow toUpdated = repository.findById(dto.getId()).orElseThrow();
 
-        if(toUpdated.getDevelopmentStage().equals(""))
+        if(toUpdated.getDevelopmentStage().isBlank())
         {
-            //todo is there specific exception to use
             throw new IllegalArgumentException("Please fill all required sections");
         }
         else

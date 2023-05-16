@@ -31,7 +31,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class GrowControllerTest {
+class GrowControllerTest {
     @Mock
     private GrowService service;
     private GrowController controller;
