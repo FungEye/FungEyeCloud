@@ -3,12 +3,16 @@ package fungeye.cloud.controllers;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.service.MushroomService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static fungeye.cloud.security.JwtGenerator.getUsernameFromJwt;
+
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/")
@@ -56,8 +60,8 @@ public class MushroomController {
     }
 
     @PutMapping(value ="/mushroom/{id}")
-    public ResponseEntity<String> archiveMushroom(@PathVariable long id) {
-        service.archiveMushroom(id);
+    public ResponseEntity<String> archiveMushroom(@PathVariable long id, @RequestHeader(name = "Authorization") String token) {
+        service.archiveMushroom(id, token);
         return ResponseEntity.ok("Archived");
     }
 

@@ -7,11 +7,14 @@ import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.service.mappers.MushroomMapper;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static fungeye.cloud.security.JwtGenerator.getUsernameFromJwt;
 
 @Service
 public class MushroomService {
@@ -49,12 +52,6 @@ public class MushroomService {
         return getMushroomDtos(userId);
     }
 
-    /*
-    TODO Filter out archived mushrooms
-    But first come up with a solution so that users can archive their own mushrooms,
-    but not default mushrooms.
-    More TODO: Test added code + probably edit already created tests?
-     */
     private List<MushroomDto> getMushroomDtos(int userId) {
         List<Mushroom> allDefaultMushrooms = repository.findByUser_Id(userId);
         List<MushroomDto> dtos = new ArrayList<>();
@@ -65,10 +62,16 @@ public class MushroomService {
         return dtos;
     }
 
-    public void archiveMushroom(long mushroomId) {
+    public void archiveMushroom(long mushroomId, String token) {
         Mushroom entity = repository.findById(mushroomId).orElseThrow();
-        if (entity.getArchived())
-            throw new IllegalArgumentException(String.format("%s is already archived.", entity.getName()));
-        repository.updateArchivedById(true, mushroomId);
+        UserEntity user = entity.getUser();
+        String username = getUsernameFromJwt(token.substring(7));
+        if (user.getUsername().equals(username)) {
+            if (entity.getArchived())
+                throw new IllegalArgumentException(String.format("%s is already archived.", entity.getName()));
+            repository.updateArchivedById(true, mushroomId);
+        }
+        else throw new BadCredentialsException(String.format("User: %s is not authorized to edit mushroom %s", username, entity.getName()));
+
     }
 }
