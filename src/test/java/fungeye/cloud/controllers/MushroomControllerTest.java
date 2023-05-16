@@ -1,5 +1,7 @@
 package fungeye.cloud.controllers;
 
+import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
+import fungeye.cloud.domain.dtos.IdealConditionDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.enities.Mushroom;

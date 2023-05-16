@@ -1,5 +1,6 @@
 package fungeye.cloud.controllers;
 
+import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.service.MushroomService;
@@ -23,6 +24,13 @@ public class MushroomController {
     public ResponseEntity<MushroomDto> createMushroom(
             @RequestBody MushroomCreationDTO dto) {
         MushroomDto saved = service.createMushroom(dto);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/mushroom/default")
+    public ResponseEntity<MushroomDto> createDefaultMushroom(
+            @RequestBody DefaultMushroomCreationDto dto) {
+        MushroomDto saved = service.createDefaultMushroom(dto);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
