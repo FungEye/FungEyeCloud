@@ -146,6 +146,7 @@ public class HardwareTutorial implements WebSocket.Listener {
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);
             int co2 = Integer.parseInt(dataValue.substring(8, 12), 16);//this is measured in ppm(parts per million)
+            int light = Integer.parseInt(dataValue.substring(12, 16), 16);
 
             double temperature = tempRaw / 10.0;
             double humidity = humRaw / 10.0;
@@ -162,6 +163,8 @@ public class HardwareTutorial implements WebSocket.Listener {
             condDto.setId(idDto);
             condDto.setHumidity(humidity);
             condDto.setTemperature(temperature);
+            condDto.setCo2((double) co2);
+            condDto.setLight((double) light);
             measurementService.addMeasuredCondition(condDto);
             sendDownLink(
                     "{cmd : 'tx';EUI : 0004A30B00ED6757;port: 1;data: 0001}"

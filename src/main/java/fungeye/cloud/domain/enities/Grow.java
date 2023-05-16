@@ -3,15 +3,15 @@ package fungeye.cloud.domain.enities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "grows")
 public class Grow {
@@ -38,43 +38,11 @@ public class Grow {
     @JoinColumn(name = "box_id", nullable = false)
     private Box box;
 
-    public Long getId() {
-        return id;
-    }
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "mushroom_id")
+    private Mushroom mushroom;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @OneToMany(mappedBy = "grow", orphanRemoval = true)
+    private Set<Harvest> harvests = new LinkedHashSet<>();
 
-    public LocalDate getDateStarted() {
-        return dateStarted;
-    }
-
-    public void setDateStarted(LocalDate dateStarted) {
-        this.dateStarted = dateStarted;
-    }
-
-    public String getDevelopmentStage() {
-        return developmentStage;
-    }
-
-    public void setDevelopmentStage(String developmentStage) {
-        this.developmentStage = developmentStage;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean active) {
-        isActive = active;
-    }
-
-    public Box getBox() {
-        return box;
-    }
-
-    public void setBox(Box box) {
-        this.box = box;
-    }
 }

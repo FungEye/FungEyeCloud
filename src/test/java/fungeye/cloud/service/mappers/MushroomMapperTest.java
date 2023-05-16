@@ -1,13 +1,13 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
+import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
-import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
+import fungeye.cloud.domain.enities.users.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -18,25 +18,29 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 
 class MushroomMapperTest {
 
     private static final Long MUSHROOM_ID = 1L;
     private static final String MUSHROOM_NAME = "Shiitake";
     private static final String MUSHROOM_DESC = "Large, dark-brown mushroom with an earthy flavor";
+    private static final String MUSHROOM_ORIGIN = "Japan";
+    private static final int USER_ID = 1;
 
-    private MushroomMapper mushroomMapper;
+    private Mushroom mushroom;
+    private UserEntity user;
 
-    @Mock
-    private Mushroom mushroomMock;
-
-    @Mock
-    private Grow growMock;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        mushroom = new Mushroom();
+        mushroom.setId(MUSHROOM_ID);
+        mushroom.setName(MUSHROOM_NAME);
+        mushroom.setDescription(MUSHROOM_DESC);
+        mushroom.setOrigin(MUSHROOM_ORIGIN);
+        user = new UserEntity();
+        user.setId(USER_ID);
+        mushroom.setUser(user);
     }
 
     @Test
@@ -48,25 +52,19 @@ class MushroomMapperTest {
 
     @Test
     void testMapToMushroomDto() {
-        when(mushroomMock.getId()).thenReturn(MUSHROOM_ID);
-        when(mushroomMock.getName()).thenReturn(MUSHROOM_NAME);
-        when(mushroomMock.getDescription()).thenReturn(MUSHROOM_DESC);
-
-        MushroomDto mushroomDto = MushroomMapper.mapToMushroomDto(mushroomMock);
+        MushroomDto mushroomDto = MushroomMapper.mapToMushroomDto(mushroom);
 
         assertEquals(MUSHROOM_ID, mushroomDto.getId());
         assertEquals(MUSHROOM_NAME, mushroomDto.getName());
         assertEquals(MUSHROOM_DESC, mushroomDto.getDescription());
+        assertEquals(MUSHROOM_ORIGIN, mushroomDto.getOrigin());
+        assertEquals(USER_ID, mushroomDto.getUserId());
     }
 
     @Test
     void testMapToMushroomDtoList() {
         Set<Mushroom> mushroomSet = new HashSet<>();
-        mushroomSet.add(mushroomMock);
-
-        when(mushroomMock.getId()).thenReturn(MUSHROOM_ID);
-        when(mushroomMock.getName()).thenReturn(MUSHROOM_NAME);
-        when(mushroomMock.getDescription()).thenReturn(MUSHROOM_DESC);
+        mushroomSet.add(mushroom);
 
         List<MushroomDto> mushroomDtoList = MushroomMapper.mapToMushroomDtoList(mushroomSet);
 
@@ -95,6 +93,30 @@ class MushroomMapperTest {
         dto.setDescription("A common mushroom");
 
         Mushroom mushroom = MushroomMapper.mapCreateToMushroom(dto);
+
+        assertEquals(dto.getName(), mushroom.getName());
+        assertEquals(dto.getDescription(), mushroom.getDescription());
+    }
+
+    @Test
+    void testMapDefaultCreateToMushroom() {
+        DefaultMushroomCreationDto dto = new DefaultMushroomCreationDto();
+        dto.setName("Button Mushroom");
+        dto.setDescription("A common mushroom");
+
+        Mushroom mushroom = MushroomMapper.mapDefaultCreateToMushroom(dto);
+
+        assertEquals(dto.getName(), mushroom.getName());
+        assertEquals(dto.getDescription(), mushroom.getDescription());
+    }
+
+    @Test
+    void testMapCustomCreateToMushroom() {
+        CustomMushroomCreationDto dto = new CustomMushroomCreationDto();
+        dto.setName("Button Mushroom");
+        dto.setDescription("A common mushroom");
+
+        Mushroom mushroom = MushroomMapper.mapCustomCreateToMushroom(dto);
 
         assertEquals(dto.getName(), mushroom.getName());
         assertEquals(dto.getDescription(), mushroom.getDescription());

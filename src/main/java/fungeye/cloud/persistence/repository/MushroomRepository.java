@@ -3,6 +3,9 @@ package fungeye.cloud.persistence.repository;
 import fungeye.cloud.domain.enities.Mushroom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MushroomRepository extends JpaRepository<Mushroom, Long> {
+import java.util.List;
 
+public interface MushroomRepository extends JpaRepository<Mushroom, Long> {
+    List<Mushroom> findByUser_Username(String username);
+    List<Mushroom> findByUser_Id(Integer id);
 }

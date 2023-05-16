@@ -12,7 +12,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -74,6 +76,48 @@ class BoxMapperTest {
         assertEquals(dto.getId(), box.getId());
         assertEquals(dto.getGrows().size(), box.getGrows().size());
         assertEquals(dto.getConditions().size(), box.getMeasuredConditions().size());
+    }
+
+    @Test
+    void testMapToBoxDtoList()
+    {
+        // create a Box object with related Grows and MeasuredConditions
+        Box box = new Box();
+        box.setId(1L);
+        Set<Grow> grows = new HashSet<>();
+        Grow mockGrow = mock(Grow.class);
+        mockGrow.setBox(box);
+        LocalDate mockDate = LocalDate.of(2023, 5, 6);
+        when(mockGrow.getDateStarted()).thenReturn(mockDate);
+        grows.add(mockGrow);
+        Set<MeasuredCondition> measuredConditions = new HashSet<>();
+        MeasuredCondition mockCondition = mock(MeasuredCondition.class);
+        MeasuredConditionId mockCondId = mock(MeasuredConditionId.class);
+        Instant mockInstant = Instant.now();
+        mockCondId.setBoxId(1L);
+        mockCondId.setDateTime(mockInstant);
+        mockCondition.setId(mockCondId);
+        when(mockCondition.getId()).thenReturn(mockCondId);
+        when(mockCondId.getDateTime()).thenReturn(mockInstant);
+        when(mockGrow.getBox()).thenReturn(box);
+        measuredConditions.add(mockCondition);
+        box.setGrows(grows);
+        box.setMeasuredConditions(measuredConditions);
+
+        List<BoxDetailsDto> dtos = new ArrayList<>();
+        List<Box> boxes = new ArrayList<>();
+
+        BoxDetailsDto dto = BoxMapper.mapToBoxDto(box);
+
+        boxes.add(box);
+        dtos.add(dto);
+
+        // Method to test
+        List<BoxDetailsDto> result = BoxMapper.mapToBoxDtoList(boxes);
+
+        // check if the result is correct
+        assertEquals(result.get(0).getId(), dto.getId());
+        assertEquals(result.get(0).getConditions().get(0).getTemperature(), dto.getConditions().get(0).getTemperature());
     }
 
     @Test

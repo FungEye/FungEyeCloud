@@ -1,5 +1,8 @@
 package fungeye.cloud.domain.dtos;
 
+import lombok.Data;
+
+@Data
 public class MeasuredConditionIdDto {
 
     private Long boxId;
@@ -10,22 +13,6 @@ public class MeasuredConditionIdDto {
         this.dateTime = dateTime;
     }
 
-    public void setBoxId(Long boxId) {
-        this.boxId = boxId;
-    }
-
-    public void setDateTime(DateTimeDto dateTime) {
-        this.dateTime = dateTime;
-    }
-
     public MeasuredConditionIdDto() {
-    }
-
-    public Long getBoxId() {
-        return boxId;
-    }
-
-    public DateTimeDto getDateTime() {
-        return dateTime;
     }
 }

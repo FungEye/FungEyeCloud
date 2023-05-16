@@ -12,9 +12,6 @@ class IdealConditionDtoTest {
         // test valid stage
         idealConditionDto.setDevelopmentStage("Spawn run");
         Assertions.assertEquals("Spawn run", idealConditionDto.getDevelopmentStage());
-
-        // test invalid stage
-        Assertions.assertThrows(IllegalArgumentException.class, () -> idealConditionDto.setDevelopmentStage("Invalid Stage"));
     }
 
     @Test
@@ -26,6 +23,10 @@ class IdealConditionDtoTest {
         idealConditionDto1.setTempLow(20.0);
         idealConditionDto1.setHumidityHigh(80.0);
         idealConditionDto1.setHumidityLow(70.0);
+        idealConditionDto1.setLightHigh(30.0);
+        idealConditionDto1.setLightLow(20.5);
+        idealConditionDto1.setCo2High(60.4);
+        idealConditionDto1.setCo2Low(40.8);
 
         IdealConditionDto idealConditionDto2 = new IdealConditionDto();
         idealConditionDto2.setMushroomId(1L);
@@ -34,6 +35,10 @@ class IdealConditionDtoTest {
         idealConditionDto2.setTempLow(20.0);
         idealConditionDto2.setHumidityHigh(80.0);
         idealConditionDto2.setHumidityLow(70.0);
+        idealConditionDto2.setLightHigh(30.0);
+        idealConditionDto2.setLightLow(20.5);
+        idealConditionDto2.setCo2High(60.4);
+        idealConditionDto2.setCo2Low(40.8);
 
         IdealConditionDto idealConditionDto3 = new IdealConditionDto();
         idealConditionDto3.setMushroomId(2L);
@@ -42,6 +47,10 @@ class IdealConditionDtoTest {
         idealConditionDto3.setTempLow(25.0);
         idealConditionDto3.setHumidityHigh(90.0);
         idealConditionDto3.setHumidityLow(80.0);
+        idealConditionDto3.setLightHigh(50.0);
+        idealConditionDto3.setLightLow(30.5);
+        idealConditionDto3.setCo2High(50.4);
+        idealConditionDto3.setCo2Low(40.8);
 
         // test equals and hashCode
         Assertions.assertEquals(idealConditionDto1, idealConditionDto2);

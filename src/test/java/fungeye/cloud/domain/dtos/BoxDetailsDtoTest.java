@@ -27,7 +27,10 @@ class BoxDetailsDtoTest {
         measuredConditions.add(measuredConditionDtoMock);
         List<GrowDto> grows = new ArrayList<>();
         grows.add(growDtoMock);
-        boxDetailsDto = new BoxDetailsDto(1L, measuredConditions, grows);
+        boxDetailsDto = new BoxDetailsDto();
+        boxDetailsDto.setId(1L);
+        boxDetailsDto.setConditions(measuredConditions);
+        boxDetailsDto.setGrows(grows);
     }
 
     @Test

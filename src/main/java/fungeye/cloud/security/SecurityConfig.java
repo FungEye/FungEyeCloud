@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .requestMatchers("/_ah/stop").permitAll() // allows GAE to stop again
                 .requestMatchers("/swagger-ui/**").permitAll() // Swagger
                 .requestMatchers("/v3/**").permitAll() // Swagger
+                .requestMatchers(HttpMethod.POST, "/mushroom").hasAuthority("ADMIN")
                 .anyRequest().authenticated() //
                 .and()
                 .httpBasic();

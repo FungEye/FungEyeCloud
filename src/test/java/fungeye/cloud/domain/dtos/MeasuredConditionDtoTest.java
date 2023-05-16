@@ -29,4 +29,20 @@ class MeasuredConditionDtoTest {
         dto.setHumidity(humidity);
         assertEquals(humidity, dto.getHumidity());
     }
+
+    @Test
+    void testGetAndSetLight() {
+        Double light = 30.0;
+        MeasuredConditionDto dto = new MeasuredConditionDto();
+        dto.setLight(light);
+        assertEquals(light, dto.getLight());
+    }
+
+    @Test
+    void testGetAndSetCo2() {
+        Double co2 = 50.0;
+        MeasuredConditionDto dto = new MeasuredConditionDto();
+        dto.setCo2(co2);
+        assertEquals(co2, dto.getCo2());
+    }
 }

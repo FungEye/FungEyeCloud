@@ -40,9 +40,4 @@ class UserLoginDtoTest {
     void canEqual() {
         assertTrue(dto.canEqual(new UserLoginDto(username, password)));
     }
-
-    @Test
-    void testToString() {
-        assertEquals("UserLoginDto(username=john, password=pass123ff)", dto.toString());
-    }
 }

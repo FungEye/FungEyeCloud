@@ -6,8 +6,9 @@ import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import org.springframework.stereotype.Service;
 
-import static fungeye.cloud.service.mappers.BoxMapper.mapToBoxDto;
-import static fungeye.cloud.service.mappers.BoxMapper.mapToSimpleDto;
+import java.util.List;
+
+import static fungeye.cloud.service.mappers.BoxMapper.*;
 
 @Service
 public class BoxService {
@@ -23,10 +24,13 @@ public class BoxService {
         return mapToSimpleDto(repository.save(new Box()));
     }
 
+    public List<BoxDetailsDto> getAll() {
+        return mapToBoxDtoList(repository.findAll());
+    }
+
+
     public BoxDetailsDto getById(Long id)
     {
         return mapToBoxDto(repository.findById(id).orElseThrow());
     }
-
-
 }

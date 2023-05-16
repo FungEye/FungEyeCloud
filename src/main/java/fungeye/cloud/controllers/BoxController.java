@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/")
@@ -28,5 +30,11 @@ public class BoxController {
     public ResponseEntity<BoxDetailsDto> getBoxById(@PathVariable Long id)
     {
         return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/boxes")
+    ResponseEntity<List<BoxDetailsDto>> getAllBoxes()
+    {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 }
