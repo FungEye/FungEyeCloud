@@ -44,5 +44,4 @@ public class Grow {
 
     @OneToMany(mappedBy = "grow", orphanRemoval = true)
     private Set<Harvest> harvests = new LinkedHashSet<>();
-
 }

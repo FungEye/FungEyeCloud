@@ -4,6 +4,7 @@ import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.persistence.repository.BoxRepository;
+import fungeye.cloud.persistence.repository.GrowRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,9 @@ class BoxServiceTest {
     @Mock
     private BoxRepository repository;
 
+    @Mock
+    private GrowRepository growRepository;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -36,7 +40,7 @@ class BoxServiceTest {
         when(repository.save(ArgumentMatchers.any())).thenReturn(box);
 
         // When
-        BoxService service = new BoxService(repository);
+        BoxService service = new BoxService(repository, growRepository);
         BoxDto dto = service.createBox();
 
         // Then
@@ -52,7 +56,7 @@ class BoxServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(box));
 
         // When
-        BoxService service = new BoxService(repository);
+        BoxService service = new BoxService(repository, growRepository);
         BoxDetailsDto dto = service.getById(1L);
 
         // Then
@@ -77,7 +81,7 @@ class BoxServiceTest {
 
         when(repository.findAll()).thenReturn(boxes);
 
-        BoxService service = new BoxService(repository);
+        BoxService service = new BoxService(repository, growRepository);
         List<BoxDetailsDto> result = service.getAll();
 
         assertEquals(dtos.get(0).getId(), result.get(0).getId());
