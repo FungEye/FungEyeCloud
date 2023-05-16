@@ -15,4 +15,4 @@ public interface MushroomRepository extends JpaRepository<Mushroom, Long> {
     void updateArchivedById(Boolean archived, Long id);
     List<Mushroom> findByUser_Username(String username);
     List<Mushroom> findByUser_Id(Integer id);
-}
+    }

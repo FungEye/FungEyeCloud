@@ -74,5 +74,20 @@ class GlobalExceptionHandlerTest {
         assertEquals("Bad credentials", responseEntity.getBody().getMessage());
     }
 
+    @Test
+    void handleIllegalArgumentExceptionTest() {
+        // Arrange
+        GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
+        WebRequest webRequest = mock(WebRequest.class);
+        IllegalArgumentException exception = new IllegalArgumentException("Illegal argument");
+
+        // Act
+        ResponseEntity<ErrorObject> responseEntity = globalExceptionHandler.handleIllegalArgumentException(exception, webRequest);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("Illegal argument", responseEntity.getBody().getMessage());
+    }
+
 
 }
