@@ -1,5 +1,6 @@
 package fungeye.cloud.controllers;
 
+import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
 import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
@@ -39,6 +40,15 @@ public class MushroomController {
             @RequestBody MushroomCreationDTO dto) {
         // They do the same thing, but this one isn't admin protected
         MushroomDto saved = service.createMushroom(dto);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
+
+    // New endpoint using the username instead and with conditions
+    @PostMapping("/mushroom/custom/conditions")
+    public ResponseEntity<MushroomDto> createCustomMushroomWithConditions(
+            @RequestBody CustomMushroomCreationDto dto) {
+        // They do the same thing, but this one isn't admin protected
+        MushroomDto saved = service.createCustomMushroom(dto);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 

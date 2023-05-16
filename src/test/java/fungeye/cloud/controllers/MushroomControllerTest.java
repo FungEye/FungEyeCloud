@@ -1,9 +1,6 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
-import fungeye.cloud.domain.dtos.IdealConditionDto;
-import fungeye.cloud.domain.dtos.MushroomCreationDTO;
-import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.service.MushroomService;
@@ -14,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +55,53 @@ class MushroomControllerTest {
         assertEquals(HttpStatus.CREATED, response2.getStatusCode());
         assertEquals(mushroomDto, response1.getBody());
         assertEquals(mushroomDto, response2.getBody());
+    }
+
+    @Test
+    void createDefaultMushroom_shouldCreateAndReturnMushroomDto() {
+        DefaultMushroomCreationDto mushroomCreationDTO = new DefaultMushroomCreationDto();
+        mushroomCreationDTO.setName("Portobello");
+        mushroomCreationDTO.setDescription("Large mushroom with a meaty texture.");
+
+        MushroomDto mushroomDto = new MushroomDto();
+        mushroomDto.setId(1L);
+        mushroomDto.setName("Portobello");
+        mushroomDto.setDescription("Large mushroom with a meaty texture.");
+        mushroomDto.setUserId(3);
+
+        when(service.createDefaultMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
+
+        ResponseEntity<MushroomDto> response1 = controller.createDefaultMushroom(mushroomCreationDTO);
+
+        verify(service, times(1)).createDefaultMushroom(mushroomCreationDTO);
+        assertEquals(HttpStatus.CREATED, response1.getStatusCode());
+        assertEquals(mushroomDto, response1.getBody());
+    }
+
+    @Test
+    void createCustomMushroom_shouldCreateAndReturnMushroomDto() {
+        CustomMushroomCreationDto mushroomCreationDTO = new CustomMushroomCreationDto();
+        mushroomCreationDTO.setName("Portobello");
+        mushroomCreationDTO.setDescription("Large mushroom with a meaty texture.");
+        mushroomCreationDTO.setUsername("john");
+
+        MushroomDto mushroomDto = new MushroomDto();
+        mushroomDto.setId(1L);
+        mushroomDto.setName("Portobello");
+        mushroomDto.setDescription("Large mushroom with a meaty texture.");
+        mushroomDto.setUserId(2);
+
+        UserEntity user = new UserEntity();
+        user.setId(2);
+        user.setUsername("john");
+
+        when(service.createCustomMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
+
+        ResponseEntity<MushroomDto> response1 = controller.createCustomMushroomWithConditions(mushroomCreationDTO);
+
+        verify(service, times(1)).createCustomMushroom(mushroomCreationDTO);
+        assertEquals(HttpStatus.CREATED, response1.getStatusCode());
+        assertEquals(mushroomDto, response1.getBody());
     }
 
     @Test

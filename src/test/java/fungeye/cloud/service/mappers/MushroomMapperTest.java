@@ -1,5 +1,6 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
 import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
@@ -104,6 +105,18 @@ class MushroomMapperTest {
         dto.setDescription("A common mushroom");
 
         Mushroom mushroom = MushroomMapper.mapDefaultCreateToMushroom(dto);
+
+        assertEquals(dto.getName(), mushroom.getName());
+        assertEquals(dto.getDescription(), mushroom.getDescription());
+    }
+
+    @Test
+    void testMapCustomCreateToMushroom() {
+        CustomMushroomCreationDto dto = new CustomMushroomCreationDto();
+        dto.setName("Button Mushroom");
+        dto.setDescription("A common mushroom");
+
+        Mushroom mushroom = MushroomMapper.mapCustomCreateToMushroom(dto);
 
         assertEquals(dto.getName(), mushroom.getName());
         assertEquals(dto.getDescription(), mushroom.getDescription());
