@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MushroomRepository extends JpaRepository<Mushroom, Long> {
+    List<Mushroom> findByUser_Username(String username);
     List<Mushroom> findByUser_Id(Integer id);
 }

@@ -1,5 +1,7 @@
 package fungeye.cloud.service;
 
+import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
+import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -45,8 +47,6 @@ class MushroomServiceTest {
         toCreate.setOrigin("Denmark");
         toCreate.setUserId(1);
 
-        Mushroom mushroomToSave = MushroomMapper.mapCreateToMushroom(toCreate);
-
         Mushroom saved = MushroomMapper.mapCreateToMushroom(toCreate);
         saved.setId(1L);
 
@@ -60,6 +60,60 @@ class MushroomServiceTest {
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
         MushroomDto actual = service.createMushroom(toCreate);
+
+        assertEquals(expected, actual);
+
+        verify(repository, times(1)).save(any());
+    }
+
+    @Test
+    void testDefaultCreateMushroom() {
+        DefaultMushroomCreationDto defaultMushroom = new DefaultMushroomCreationDto();
+        defaultMushroom.setName("Mushroom");
+        defaultMushroom.setDescription("Test mushroom");
+        defaultMushroom.setOrigin("Denmark");
+
+        Mushroom saved = MushroomMapper.mapDefaultCreateToMushroom(defaultMushroom);
+        saved.setId(1L);
+
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        saved.setUser(user);
+
+        MushroomDto expected = MushroomMapper.mapToMushroomDto(saved);
+
+        when(repository.save(any())).thenReturn(saved);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        MushroomDto actual = service.createDefaultMushroom(defaultMushroom);
+
+        assertEquals(expected, actual);
+
+        verify(repository, times(1)).save(any());
+    }
+
+    @Test
+    void testCustomCreateMushroom() {
+        CustomMushroomCreationDto customMushroom = new CustomMushroomCreationDto();
+        customMushroom.setName("Mushroom");
+        customMushroom.setDescription("Test mushroom");
+        customMushroom.setOrigin("Denmark");
+        customMushroom.setUsername("john");
+
+        Mushroom saved = MushroomMapper.mapCustomCreateToMushroom(customMushroom);
+        saved.setId(1L);
+
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        user.setUsername("john");
+        saved.setUser(user);
+
+        MushroomDto expected = MushroomMapper.mapToMushroomDto(saved);
+
+        when(repository.save(any())).thenReturn(saved);
+        when(userRepository.findByUsername("john")).thenReturn(Optional.of(user));
+
+        MushroomDto actual = service.createCustomMushroom(customMushroom);
 
         assertEquals(expected, actual);
 
@@ -141,6 +195,7 @@ class MushroomServiceTest {
 
         UserEntity user = new UserEntity();
         user.setId(2);
+        user.setUsername("john");
 
         Mushroom mushroom1 = new Mushroom();
         mushroom1.setId(1L);
@@ -171,13 +226,13 @@ class MushroomServiceTest {
         expected.add(MushroomMapper.mapToMushroomDto(mushroom1));
         expected.add(MushroomMapper.mapToMushroomDto(mushroom2));
 
-        when(repository.findByUser_Id(2)).thenReturn(customMushrooms);
+        when(repository.findByUser_Username("john")).thenReturn(customMushrooms);
 
 
-        List<MushroomDto> actual = service.getCustom(2);
+        List<MushroomDto> actual = service.getCustom("john");
 
         assertEquals(expected, actual);
 
-        verify(repository, times(1)).findByUser_Id(2);
+        verify(repository, times(1)).findByUser_Username("john");
     }
 }
