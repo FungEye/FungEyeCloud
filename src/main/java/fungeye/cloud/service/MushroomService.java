@@ -6,6 +6,7 @@ import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
+import fungeye.cloud.security.JwtGenerator;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -14,16 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static fungeye.cloud.security.JwtGenerator.getUsernameFromJwt;
 
 @Service
 public class MushroomService {
     private MushroomRepository repository;
     private UserRepository userRepository;
+    private JwtGenerator generator;
 
-    public MushroomService(MushroomRepository repository, UserRepository userRepository) {
+    public MushroomService(MushroomRepository repository, UserRepository userRepository, JwtGenerator generator) {
         this.repository = repository;
         this.userRepository = userRepository;
+        this.generator = generator;
     }
 
     public MushroomDto createMushroom(MushroomCreationDTO toCreate) {
@@ -65,13 +67,13 @@ public class MushroomService {
     public void archiveMushroom(long mushroomId, String token) {
         Mushroom entity = repository.findById(mushroomId).orElseThrow();
         UserEntity user = entity.getUser();
-        String username = getUsernameFromJwt(token.substring(7));
+        String username = generator.getUsernameFromJwt(token.substring(7));
         if (user.getUsername().equals(username)) {
             if (entity.getArchived())
                 throw new IllegalArgumentException(String.format("%s is already archived.", entity.getName()));
             repository.updateArchivedById(true, mushroomId);
         }
-        else throw new BadCredentialsException(String.format("User: %s is not authorized to edit mushroom %s", username, entity.getName()));
+        else throw new BadCredentialsException(String.format("User: %s is not authorized to edit mushroom %s.", username, entity.getName()));
 
     }
 }

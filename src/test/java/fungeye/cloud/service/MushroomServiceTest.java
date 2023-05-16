@@ -6,19 +6,22 @@ import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
+import fungeye.cloud.security.JwtGenerator;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MushroomServiceTest {
@@ -28,6 +31,10 @@ class MushroomServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private JwtGenerator generator;
+
 
     @InjectMocks
     private MushroomService service;
@@ -179,5 +186,42 @@ class MushroomServiceTest {
         assertEquals(expected, actual);
 
         verify(repository, times(1)).findByUser_Id(2);
+    }
+
+    @Test
+    void testArchive() {
+        /* TODO i have no idea how to test this :-(
+        UserEntity admin = new UserEntity();
+        admin.setUsername("admin");
+        admin.setId(3);
+
+        Mushroom mushroom1 = new Mushroom();
+        mushroom1.setId(1L);
+        mushroom1.setName("Mushroom1");
+        mushroom1.setDescription("Test mushroom 1");
+        mushroom1.setUser(admin);
+        mushroom1.setArchived(false);
+
+        Mushroom updated = new Mushroom();
+        updated.setId(1L);
+        updated.setName("Mushroom1");
+        updated.setDescription("Test mushroom 1");
+        updated.setUser(admin);
+        updated.setArchived(true);
+
+
+        String dummyToken = "Bearer eyJhbGciOiJIUzUxMiJ9." +
+                "eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY4NDI0MzY1MywiZXhwIjoxNjg0MjQ0NTUzfQ." +
+                "Weth1A6aZbSC3o8XvB72jmEfzlGl4ljT9ohYJUd6gopzP7Lj5H2q6j8aqkV3HC6Ym-1Z5VyheyeaEs0z7v0BSQ";
+        when(repository.findById(1L)).thenReturn(Optional.of(mushroom1));
+        assertEquals(false, mushroom1.getArchived());
+        when(generator.getUsernameFromJwt(dummyToken)).thenReturn(admin.getUsername());
+        service.archiveMushroom(1, dummyToken);
+
+        doAnswer((i) -> {
+            assertEquals(true, i.getArgument(0));
+            return null;
+        }).when(repository).updateArchivedById(any(), anyLong());
+        */
     }
 }

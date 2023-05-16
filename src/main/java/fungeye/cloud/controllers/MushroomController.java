@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static fungeye.cloud.security.JwtGenerator.getUsernameFromJwt;
-
 @Slf4j
 @CrossOrigin
 @RestController
@@ -64,6 +62,4 @@ public class MushroomController {
         service.archiveMushroom(id, token);
         return ResponseEntity.ok("Archived");
     }
-
-
 }

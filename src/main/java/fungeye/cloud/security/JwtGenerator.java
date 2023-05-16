@@ -29,7 +29,7 @@ public class JwtGenerator {
                 .compact();
     }
 
-    public static String getUsernameFromJwt(String token) {
+    public String getUsernameFromJwt(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
