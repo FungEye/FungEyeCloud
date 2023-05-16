@@ -50,7 +50,7 @@ class IdealConditionsControllerTest {
         List<IdealConditionDto> expectedOutput = new ArrayList<>();
         expectedOutput.add(idealConditionDto1);
         expectedOutput.add(idealConditionDto2);
-        when(service.getByMushroomId(mushroomId)).thenReturn(expectedOutput);
+        when(service.getIdealConditionsByMushroomId(mushroomId)).thenReturn(expectedOutput);
 
         // when
         ResponseEntity<List<IdealConditionDto>> responseEntity = controller.getIdealConditionsByMushroomId(mushroomId);
@@ -58,6 +58,6 @@ class IdealConditionsControllerTest {
         // then
         assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
         assertEquals(expectedOutput, responseEntity.getBody());
-        verify(service, times(1)).getByMushroomId(mushroomId);
+        verify(service, times(1)).getIdealConditionsByMushroomId(mushroomId);
     }
 }

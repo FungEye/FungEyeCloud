@@ -36,4 +36,18 @@ public class IdealConditionsMapper {
 
         return idealCondition;
     }
+
+    public static IdealCondition mapUpdateToIdealConditions(IdealCondition ideal)
+    {
+        IdealCondition idealCondition = new IdealCondition();
+
+        idealCondition.setId(ideal.getId());
+        idealCondition.setMushroom(ideal.getMushroom());
+        idealCondition.setTemperatureHigh(ideal.getTemperatureHigh());
+        idealCondition.setTemperatureLow(ideal.getTemperatureLow());
+        idealCondition.setHumidityHigh(ideal.getHumidityHigh());
+        idealCondition.setHumidityLow(ideal.getHumidityLow());
+
+        return idealCondition;
+    }
 }

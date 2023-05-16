@@ -2,6 +2,9 @@ package fungeye.cloud.service;
 
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.MushroomUpdateDto;
+import fungeye.cloud.domain.enities.IdealCondition;
+import fungeye.cloud.domain.enities.IdealConditionId;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.service.mappers.MushroomMapper;
@@ -11,9 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -112,5 +113,41 @@ class MushroomServiceTest {
         assertEquals(expected, actual);
 
         verify(repository, times(1)).findAll();
+    }
+
+    @Test
+    void testUpdateMushroom()
+    {
+        MushroomUpdateDto mushroom = new MushroomUpdateDto();
+        Set<IdealCondition> ideal = new LinkedHashSet<>();
+        IdealCondition idealCondition1 = new IdealCondition();
+
+        mushroom.setId(1L);
+        mushroom.setName("Fugly");
+        mushroom.setDescription("Bobs your uncle");
+        mushroom.setIdealConditions(ideal);
+
+        idealCondition1.setId(new IdealConditionId(mushroom.getId(), "Spawn run"));
+        idealCondition1.setMushroom(MushroomMapper.mapFromUpdateMushroomDto(mushroom));
+        idealCondition1.setTemperatureLow(20.0);
+        idealCondition1.setTemperatureHigh(25.0);
+        idealCondition1.setHumidityLow(60.0);
+        idealCondition1.setHumidityHigh(80.0);
+        ideal.add(idealCondition1);
+
+        Set<IdealCondition> idealConditionList = new LinkedHashSet<>();;
+        idealConditionList.add(idealCondition1);
+
+        mushroom.setIdealConditions(idealConditionList);
+
+        MushroomDto expected = MushroomMapper.mapUpdateMushroomDto(mushroom);
+
+        MushroomDto actual = service.updateMushroom(mushroom);
+
+        when(service.updateMushroom(mushroom)).thenReturn(MushroomMapper.mapUpdateMushroomDto(mushroom));
+
+        assertEquals(expected, actual);
+
+        verify(service, times(1)).updateMushroom(mushroom);
     }
 }

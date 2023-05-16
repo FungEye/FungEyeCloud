@@ -11,9 +11,11 @@ import fungeye.cloud.service.mappers.IdealConditionsMapper;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.springframework.stereotype.Service;
 
+import java.lang.management.ManagementPermission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class MushroomService {
@@ -55,18 +57,35 @@ public class MushroomService {
         return dtos;
     }
 
-    public MushroomUpdateDto updateMushroom(MushroomUpdateDto dto)
+    public MushroomDto updateMushroom(MushroomUpdateDto dto)
     {
-        Optional<Mushroom> toUpdate = mushroomRepository.findById(dto.getId());
-        if(toUpdate.isPresent())
+        Mushroom toUpdate = mushroomRepository.findById(dto.getId()).orElseThrow();
+        List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
+        Set<IdealCondition> newConditions = dto.getIdealConditions();
+
+        //List<IdealCondition> list = new ArrayList<>();
+
+        if(toUpdate.getName().isEmpty())
         {
-            List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
-
-
-            return MushroomMapper.mapUpdateMushroomDto(mushroomRepository.save(dto));
+            throw new IllegalArgumentException("Please fill out all the necessary fields");
         }
         else {
-            throw  new IllegalArgumentException("Mushroom not found");
+            toUpdate.setName(dto.getName());
+            toUpdate.setDescription(dto.getDescription());
+
+            for (IdealCondition ideal : found) {
+
+
+                newConditions.add(ideal);
+                //IdealCondition cond = IdealConditionsMapper.mapUpdateToIdealConditions(ideal);
+
+            }
+            toUpdate.setIdealConditions(newConditions);
+
         }
+
+        return MushroomMapper.mapToMushroomDto(toUpdate);
     }
+
+
 }

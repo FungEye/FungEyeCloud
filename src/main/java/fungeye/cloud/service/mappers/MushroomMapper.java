@@ -40,14 +40,25 @@ public class MushroomMapper {
         return dtoList;
     }
 
-    public static MushroomUpdateDto mapUpdateMushroomDto(Mushroom mush)
+    // todo might not be needed, but maybe
+    public static MushroomDto mapUpdateMushroomDto(MushroomUpdateDto dto)
     {
-        MushroomUpdateDto dto = new MushroomUpdateDto();
-        dto.setId(mush.getId());
-        dto.setDescription(mush.getDescription());
-        dto.setName(mush.getName());
-        dto.setIdealConditions(mush.getIdealConditions());
+        MushroomDto mushroomDto = new MushroomDto();
+        mushroomDto.setId(dto.getId());
+        mushroomDto.setDescription(dto.getDescription());
+        mushroomDto.setName(dto.getName());
 
-        return dto;
+        return mushroomDto;
+    }
+
+    public static Mushroom mapFromUpdateMushroomDto(MushroomUpdateDto dto)
+    {
+        Mushroom mush = new Mushroom();
+        mush.setId(dto.getId());
+        mush.setName(dto.getName());
+        mush.setDescription(dto.getDescription());
+        mush.setIdealConditions(dto.getIdealConditions());
+
+        return mush;
     }
 }

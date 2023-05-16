@@ -28,13 +28,7 @@ public class IdealConditionsController {
     @GetMapping(value = "/ideal/{mushroomId}")
     public ResponseEntity<List<IdealConditionDto>> getIdealConditionsByMushroomId(@PathVariable Long mushroomId)
     {
-        List<IdealConditionDto> found = service.getByMushroomId(mushroomId);
-        return new ResponseEntity<>(found, HttpStatus.FOUND);
-    }
-
-    @PostMapping("/ideal")
-    public ResponseEntity<List<IdealConditionDto>> updateIdealConditions(@RequestBody IdealConditionDto)
-    {
-        return new ResponseEntity<>(null, HttpStatus.FOUND);
+        List<IdealConditionDto> found = service.getIdealConditionsByMushroomId(mushroomId);
+        return new ResponseEntity<>(found, HttpStatus.OK);
     }
 }

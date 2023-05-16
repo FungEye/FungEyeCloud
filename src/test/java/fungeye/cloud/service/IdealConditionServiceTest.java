@@ -93,7 +93,7 @@ class IdealConditionServiceTest {
         Mockito.when(repository.findByMushroom_Id(mushroomId)).thenReturn(conditions);
 
         // Act
-        List<IdealConditionDto> result = service.getByMushroomId(mushroomId);
+        List<IdealConditionDto> result = service.getIdealConditionsByMushroomId(mushroomId);
 
         // Assert
         assertNotNull(result);
@@ -125,7 +125,7 @@ class IdealConditionServiceTest {
         Mockito.when(repository.findByMushroom_Id(mushroomId)).thenReturn(Collections.emptyList());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            service.getByMushroomId(mushroomId);
+            service.getIdealConditionsByMushroomId(mushroomId);
         });
 
         assertEquals("No ideal conditions were found for that mushroom", exception.getMessage());

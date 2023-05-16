@@ -43,10 +43,10 @@ public class MushroomController {
         return new ResponseEntity<>(all, HttpStatus.FOUND);
     }
 
-    @PostMapping(value = "/mushroom")
-    public ResponseEntity<MushroomUpdateDto> updateMushroom(@RequestBody MushroomUpdateDto dto)
+    @PostMapping(value = "/")
+    public ResponseEntity<MushroomDto> updateMushroom(@RequestBody MushroomUpdateDto dto)
     {
-        //Mushroom update = service.updateMushroom(dto);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(service.updateMushroom(dto), HttpStatus.OK);
     }
 }
