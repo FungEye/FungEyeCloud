@@ -240,7 +240,7 @@ class MushroomServiceTest {
     }
 
     @Test
-    public void testArchiveMushroom_WithValidInputsAndNotArchived() {
+    void testArchiveMushroom_WithValidInputsAndNotArchived() {
         // Arrange
         long mushroomId = 1L;
         String token = "valid_token";
@@ -260,7 +260,7 @@ class MushroomServiceTest {
         service.archiveMushroom(mushroomId, token);
 
         // Assert
-        verify(repository, times(1)).updateArchivedById(eq(true), eq(mushroomId));
+        verify(repository, times(1)).updateArchivedById(true, mushroomId);
     }
 
     @Test
