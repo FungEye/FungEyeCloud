@@ -1,5 +1,6 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -91,6 +92,18 @@ class MushroomMapperTest {
         dto.setDescription("A common mushroom");
 
         Mushroom mushroom = MushroomMapper.mapCreateToMushroom(dto);
+
+        assertEquals(dto.getName(), mushroom.getName());
+        assertEquals(dto.getDescription(), mushroom.getDescription());
+    }
+
+    @Test
+    void testMapDefaultCreateToMushroom() {
+        DefaultMushroomCreationDto dto = new DefaultMushroomCreationDto();
+        dto.setName("Button Mushroom");
+        dto.setDescription("A common mushroom");
+
+        Mushroom mushroom = MushroomMapper.mapDefaultCreateToMushroom(dto);
 
         assertEquals(dto.getName(), mushroom.getName());
         assertEquals(dto.getDescription(), mushroom.getDescription());

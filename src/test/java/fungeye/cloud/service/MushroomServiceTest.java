@@ -1,5 +1,6 @@
 package fungeye.cloud.service;
 
+import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -45,8 +46,6 @@ class MushroomServiceTest {
         toCreate.setOrigin("Denmark");
         toCreate.setUserId(1);
 
-        Mushroom mushroomToSave = MushroomMapper.mapCreateToMushroom(toCreate);
-
         Mushroom saved = MushroomMapper.mapCreateToMushroom(toCreate);
         saved.setId(1L);
 
@@ -60,6 +59,32 @@ class MushroomServiceTest {
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
         MushroomDto actual = service.createMushroom(toCreate);
+
+        assertEquals(expected, actual);
+
+        verify(repository, times(1)).save(any());
+    }
+
+    @Test
+    void testDefaultCreateMushroom() {
+        DefaultMushroomCreationDto defaultMushroom = new DefaultMushroomCreationDto();
+        defaultMushroom.setName("Mushroom");
+        defaultMushroom.setDescription("Test mushroom");
+        defaultMushroom.setOrigin("Denmark");
+
+        Mushroom saved = MushroomMapper.mapDefaultCreateToMushroom(defaultMushroom);
+        saved.setId(1L);
+
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        saved.setUser(user);
+
+        MushroomDto expected = MushroomMapper.mapToMushroomDto(saved);
+
+        when(repository.save(any())).thenReturn(saved);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        MushroomDto actual = service.createDefaultMushroom(defaultMushroom);
 
         assertEquals(expected, actual);
 
