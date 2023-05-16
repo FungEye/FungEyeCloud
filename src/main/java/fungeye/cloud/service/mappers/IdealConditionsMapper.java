@@ -35,6 +35,5 @@ public class IdealConditionsMapper {
         idealCondition.setHumidityLow(dto.getHumidityLow());
 
         return idealCondition;
-
     }
 }

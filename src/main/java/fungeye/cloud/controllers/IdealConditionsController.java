@@ -31,4 +31,10 @@ public class IdealConditionsController {
         List<IdealConditionDto> found = service.getByMushroomId(mushroomId);
         return new ResponseEntity<>(found, HttpStatus.FOUND);
     }
+
+    @PostMapping("/ideal")
+    public ResponseEntity<List<IdealConditionDto>> updateIdealConditions(@RequestBody IdealConditionDto)
+    {
+        return new ResponseEntity<>(null, HttpStatus.FOUND);
+    }
 }

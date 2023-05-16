@@ -36,6 +36,9 @@ public class IdealCondition {
     @Column(name = "humidity_low", nullable = false)
     private Double humidityLow;
 
+    @NotNull
+    @Column(name = "")
+
     public IdealCondition() {
     }
 
@@ -95,6 +98,7 @@ public class IdealCondition {
     public void setHumidityLow(Double humidityLow) {
         this.humidityLow = humidityLow;
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -3,8 +3,11 @@ package fungeye.cloud.service;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.dtos.MushroomUpdateDto;
+import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.Mushroom;
+import fungeye.cloud.persistence.repository.IdealConditionRepository;
 import fungeye.cloud.persistence.repository.MushroomRepository;
+import fungeye.cloud.service.mappers.IdealConditionsMapper;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +17,23 @@ import java.util.Optional;
 
 @Service
 public class MushroomService {
-    private MushroomRepository repository;
+    private MushroomRepository mushroomRepository;
+    private IdealConditionRepository idealConditionRepository;
 
-    public MushroomService(MushroomRepository repository) {
-        this.repository = repository;
+    public MushroomService(MushroomRepository mushroomRepository, IdealConditionRepository idealConditionRepository) {
+        this.mushroomRepository = mushroomRepository;
+        this.idealConditionRepository = idealConditionRepository;
     }
 
     public MushroomDto createMushroom(MushroomCreationDTO toCreate)
     {
         Mushroom toSave = MushroomMapper.mapCreateToMushroom(toCreate);
-        return MushroomMapper.mapToMushroomDto(repository.save(toSave));
+        return MushroomMapper.mapToMushroomDto(mushroomRepository.save(toSave));
     }
 
     public MushroomDto getById(Long id)
     {
-        Optional<Mushroom> mushroom = repository.findById(id);
+        Optional<Mushroom> mushroom = mushroomRepository.findById(id);
         if (mushroom.isPresent())
         {
             return MushroomMapper.mapToMushroomDto(mushroom.get());
@@ -41,7 +46,7 @@ public class MushroomService {
 
     public List<MushroomDto> getAll()
     {
-        List<Mushroom> allMushrooms = repository.findAll();
+        List<Mushroom> allMushrooms = mushroomRepository.findAll();
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom:
              allMushrooms) {
@@ -50,12 +55,15 @@ public class MushroomService {
         return dtos;
     }
 
-    public Mushroom updateMushroom(MushroomUpdateDto dto)
+    public MushroomUpdateDto updateMushroom(MushroomUpdateDto dto)
     {
-        Optional<Mushroom> toUpdate = repository.findById(dto.getId());
+        Optional<Mushroom> toUpdate = mushroomRepository.findById(dto.getId());
         if(toUpdate.isPresent())
         {
-            return MushroomMapper.mapUpdateMushroomDto(repository.save(dto));
+            List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
+
+
+            return MushroomMapper.mapUpdateMushroomDto(mushroomRepository.save(dto));
         }
         else {
             throw  new IllegalArgumentException("Mushroom not found");

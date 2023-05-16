@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -43,9 +44,9 @@ public class MushroomController {
     }
 
     @PostMapping(value = "/mushroom")
-    public ResponseEntity<Mushroom> updateMushroom(@RequestBody MushroomUpdateDto dto)
+    public ResponseEntity<MushroomUpdateDto> updateMushroom(@RequestBody MushroomUpdateDto dto)
     {
-        Mushroom update = service.updateMushroom(dto);
-        return new ResponseEntity<>(update, HttpStatus.CREATED);
+        //Mushroom update = service.updateMushroom(dto);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 }
