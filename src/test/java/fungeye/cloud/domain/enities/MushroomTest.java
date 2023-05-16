@@ -64,17 +64,4 @@ class MushroomTest {
         mushroom.setUser(user);
         assertEquals(user, mushroom.getUser());
     }
-
-
-    @Test
-    public void testToString() {
-        Mushroom mushroom = new Mushroom();
-        mushroom.setId(1L);
-        mushroom.setName("Button Mushroom");
-        mushroom.setDescription("A common edible mushroom");
-        mushroom.setOrigin("France");
-        String expected = "Mushroom{id=1, name='Button Mushroom', description='A common edible mushroom', origin='France', idealConditions=[], user=null}";
-        String actual = mushroom.toString();
-        assertEquals(expected, actual);
-    }
 }

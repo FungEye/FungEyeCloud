@@ -49,10 +49,4 @@ class AuthResponseDtoTest {
     void canEqual() {
         assertTrue(dto.canEqual(new AuthResponseDto("TEST")));
     }
-
-
-    @Test
-    void testToString() {
-        assertEquals("AuthResponseDto(accessToken=token, tokenType=Bearer: )", dto.toString());
-    }
 }

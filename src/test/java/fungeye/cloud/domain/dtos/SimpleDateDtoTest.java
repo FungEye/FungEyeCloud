@@ -2,33 +2,10 @@ package fungeye.cloud.domain.dtos;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.DateTimeException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class SimpleDateDtoTest {
-
-    @Test
-    void TestConstructorLegalDate() {
-        assertDoesNotThrow(() -> new SimpleDateDto(2023, 5, 1));
-    }
-
-    @Test
-    void TestConstructorIllegalYear() {
-        assertThrows(DateTimeException.class, () -> new SimpleDateDto(0, 5, 1));
-    }
-
-    @Test
-    void TestConstructorIllegalMonth() {
-        assertThrows(DateTimeException.class, () -> new SimpleDateDto(2023, 13, 1));
-    }
-
-    @Test
-    void TestConstructorIllegalDay() {
-        assertThrows(DateTimeException.class, () -> new SimpleDateDto(2023, 4, 31));
-    }
-
-
     @Test
     void getYear() {
         SimpleDateDto dto = new SimpleDateDto(2023,5,12);

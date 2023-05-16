@@ -1,7 +1,6 @@
 package fungeye.cloud.domain.enities;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;

@@ -13,6 +13,6 @@ public interface MushroomRepository extends JpaRepository<Mushroom, Long> {
     @Modifying
     @Query("update Mushroom m set m.archived = ?1 where m.id = ?2")
     void updateArchivedById(Boolean archived, Long id);
-
+    List<Mushroom> findByUser_Username(String username);
     List<Mushroom> findByUser_Id(Integer id);
 }

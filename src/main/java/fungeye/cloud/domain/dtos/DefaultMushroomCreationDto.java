@@ -1,12 +1,13 @@
 package fungeye.cloud.domain.dtos;
 
-
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class MushroomCreationDTO {
+public class DefaultMushroomCreationDto {
     private String name;
     private String description;
     private String origin;
-    private int userId;
+    private List<IdealConditionCreationDto> idealConditionCreationDtos;
 }

@@ -1,5 +1,6 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.IdealConditionCreationDto;
 import fungeye.cloud.domain.dtos.IdealConditionDto;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.IdealConditionId;
@@ -44,5 +45,23 @@ public class IdealConditionsMapper {
 
         return idealCondition;
 
+    }
+
+    public static IdealCondition mapCreateToIdealCondition(IdealConditionCreationDto dto) {
+        IdealConditionId id = new IdealConditionId();
+        id.setDevelopmentStage(dto.getDevelopmentStage());
+
+        IdealCondition idealCondition = new IdealCondition();
+        idealCondition.setId(id);
+        idealCondition.setTemperatureHigh(dto.getTempHigh());
+        idealCondition.setTemperatureLow(dto.getTempLow());
+        idealCondition.setHumidityHigh(dto.getHumidityHigh());
+        idealCondition.setHumidityLow(dto.getHumidityLow());
+        idealCondition.setCo2High(dto.getCo2High());
+        idealCondition.setCo2Low(dto.getCo2Low());
+        idealCondition.setLightHigh(dto.getLightHigh());
+        idealCondition.setLightLow(dto.getLightLow());
+
+        return idealCondition;
     }
 }

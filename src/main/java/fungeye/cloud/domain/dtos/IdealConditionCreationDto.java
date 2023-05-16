@@ -3,8 +3,7 @@ package fungeye.cloud.domain.dtos;
 import lombok.Data;
 
 @Data
-public class IdealConditionDto {
-    private Long mushroomId;
+public class IdealConditionCreationDto {
     private String developmentStage;
     private double tempHigh;
     private double tempLow;
