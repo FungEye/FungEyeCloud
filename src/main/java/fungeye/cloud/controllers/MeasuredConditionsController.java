@@ -42,11 +42,10 @@ public class MeasuredConditionsController {
         return new ResponseEntity<>(service.getMeasuredConditions(param), HttpStatus.OK);
     }
 
-    //TODO Probably add new endpoint? /historical (because fuck naming conventions amirite?)
-    @GetMapping(value = "/measurements/historical")
-    public ResponseEntity<HistoricalMeasurementDto> getHistoricalMeasurements() {
+    @GetMapping(value = "box{id}/measurements/historical")
+    public ResponseEntity<HistoricalMeasurementDto> getHistoricalMeasurements(@PathVariable("id") Long id) {
 
-        return new ResponseEntity<>(service.getHistoricalMeasurements(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getHistoricalMeasurements(id), HttpStatus.OK);
     }
 
 

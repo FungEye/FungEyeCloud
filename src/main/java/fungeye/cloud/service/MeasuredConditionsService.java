@@ -62,8 +62,8 @@ public class MeasuredConditionsService {
         LOGGER.info(String.format("Measurement persisted in database for box # %d", response.getId().getBoxId()));
     }
 
-    public HistoricalMeasurementDto getHistoricalMeasurements() {
-        List<MeasuredCondition> measuredConditions = repository.findAllByBox_Id(1L);
+    public HistoricalMeasurementDto getHistoricalMeasurements(Long boxId) {
+        List<MeasuredCondition> measuredConditions = repository.findAllByBox_Id(boxId);
         HistoricalMeasurementDto result = new HistoricalMeasurementDto();
         result.setTemperature(new ArrayList<>());
         result.setLight(new ArrayList<>());
