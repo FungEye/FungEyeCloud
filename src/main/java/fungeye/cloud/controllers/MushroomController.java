@@ -65,10 +65,10 @@ public class MushroomController {
     }
 
     @GetMapping(value = "/mushroom/custom/{userId}")
-    public ResponseEntity<List<MushroomDto>> getDefaultAndCustom(@PathVariable int userId)
+    public ResponseEntity<List<MushroomDto>> getDefaultAndCustom(@PathVariable String username)
     {
         List<MushroomDto> allDefault = service.getAllDefault();
-        List<MushroomDto> custom = service.getCustom(userId);
+        List<MushroomDto> custom = service.getCustom(username);
         custom.addAll(allDefault);
         return new ResponseEntity<>(custom, HttpStatus.FOUND);
     }
