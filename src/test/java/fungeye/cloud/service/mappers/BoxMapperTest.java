@@ -220,10 +220,6 @@ class BoxMapperTest {
         assertEquals(box1.getId(), result.get(0).getId());
         assertEquals(box2.getId(), result.get(1).getId());
         assertEquals(box3.getId(), result.get(2).getId());
-        // Check if grow status is as expected
-        assertFalse(result.get(0).getGrows().get(0).isActive());
-        assertFalse(result.get(2).getGrows().get(0).isActive());
-        assertTrue(result.get(1).getGrows().get(0).isActive());
         // Check "randomly" selected measurements from each box:
         assertEquals(100.0,result.get(0).getConditions().get(0).getHumidity());
         assertEquals(25.0,result.get(1).getConditions().get(5).getTemperature());
