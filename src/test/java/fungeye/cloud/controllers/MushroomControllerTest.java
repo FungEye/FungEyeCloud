@@ -28,7 +28,7 @@ class MushroomControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         controller = new MushroomController(service);
     }
 
