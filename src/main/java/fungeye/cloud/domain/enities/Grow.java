@@ -45,9 +45,4 @@ public class Grow {
 
     @OneToMany(mappedBy = "grow", orphanRemoval = true)
     private Set<Harvest> harvests = new LinkedHashSet<>();
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
-
 }

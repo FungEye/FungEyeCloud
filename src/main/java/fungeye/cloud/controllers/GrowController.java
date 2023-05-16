@@ -18,13 +18,17 @@ public class GrowController {
 
     private GrowService service;
 
+    public GrowController(GrowService service) {
+        this.service = service;
+    }
+
     @PostMapping("/grow")
     public ResponseEntity<GrowDto> createGrow(GrowCreationDto dto)
     {
-        return new ResponseEntity<>(service.createGrow(dto), HttpStatus.OK);
+        return new ResponseEntity<>(service.createGrow(dto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/grow/all/empty")
+    @GetMapping("/grow/all")
     public ResponseEntity<List<GrowIdDto>>getGrowsByUsername (String username)
     {
         return new ResponseEntity<>(service.getAllGrowsByUsername(username), HttpStatus.OK);

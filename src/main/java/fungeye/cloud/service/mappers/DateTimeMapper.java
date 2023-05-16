@@ -37,6 +37,10 @@ public class DateTimeMapper {
         return dto;
     }
 
+    public static LocalDate mapFromDateDto(DateTimeDto dto) {
+        return LocalDate.of(dto.getYear(), dto.getMonth(), dto.getDay());
+    }
+
     public static Instant mapToInstant(DateTimeDto dto) {
         LocalDateTime temp = LocalDateTime.of(dto.getYear(), dto.getMonth(), dto.getDay(), dto.getHour(), dto.getMinute(), dto.getSecond());
         return temp.toInstant(ZoneOffset.ofHours(0));

@@ -3,7 +3,9 @@ package fungeye.cloud.service.mappers;
 import fungeye.cloud.domain.dtos.GrowCreationDto;
 import fungeye.cloud.domain.dtos.GrowDto;
 import fungeye.cloud.domain.dtos.GrowIdDto;
+import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
+import fungeye.cloud.domain.enities.Mushroom;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
-import static fungeye.cloud.service.mappers.DateTimeMapper.mapToInstant;
 
 public class GrowMapper {
     private GrowMapper() {
@@ -27,9 +28,31 @@ public class GrowMapper {
                 dto.getDate().getDay()));
         grow.setIsActive(grow.getIsActive());
         grow.setDevelopmentStage(dto.getDevelopStage());
-        // todo the grow should have box and mushrooms ids and not objects.
-        grow.setBox(dto.getBoxId());
-        grow.setMushroom(dto.getMushroomId());
+
+        Box box = new Box();
+        box.setId(dto.getBoxId());
+        grow.setBox(box);
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(dto.getMushroomId());
+        grow.setMushroom(mushroom);
+
+        return grow;
+    }
+
+    public static Grow mapFromDto(GrowDto dto){
+        Grow grow = new Grow();
+        grow.setDateStarted(DateTimeMapper.mapFromDateDto(dto.getDate()));
+        grow.setIsActive(grow.getIsActive());
+        grow.setDevelopmentStage(dto.getStage());
+
+        Box box = new Box();
+        box.setId(dto.getBoxId());
+        grow.setBox(box);
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(dto.getMushroomId());
+        grow.setMushroom(mushroom);
 
         return grow;
     }
@@ -41,6 +64,7 @@ public class GrowMapper {
         dto.setDate(mapToDateDto(grow.getDateStarted()));
         dto.setStage(grow.getDevelopmentStage());
         dto.setBoxId(grow.getBox().getId());
+        dto.setMushroomId(grow.getMushroom().getId());
 
         return dto;
     }
@@ -52,11 +76,25 @@ public class GrowMapper {
         return list;
     }
 
+    public static List<Grow> mapFromGrowDtoList(List<GrowDto> dtos) {
+        List<Grow> list = new ArrayList<>();
+        dtos.forEach(d -> list.add(mapFromDto(d)));
+
+        return list;
+    }
+
     public static GrowIdDto mapToGrowIdDto(Grow grow)
     {
         GrowIdDto dto = new GrowIdDto();
         dto.setId(grow.getId());
 
         return dto;
+    }
+
+    public static List<GrowIdDto> mapToGrowIdDtoList(List<Grow> grows) {
+        List<GrowIdDto> dtos = new ArrayList<>();
+        grows.forEach(g -> dtos.add(mapToGrowIdDto(g)));
+
+        return dtos;
     }
 }

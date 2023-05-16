@@ -2,10 +2,7 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
-import fungeye.cloud.domain.enities.Box;
-import fungeye.cloud.domain.enities.Grow;
-import fungeye.cloud.domain.enities.MeasuredCondition;
-import fungeye.cloud.domain.enities.MeasuredConditionId;
+import fungeye.cloud.domain.enities.*;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -54,6 +51,9 @@ class BoxMapperTest {
         mockGrow.setBox(box);
         LocalDate mockDate = LocalDate.of(2023, 5, 6);
         when(mockGrow.getDateStarted()).thenReturn(mockDate);
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        mockGrow.setMushroom(mushroom);
         grows.add(mockGrow);
         Set<MeasuredCondition> measuredConditions = new HashSet<>();
         MeasuredCondition mockCondition = mock(MeasuredCondition.class);
@@ -89,6 +89,9 @@ class BoxMapperTest {
         mockGrow.setBox(box);
         LocalDate mockDate = LocalDate.of(2023, 5, 6);
         when(mockGrow.getDateStarted()).thenReturn(mockDate);
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        mockGrow.setMushroom(mushroom);
         grows.add(mockGrow);
         Set<MeasuredCondition> measuredConditions = new HashSet<>();
         MeasuredCondition mockCondition = mock(MeasuredCondition.class);

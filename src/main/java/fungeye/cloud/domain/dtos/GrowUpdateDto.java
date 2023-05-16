@@ -7,5 +7,4 @@ public class GrowUpdateDto {
     private Long id;
     private String developStage;
     private Boolean isActive;
-
 }

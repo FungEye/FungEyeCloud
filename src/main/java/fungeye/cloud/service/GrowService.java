@@ -7,19 +7,27 @@ import fungeye.cloud.domain.dtos.GrowUpdateDto;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.service.mappers.GrowMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class GrowService {
 
     private GrowRepository repository;
+
+    public GrowService(GrowRepository repository) {
+        this.repository = repository;
+    }
+
     public GrowDto createGrow(GrowCreationDto dto)
     {
         Grow toCreate = GrowMapper.mapFromCreationDto(dto);
         Grow created = repository.save(toCreate);
-        return GrowMapper.mapToGrowDto(toCreate);
+        created.setIsActive(true);
+        return GrowMapper.mapToGrowDto(created);
     }
 
     public List<GrowIdDto> getAllGrowsByUsername(String username)
