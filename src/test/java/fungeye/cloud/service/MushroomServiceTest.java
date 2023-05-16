@@ -195,6 +195,7 @@ class MushroomServiceTest {
 
         UserEntity user = new UserEntity();
         user.setId(2);
+        user.setUsername("john");
 
         Mushroom mushroom1 = new Mushroom();
         mushroom1.setId(1L);
@@ -225,13 +226,13 @@ class MushroomServiceTest {
         expected.add(MushroomMapper.mapToMushroomDto(mushroom1));
         expected.add(MushroomMapper.mapToMushroomDto(mushroom2));
 
-        when(repository.findByUser_Id(2)).thenReturn(customMushrooms);
+        when(repository.findByUser_Username("john")).thenReturn(customMushrooms);
 
 
-        List<MushroomDto> actual = service.getCustom(2);
+        List<MushroomDto> actual = service.getCustom("john");
 
         assertEquals(expected, actual);
 
-        verify(repository, times(1)).findByUser_Id(2);
+        verify(repository, times(1)).findByUser_Username("john");
     }
 }

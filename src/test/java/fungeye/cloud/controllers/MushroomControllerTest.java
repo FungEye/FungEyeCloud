@@ -154,6 +154,7 @@ class MushroomControllerTest {
 
         UserEntity user = new UserEntity();
         user.setId(2);
+        user.setUsername("john");
 
         Mushroom mushroom1 = new Mushroom();
         mushroom1.setId(1L);
@@ -185,16 +186,16 @@ class MushroomControllerTest {
         expected.addAll(customDtos);
         expected.addAll(defaultMushroomDtos);
 
-        when(service.getCustom(2)).thenReturn(customDtos);
+        when(service.getCustom("john")).thenReturn(customDtos);
         when(service.getAllDefault()).thenReturn(defaultMushroomDtos);
 
 
-        ResponseEntity<List<MushroomDto>> response = controller.getDefaultAndCustom(2);
+        ResponseEntity<List<MushroomDto>> response = controller.getDefaultAndCustom("john");
 
         assertEquals(expected, response.getBody());
         assertEquals(HttpStatus.FOUND, response.getStatusCode());
 
-        verify(service, times(1)).getCustom(2);
+        verify(service, times(1)).getCustom("john");
         verify(service, times(1)).getAllDefault();
     }
 }

@@ -88,18 +88,28 @@ public class MushroomService {
 
     public List<MushroomDto> getAllDefault() {
         // 3 is the admin userId
-        return getMushroomDtos(3);
+        return getMushroomDtosById(3);
     }
 
-    public List<MushroomDto> getCustom(int userId) {
-        return getMushroomDtos(userId);
+    public List<MushroomDto> getCustom(String username) {
+        return getMushroomDtosByUsername(username);
     }
 
-    private List<MushroomDto> getMushroomDtos(int userId) {
-        List<Mushroom> allDefaultMushrooms = repository.findByUser_Id(userId);
+    private List<MushroomDto> getMushroomDtosById(int userId) {
+        List<Mushroom> mushrooms = repository.findByUser_Id(userId);
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom :
-                allDefaultMushrooms) {
+                mushrooms) {
+            dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+        }
+        return dtos;
+    }
+
+    private List<MushroomDto> getMushroomDtosByUsername(String username) {
+        List<Mushroom> mushrooms = repository.findByUser_Username(username);
+        List<MushroomDto> dtos = new ArrayList<>();
+        for (Mushroom mushroom :
+                mushrooms) {
             dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
         }
         return dtos;
