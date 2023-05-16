@@ -84,4 +84,44 @@ class BoxServiceTest {
         verify(repository, times(1)).findAll();
 
     }
+
+    @Test
+    void testGetAllEmptyByUsername()
+    {
+        String username = "Liepa";
+
+        Box box1 = new Box();
+        Box box2 = new Box();
+        Box box3 = new Box();
+        box1.setId(1L);
+        box2.setId(2L);
+        box3.setId(3L);
+
+        List<Box> boxes = new ArrayList<>();
+
+        boxes.add(box1);
+        boxes.add(box2);
+        boxes.add(box3);
+
+        BoxDto dto1 = new BoxDto();
+        BoxDto dto2 = new BoxDto();
+        BoxDto dto3 = new BoxDto();
+        dto1.setId(1L);
+        dto2.setId(2L);
+        dto3.setId(3L);
+
+        List<BoxDto> dtos = new ArrayList<>();
+
+        dtos.add(dto1);
+        dtos.add(dto2);
+        dtos.add(dto3);
+
+        when(repository.findBoxesByUserEntity_Username(username)).thenReturn(boxes);
+
+        BoxService service = new BoxService(repository);
+        List<BoxDto> result = service.getAllByUserName(username);
+
+        assertEquals(dtos.get(0).getId(), result.get(0).getId());
+        verify(repository, times(1)).findBoxesByUserEntity_Username(username);
+    }
 }

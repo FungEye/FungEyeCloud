@@ -42,7 +42,14 @@ public class BoxService {
 
         for (Box box : boxes)
         {
-            dtoList.add(BoxMapper.mapToSimpleDto(box));
+            if (box.getGrows().isEmpty())
+            {
+                dtoList.add(BoxMapper.mapToSimpleDto(box));
+            }
+            else{
+                throw new IllegalArgumentException("There is no inactive grows!");
+            }
+
         }
         return dtoList;
     }
