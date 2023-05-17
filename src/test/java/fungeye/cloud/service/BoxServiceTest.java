@@ -122,7 +122,7 @@ class BoxServiceTest {
 
         when(repository.findBoxesByUserEntity_Username(username)).thenReturn(boxes);
 
-        BoxService service = new BoxService(repository);
+        BoxService service = new BoxService(repository, growRepository);
         List<BoxDto> result = service.getAllByUserName(username);
 
         assertEquals(dtos.get(0).getId(), result.get(0).getId());
