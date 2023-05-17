@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface GrowRepository extends JpaRepository<Grow, Long> {
     List<Grow> findByBox_Id(Long id);
-    List<Grow> findGrowsByUserEntity_Username(String username);
+    List<Grow> findGrowsByBox_UserEntity_Username(String username);
 }

@@ -32,7 +32,7 @@ public class GrowService {
 
     public List<GrowIdDto> getAllGrowsByUsername(String username)
     {
-        List<Grow> grows = repository.findGrowsByUserEntity_Username(username);
+        List<Grow> grows = repository.findGrowsByBox_UserEntity_Username(username);
         List<GrowIdDto> dtoList = new ArrayList<>();
 
         for (Grow grow : grows)
