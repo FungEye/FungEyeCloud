@@ -25,5 +25,4 @@ public class Box {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
-
 }

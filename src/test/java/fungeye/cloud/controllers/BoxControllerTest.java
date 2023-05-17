@@ -3,6 +3,7 @@ package fungeye.cloud.controllers;
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.service.BoxService;
+import lombok.experimental.StandardException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,14 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,4 +79,25 @@ class BoxControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/boxes"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void testGetAllBoxesByUserId() {
+        String userName = "Liepa";
+        BoxDto dto1 = new BoxDto();
+        BoxDto dto2 = new BoxDto();
+
+        List<BoxDto> dtos = new ArrayList<>();
+        dtos.add(dto1);
+        dtos.add(dto2);
+        when(boxService.getAllByUserName(userName)).thenReturn(dtos);
+
+        ResponseEntity<List<BoxDto>> responseEntity = boxController.getAllBoxesByUserName(userName);
+
+        assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
+        assertEquals(dtos, responseEntity.getBody());
+        verify(boxService, times(1)).getAllByUserName(userName);
+
+    }
+
+
 }

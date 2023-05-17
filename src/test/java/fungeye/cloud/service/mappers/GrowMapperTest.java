@@ -26,22 +26,20 @@ class GrowMapperTest {
 
     @Test
     void testMapToGrowDto() {
+
         // Arrange
         Box box = new Box();
         box.setId(1L);
-
-        Set<Mushroom> mushrooms = new HashSet<>();
-        mushrooms.add(new Mushroom());
-        mushrooms.add(new Mushroom());
-
+        Mushroom shroom1 = new Mushroom();
+        shroom1.setId(1L);
         LocalDate dateStarted = LocalDate.of(2023, 5, 1);
-
         Grow grow = new Grow();
         grow.setId(2L);
         grow.setBox(box);
         grow.setIsActive(true);
         grow.setDateStarted(dateStarted);
         grow.setDevelopmentStage("Early");
+        grow.setMushroom(shroom1);
 
 
         // Act
@@ -67,9 +65,10 @@ class GrowMapperTest {
         Box box2 = new Box();
         box2.setId(2L);
 
-        Set<Mushroom> mushrooms = new HashSet<>();
-        mushrooms.add(new Mushroom());
-        mushrooms.add(new Mushroom());
+        Mushroom shroom1 = new Mushroom();
+        shroom1.setId(1L);
+        Mushroom shroom2 = new Mushroom();
+        shroom2.setId(2L);
 
         LocalDate dateStarted = LocalDate.of(2023, 5, 1);
 
@@ -79,6 +78,7 @@ class GrowMapperTest {
         grow1.setIsActive(true);
         grow1.setDateStarted(dateStarted);
         grow1.setDevelopmentStage("Early");
+        grow1.setMushroom(shroom1);
 
         Grow grow2 = new Grow();
         grow2.setId(2L);
@@ -86,6 +86,7 @@ class GrowMapperTest {
         grow2.setIsActive(true);
         grow2.setDateStarted(dateStarted);
         grow2.setDevelopmentStage("Early");
+        grow2.setMushroom(shroom2);
 
         Set<Grow> grows = new HashSet<>();
         grows.add(grow1);

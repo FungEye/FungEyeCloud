@@ -8,17 +8,16 @@ import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.IdealConditionRepository;
 import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
+import fungeye.cloud.security.JwtGenerator;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MushroomServiceTest {
@@ -31,6 +30,10 @@ class MushroomServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private JwtGenerator generator;
+
 
     @InjectMocks
     private MushroomService service;
@@ -298,4 +301,65 @@ class MushroomServiceTest {
     }
 
      */
+
+    @Test
+    void testArchiveMushroom_WithValidInputsAndNotArchived() {
+        // Arrange
+        long mushroomId = 1L;
+        String token = "valid_token";
+        Mushroom mushroom = new Mushroom();
+        mushroom.setArchived(false);
+        UserEntity user = new UserEntity();
+        user.setUsername("username");
+        mushroom.setUser(user);
+
+        when(repository.findById(mushroomId)).thenReturn(Optional.of(mushroom));
+        when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("username");
+
+        // Mock the void method to do nothing
+        doNothing().when(repository).updateArchivedById(true, mushroomId);
+
+        // Act
+        service.archiveMushroom(mushroomId, token);
+
+        // Assert
+        verify(repository, times(1)).updateArchivedById(true, mushroomId);
+    }
+
+    @Test
+    void testArchiveAlreadyArchivedMushroom() {
+        long mushroomId = 1L;
+        String token = "valid_token";
+        Mushroom mushroom = new Mushroom();
+        mushroom.setArchived(true);
+        UserEntity user = new UserEntity();
+        user.setUsername("username");
+        mushroom.setUser(user);
+
+        when(repository.findById(mushroomId)).thenReturn(Optional.of(mushroom));
+        when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("username");
+
+        assertThrows(IllegalArgumentException.class, () -> service.archiveMushroom(mushroomId, token));
+
+        assertTrue(mushroom.getArchived());
+        verify(repository, never()).updateArchivedById(anyBoolean(), anyLong());
+    }
+
+    @Test
+    void testArchiveMushroomWithInvalidToken() {
+        long mushroomId = 1L;
+        String invalidToken = "invalid_token";
+        Mushroom mushroom = new Mushroom();
+        mushroom.setArchived(false);
+        UserEntity user = new UserEntity();
+        user.setUsername("username");
+        mushroom.setUser(user); // Initialize the user object
+
+        when(repository.findById(mushroomId)).thenReturn(Optional.of(mushroom));
+
+        assertThrows(BadCredentialsException.class, () -> service.archiveMushroom(mushroomId, invalidToken));
+
+        assertFalse(mushroom.getArchived());
+        verify(repository, never()).updateArchivedById(anyBoolean(), anyLong());
+    }
 }

@@ -41,4 +41,6 @@ public class Mushroom {
     @JoinColumn(name = "user_id", nullable = true)
     private UserEntity user;
 
+    @Column(name = "archived")
+    private Boolean archived = false;
 }

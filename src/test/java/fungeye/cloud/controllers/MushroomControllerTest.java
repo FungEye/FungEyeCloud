@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -28,7 +29,7 @@ class MushroomControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         controller = new MushroomController(service);
     }
 
@@ -238,5 +239,23 @@ class MushroomControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         verify(service, times(1)).updateMushroom(updateDto);
+    }
+
+    @Test
+    void archiveDefaultMushroomAsAdminSuccess() {
+        UserEntity admin = new UserEntity();
+        admin.setId(1);
+        admin.setPassword("password");
+        admin.setUsername("admin");
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        mushroom.setName("Mushroom");
+        mushroom.setArchived(false);
+
+        ResponseEntity<String> response = controller.archiveMushroom(9, "JWT_TOKEN");
+
+        assertEquals("Archived", response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }
