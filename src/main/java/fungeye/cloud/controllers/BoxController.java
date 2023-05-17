@@ -37,4 +37,10 @@ public class BoxController {
     {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/box/all/empty")
+    ResponseEntity<List<BoxDto>> getAllBoxesByUserName(@PathVariable String userName)
+    {
+        return new ResponseEntity<>(service.getAllByUserName(userName), HttpStatus.FOUND);
+    }
 }
