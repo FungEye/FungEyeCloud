@@ -92,7 +92,7 @@ class GrowServiceTest {
 
         List<Grow> convertedGrows = GrowMapper.mapFromGrowDtoList(grows);
 
-        Mockito.when(repository.findGrowsByUserEntity_Username("john")).thenReturn(convertedGrows);
+        Mockito.when(repository.findGrowsByBox_UserEntity_Username("john")).thenReturn(convertedGrows);
 
         List<GrowIdDto> actual = service.getAllGrowsByUsername("john");
 
