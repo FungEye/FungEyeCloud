@@ -2,9 +2,15 @@ package fungeye.cloud.domain.enities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-@Data
+import java.util.Objects;
+
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "ideal_conditions")
 public class IdealCondition {
@@ -14,6 +20,7 @@ public class IdealCondition {
     @MapsId("mushroomId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "mushroom_id", nullable = false)
+    @ToString.Exclude
     private Mushroom mushroom;
 
     @NotNull
@@ -44,9 +51,6 @@ public class IdealCondition {
     @Column(name = "light_high")
     private Double lightHigh;
 
-    public IdealCondition() {
-    }
-
     public IdealCondition(IdealConditionId id, Mushroom mushroom,
                           Double temperatureHigh, Double temperatureLow,
                           Double humidityHigh, Double humidityLow,
@@ -64,5 +68,16 @@ public class IdealCondition {
         this.lightHigh = lightHigh;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        IdealCondition that = (IdealCondition) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

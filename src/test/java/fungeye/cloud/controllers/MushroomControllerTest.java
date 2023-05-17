@@ -1,6 +1,7 @@
 package fungeye.cloud.controllers;
 
 import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.service.MushroomService;
@@ -13,8 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -198,6 +198,47 @@ class MushroomControllerTest {
 
         verify(service, times(1)).getCustom("john");
         verify(service, times(1)).getAllDefault();
+    }
+
+    @Test
+    void testUpdateMushroomController()
+    {
+        IdealCondition ideal1 = new IdealCondition();
+        IdealCondition ideal2 = new IdealCondition();
+        IdealCondition ideal3 = new IdealCondition();
+
+        List<IdealCondition> idealConditionList = new ArrayList<>();
+
+        idealConditionList.add(ideal1);
+        idealConditionList.add(ideal2);
+        idealConditionList.add(ideal3);
+
+        Set<IdealCondition> idealConditions = new HashSet<>();
+
+        idealConditions.add(ideal1);
+        idealConditions.add(ideal2);
+        idealConditions.add(ideal3);
+
+        MushroomDto returnDto = new MushroomDto();
+
+        returnDto.setId(1L);
+        returnDto.setName("Fugly");
+        returnDto.setDescription("Bob THE builder");
+
+        MushroomUpdateDto updateDto = new MushroomUpdateDto();
+        updateDto.setId(1L);
+        updateDto.setName("Fugly");
+        updateDto.setDescription("Bob THE builder");
+        updateDto.setIdealConditions(idealConditionList);
+
+        when(service.updateMushroom(updateDto)).thenReturn(returnDto);
+
+        ResponseEntity<MushroomDto> response = controller.updateMushroom(updateDto);
+
+        assertEquals(returnDto, response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verify(service, times(1)).updateMushroom(updateDto);
     }
 
     @Test

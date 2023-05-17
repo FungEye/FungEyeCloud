@@ -11,13 +11,13 @@ import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.security.JwtGenerator;
 import fungeye.cloud.service.mappers.IdealConditionsMapper;
 import fungeye.cloud.service.mappers.MushroomMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+@Slf4j
 
 @Service
 public class MushroomService {
@@ -133,5 +133,31 @@ public class MushroomService {
         }
         else throw new BadCredentialsException(String.format("User: %s is not authorized to edit mushroom %s.", username, entity.getName()));
 
+    }
+
+
+    public MushroomDto updateMushroom(MushroomUpdateDto dto)
+    {
+        Mushroom toUpdate = repository.findById(dto.getId()).orElseThrow();
+        List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
+        Set<IdealCondition> newConditions = new HashSet<>();
+        Mushroom updated;
+
+        if(toUpdate.getName().isEmpty())
+        {
+            throw new IllegalArgumentException("Please fill out all the necessary fields");
+        }
+        else {
+            log.info("Inside else");
+            toUpdate.setName(dto.getName());
+            toUpdate.setDescription(dto.getDescription());
+
+            newConditions.addAll(found);
+            toUpdate.setIdealConditions(newConditions);
+            log.info("HERE");
+            updated = repository.save(toUpdate);
+        }
+
+        return MushroomMapper.mapToMushroomDto(updated);
     }
 }
