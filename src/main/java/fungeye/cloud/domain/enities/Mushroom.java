@@ -33,7 +33,7 @@ public class Mushroom {
     @Column(name = "origin")
     private String origin;
 
-    @OneToMany(mappedBy = "mushroom")
+    @OneToMany(mappedBy = "mushroom", fetch = FetchType.LAZY)
     private Set<IdealCondition> idealConditions = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)

@@ -1,9 +1,6 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
-import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
-import fungeye.cloud.domain.dtos.MushroomCreationDTO;
-import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.service.MushroomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +68,12 @@ public class MushroomController {
         List<MushroomDto> custom = service.getCustom(username);
         custom.addAll(allDefault);
         return new ResponseEntity<>(custom, HttpStatus.FOUND);
+    }
+
+    @PostMapping(value = "/mushroom/update")
+    public ResponseEntity<MushroomDto> updateMushroom(@RequestBody MushroomUpdateDto dto)
+    {
+        return new ResponseEntity<>(service.updateMushroom(dto), HttpStatus.OK);
     }
 
 

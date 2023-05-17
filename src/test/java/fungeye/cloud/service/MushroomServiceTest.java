@@ -1,11 +1,11 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
-import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
-import fungeye.cloud.domain.dtos.MushroomCreationDTO;
-import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.enities.IdealCondition;
+import fungeye.cloud.domain.enities.IdealConditionId;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
+import fungeye.cloud.persistence.repository.IdealConditionRepository;
 import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.service.mappers.MushroomMapper;
@@ -15,9 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,6 +25,9 @@ class MushroomServiceTest {
 
     @Mock
     private MushroomRepository repository;
+
+    @Mock
+    private IdealConditionRepository idealConditionRepository;
 
     @Mock
     private UserRepository userRepository;
@@ -235,4 +236,66 @@ class MushroomServiceTest {
 
         verify(repository, times(1)).findByUser_Username("john");
     }
+
+    /*
+    @Test
+    void testUpdateMushroom()
+    {
+        MushroomUpdateDto mushroomUpdateDto = new MushroomUpdateDto();
+        MushroomDto mushroomDto = new MushroomDto();
+        List<IdealCondition> ideal = new ArrayList<>();
+        IdealCondition idealCondition1 = new IdealCondition();
+
+        mushroomUpdateDto.setId(1L);
+        mushroomUpdateDto.setName("Fugly");
+        mushroomUpdateDto.setDescription("Bobs your uncle");
+        mushroomUpdateDto.setIdealConditions(ideal);
+
+        mushroomDto.setId(1L);
+        mushroomDto.setName("Fugly");
+        mushroomDto.setDescription("Bobs your uncle");
+
+        idealCondition1.setId(new IdealConditionId(mushroomUpdateDto.getId(), "Spawn run"));
+        idealCondition1.setMushroom(MushroomMapper.mapFromUpdateMushroomDto(mushroomUpdateDto));
+        idealCondition1.setTemperatureLow(20.0);
+        idealCondition1.setTemperatureHigh(25.0);
+        idealCondition1.setHumidityLow(60.0);
+        idealCondition1.setHumidityHigh(80.0);
+        ideal.add(idealCondition1);
+
+        Set<IdealCondition> idealConditionList = new LinkedHashSet<>();;
+        idealConditionList.add(idealCondition1);
+
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        user.setUsername("Justikas");
+        user.setPassword("kaka");
+
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        mushroom.setName("Liepa");
+        mushroom.setDescription("Hello");
+        mushroom.setIdealConditions(idealConditionList);
+        mushroom.setUser(user);
+
+        mushroomUpdateDto.setIdealConditions(ideal);
+
+        when(repository.findById(mushroomUpdateDto.getId())).thenReturn(Optional.of(mushroom));
+        when(idealConditionRepository.findByMushroom_Id(1L)).thenReturn(ideal);
+
+        MushroomDto expected = MushroomMapper.mapUpdateMushroomDto(mushroomUpdateDto);
+
+        MushroomDto actual = service.updateMushroom(mushroomUpdateDto);
+        System.out.println("help");
+
+        when(service.updateMushroom(mushroomUpdateDto)).thenReturn(mushroomDto);
+        //System.out.println("help");
+
+        assertEquals(expected, actual);
+
+        verify(service, times(1)).updateMushroom(mushroomUpdateDto);
+    }
+
+     */
 }

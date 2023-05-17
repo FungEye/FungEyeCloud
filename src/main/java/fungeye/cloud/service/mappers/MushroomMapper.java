@@ -1,13 +1,12 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
-import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
-import fungeye.cloud.domain.dtos.MushroomCreationDTO;
-import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +22,6 @@ public class MushroomMapper {
         dto.setDescription(mush.getDescription());
         dto.setName(mush.getName());
         dto.setOrigin(mush.getOrigin());
-        dto.setUserId(mush.getUser().getId());
 
         return dto;
     }
@@ -78,5 +76,30 @@ public class MushroomMapper {
         list.forEach(mushroom -> dtoList.add(mapToMushroomDto(mushroom)));
 
         return dtoList;
+    }
+
+    // todo might not be needed, but maybe
+    public static MushroomDto mapUpdateMushroomDto(MushroomUpdateDto dto)
+    {
+        MushroomDto mushroomDto = new MushroomDto();
+        mushroomDto.setId(dto.getId());
+        mushroomDto.setDescription(dto.getDescription());
+        mushroomDto.setName(dto.getName());
+
+        return mushroomDto;
+    }
+
+    public static Mushroom mapFromUpdateMushroomDto(MushroomUpdateDto dto)
+    {
+        Mushroom mush = new Mushroom();
+        mush.setId(dto.getId());
+        mush.setName(dto.getName());
+        mush.setDescription(dto.getDescription());
+
+        Set<IdealCondition> list = new HashSet<>();
+        list.addAll(dto.getIdealConditions());
+        mush.setIdealConditions(list);
+
+        return mush;
     }
 }
