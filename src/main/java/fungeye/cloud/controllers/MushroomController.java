@@ -1,9 +1,6 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
-import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
-import fungeye.cloud.domain.dtos.MushroomCreationDTO;
-import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.service.MushroomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -80,4 +77,11 @@ public class MushroomController {
         service.archiveMushroom(id, token);
         return ResponseEntity.ok("Archived");
     }
+    @PutMapping(value = "/mushroom/update")
+    public ResponseEntity<MushroomDto> updateMushroom(@RequestBody MushroomUpdateDto dto)
+    {
+        return new ResponseEntity<>(service.updateMushroom(dto), HttpStatus.OK);
+    }
+
+
 }

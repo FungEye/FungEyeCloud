@@ -9,5 +9,4 @@ public class MushroomDto extends MushroomCreationDTO{
     private String name;
     private String description;
     private String origin;
-    private int userId;
 }
