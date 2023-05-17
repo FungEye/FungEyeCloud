@@ -240,7 +240,7 @@ class MushroomServiceTest {
         verify(repository, times(1)).findByUser_Username("john");
     }
 
-    /*
+
     @Test
     void testUpdateMushroom()
     {
@@ -282,25 +282,33 @@ class MushroomServiceTest {
         mushroom.setIdealConditions(idealConditionList);
         mushroom.setUser(user);
 
+        Mushroom updatedMushroom = new Mushroom();
+        updatedMushroom.setId(1L);
+        updatedMushroom.setName(mushroomDto.getName());
+        updatedMushroom.setDescription(mushroomDto.getDescription());
+        updatedMushroom.setIdealConditions(idealConditionList);
+        updatedMushroom.setUser(user);
+
+
         mushroomUpdateDto.setIdealConditions(ideal);
 
         when(repository.findById(mushroomUpdateDto.getId())).thenReturn(Optional.of(mushroom));
         when(idealConditionRepository.findByMushroom_Id(1L)).thenReturn(ideal);
+        when(repository.save(updatedMushroom)).thenReturn(updatedMushroom);
 
         MushroomDto expected = MushroomMapper.mapUpdateMushroomDto(mushroomUpdateDto);
 
         MushroomDto actual = service.updateMushroom(mushroomUpdateDto);
         System.out.println("help");
 
-        when(service.updateMushroom(mushroomUpdateDto)).thenReturn(mushroomDto);
-        //System.out.println("help");
-
         assertEquals(expected, actual);
 
-        verify(service, times(1)).updateMushroom(mushroomUpdateDto);
+        verify(repository, times(1)).findById(any());
+        verify(idealConditionRepository, times(1)).findByMushroom_Id(any());
+        verify(repository, times(1)).save(any());
     }
 
-     */
+
 
     @Test
     void testArchiveMushroom_WithValidInputsAndNotArchived() {

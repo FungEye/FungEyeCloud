@@ -141,6 +141,7 @@ public class MushroomService {
         Mushroom toUpdate = repository.findById(dto.getId()).orElseThrow();
         List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
         Set<IdealCondition> newConditions = new HashSet<>();
+        Mushroom updated;
 
         if(toUpdate.getName().isEmpty())
         {
@@ -154,8 +155,9 @@ public class MushroomService {
             newConditions.addAll(found);
             toUpdate.setIdealConditions(newConditions);
             log.info("HERE");
+            updated = repository.save(toUpdate);
         }
 
-        return MushroomMapper.mapToMushroomDto(toUpdate);
+        return MushroomMapper.mapToMushroomDto(updated);
     }
 }

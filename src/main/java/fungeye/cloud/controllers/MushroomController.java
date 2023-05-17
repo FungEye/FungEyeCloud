@@ -77,7 +77,7 @@ public class MushroomController {
         service.archiveMushroom(id, token);
         return ResponseEntity.ok("Archived");
     }
-    @PostMapping(value = "/mushroom/update")
+    @PutMapping(value = "/mushroom/update")
     public ResponseEntity<MushroomDto> updateMushroom(@RequestBody MushroomUpdateDto dto)
     {
         return new ResponseEntity<>(service.updateMushroom(dto), HttpStatus.OK);
