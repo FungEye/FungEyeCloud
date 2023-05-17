@@ -1,8 +1,6 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.MeasuredConditionDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
-import fungeye.cloud.domain.dtos.SearchConditionsParam;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
@@ -17,6 +15,8 @@ import org.mockito.MockitoAnnotations;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -118,6 +118,71 @@ class MeasuredConditionsServiceTest {
         assertEquals(idDto.getDateTime(), resultIdDto.map(MeasuredConditionIdDto::getDateTime).orElse(null));
         assertEquals(measuredCondition.getTemperature(), resultDto.getTemperature());
         assertEquals(measuredCondition.getHumidity(), resultDto.getHumidity());
+    }
+
+    @Test
+    void getHistoricalMeasurementsWithContent() {
+        //Given
+        long boxId = 1L;
+        Box box = new Box();
+        box.setId(boxId);
+        List<MeasuredCondition> list = new ArrayList<>();
+        Instant timestamp = Instant.now();
+        for (int i = 0; i < 10; i++) {
+            MeasuredCondition cond = new MeasuredCondition();
+            MeasuredConditionId id = new MeasuredConditionId();
+            id.setDateTime(timestamp.plusSeconds(i * 60));
+            id.setBoxId(1L);
+            cond.setBox(box);
+            cond.setTemperature(25.0 * i);
+            cond.setHumidity(60.0 * i);
+            cond.setLight((double) (100 * i));
+            cond.setCo2((double) (23 * i));
+            cond.setId(id);
+
+            list.add(cond);
+        }
+
+        HistoricalMeasurementDto actual = new HistoricalMeasurementDto();
+        List<SingleMeasurementDto> temp = new ArrayList<>();
+        List<SingleMeasurementDto> humid = new ArrayList<>();
+        List<SingleMeasurementDto> co2 = new ArrayList<>();
+        List<SingleMeasurementDto> light = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            LocalDateTime dateTime = LocalDateTime.ofInstant(timestamp.plusSeconds(i * 60), ZoneId.systemDefault());
+            SingleMeasurementDto temperature = new SingleMeasurementDto();
+            temperature.setValue((double) (25 * i));
+            temperature.setDateTime(dateTime);
+            temp.add(temperature);
+
+            SingleMeasurementDto humidity = new SingleMeasurementDto();
+            humidity.setValue((double) (60 * i));
+            humidity.setDateTime(dateTime);
+            humid.add(humidity);
+
+            SingleMeasurementDto co = new SingleMeasurementDto();
+            co.setValue((double) (23 * i));
+            co.setDateTime(dateTime);
+            co2.add(co);
+
+            SingleMeasurementDto li = new SingleMeasurementDto();
+            li.setValue((double) (100 * i));
+            li.setDateTime(dateTime);
+            light.add(li);
+        }
+        actual.setLight(light);
+        actual.setTemperature(temp);
+        actual.setHumidity(humid);
+        actual.setCo2(co2);
+
+        //When
+        when(repository.findAllByBox_Id(boxId)).thenReturn(list);
+
+
+        //Then
+
+        assertEquals(actual, service.getHistoricalMeasurements(boxId));
     }
 
 

@@ -4,6 +4,9 @@ import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.domain.enities.Box;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static fungeye.cloud.service.mappers.GrowMapper.mapToGrowDtoList;
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.mapToDtoList;
 
@@ -35,4 +38,13 @@ public class BoxMapper {
         box.setId(dto.getId());
         return box;
     }
+
+    public static List<BoxDetailsDto> mapToBoxDtoList(List<Box> boxes){
+        List<BoxDetailsDto> list = new ArrayList<>();
+        boxes.forEach(box -> list.add(mapToBoxDto(box)));
+
+        return list;
+    }
+
+
 }

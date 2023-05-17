@@ -11,27 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class GrowDtoTest {
 
     @Test
-    void testCreateGrowDto() {
-        // Arrange
-        Long id = 1L;
-        DateTimeDto date = new DateTimeDto(2023, 4, 14, 10, 30, 0);
-        String stage = "Growing";
-        boolean active = true;
-        Long boxId = 2L;
-
-        // Act
-        GrowDto growDto = new GrowDto(id, date, stage, active, boxId);
-
-        // Assert
-        assertNotNull(growDto);
-        assertEquals(id, growDto.getId());
-        assertEquals(date, growDto.getDate());
-        assertEquals(stage, growDto.getStage());
-        assertEquals(active, growDto.isActive());
-        assertEquals(boxId, growDto.getBoxId());
-    }
-
-    @Test
     void testSettersAndGetters() {
         // Arrange
         Long id = 1L;

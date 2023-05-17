@@ -1,14 +1,13 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
+import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
-import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -19,7 +18,6 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 
 class MushroomMapperTest {
 
@@ -95,6 +93,30 @@ class MushroomMapperTest {
         dto.setDescription("A common mushroom");
 
         Mushroom mushroom = MushroomMapper.mapCreateToMushroom(dto);
+
+        assertEquals(dto.getName(), mushroom.getName());
+        assertEquals(dto.getDescription(), mushroom.getDescription());
+    }
+
+    @Test
+    void testMapDefaultCreateToMushroom() {
+        DefaultMushroomCreationDto dto = new DefaultMushroomCreationDto();
+        dto.setName("Button Mushroom");
+        dto.setDescription("A common mushroom");
+
+        Mushroom mushroom = MushroomMapper.mapDefaultCreateToMushroom(dto);
+
+        assertEquals(dto.getName(), mushroom.getName());
+        assertEquals(dto.getDescription(), mushroom.getDescription());
+    }
+
+    @Test
+    void testMapCustomCreateToMushroom() {
+        CustomMushroomCreationDto dto = new CustomMushroomCreationDto();
+        dto.setName("Button Mushroom");
+        dto.setDescription("A common mushroom");
+
+        Mushroom mushroom = MushroomMapper.mapCustomCreateToMushroom(dto);
 
         assertEquals(dto.getName(), mushroom.getName());
         assertEquals(dto.getDescription(), mushroom.getDescription());

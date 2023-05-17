@@ -1,24 +1,25 @@
 package fungeye.cloud.service;
 
+import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
+import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
 import fungeye.cloud.domain.dtos.MushroomCreationDTO;
 import fungeye.cloud.domain.dtos.MushroomDto;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
+import fungeye.cloud.security.JwtGenerator;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MushroomServiceTest {
@@ -28,6 +29,10 @@ class MushroomServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private JwtGenerator generator;
+
 
     @InjectMocks
     private MushroomService service;
@@ -45,8 +50,6 @@ class MushroomServiceTest {
         toCreate.setOrigin("Denmark");
         toCreate.setUserId(1);
 
-        Mushroom mushroomToSave = MushroomMapper.mapCreateToMushroom(toCreate);
-
         Mushroom saved = MushroomMapper.mapCreateToMushroom(toCreate);
         saved.setId(1L);
 
@@ -60,6 +63,60 @@ class MushroomServiceTest {
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
         MushroomDto actual = service.createMushroom(toCreate);
+
+        assertEquals(expected, actual);
+
+        verify(repository, times(1)).save(any());
+    }
+
+    @Test
+    void testDefaultCreateMushroom() {
+        DefaultMushroomCreationDto defaultMushroom = new DefaultMushroomCreationDto();
+        defaultMushroom.setName("Mushroom");
+        defaultMushroom.setDescription("Test mushroom");
+        defaultMushroom.setOrigin("Denmark");
+
+        Mushroom saved = MushroomMapper.mapDefaultCreateToMushroom(defaultMushroom);
+        saved.setId(1L);
+
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        saved.setUser(user);
+
+        MushroomDto expected = MushroomMapper.mapToMushroomDto(saved);
+
+        when(repository.save(any())).thenReturn(saved);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        MushroomDto actual = service.createDefaultMushroom(defaultMushroom);
+
+        assertEquals(expected, actual);
+
+        verify(repository, times(1)).save(any());
+    }
+
+    @Test
+    void testCustomCreateMushroom() {
+        CustomMushroomCreationDto customMushroom = new CustomMushroomCreationDto();
+        customMushroom.setName("Mushroom");
+        customMushroom.setDescription("Test mushroom");
+        customMushroom.setOrigin("Denmark");
+        customMushroom.setUsername("john");
+
+        Mushroom saved = MushroomMapper.mapCustomCreateToMushroom(customMushroom);
+        saved.setId(1L);
+
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        user.setUsername("john");
+        saved.setUser(user);
+
+        MushroomDto expected = MushroomMapper.mapToMushroomDto(saved);
+
+        when(repository.save(any())).thenReturn(saved);
+        when(userRepository.findByUsername("john")).thenReturn(Optional.of(user));
+
+        MushroomDto actual = service.createCustomMushroom(customMushroom);
 
         assertEquals(expected, actual);
 
@@ -141,6 +198,7 @@ class MushroomServiceTest {
 
         UserEntity user = new UserEntity();
         user.setId(2);
+        user.setUsername("john");
 
         Mushroom mushroom1 = new Mushroom();
         mushroom1.setId(1L);
@@ -171,13 +229,74 @@ class MushroomServiceTest {
         expected.add(MushroomMapper.mapToMushroomDto(mushroom1));
         expected.add(MushroomMapper.mapToMushroomDto(mushroom2));
 
-        when(repository.findByUser_Id(2)).thenReturn(customMushrooms);
+        when(repository.findByUser_Username("john")).thenReturn(customMushrooms);
 
 
-        List<MushroomDto> actual = service.getCustom(2);
+        List<MushroomDto> actual = service.getCustom("john");
 
         assertEquals(expected, actual);
 
-        verify(repository, times(1)).findByUser_Id(2);
+        verify(repository, times(1)).findByUser_Username("john");
+    }
+
+    @Test
+    void testArchiveMushroom_WithValidInputsAndNotArchived() {
+        // Arrange
+        long mushroomId = 1L;
+        String token = "valid_token";
+        Mushroom mushroom = new Mushroom();
+        mushroom.setArchived(false);
+        UserEntity user = new UserEntity();
+        user.setUsername("username");
+        mushroom.setUser(user);
+
+        when(repository.findById(mushroomId)).thenReturn(Optional.of(mushroom));
+        when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("username");
+
+        // Mock the void method to do nothing
+        doNothing().when(repository).updateArchivedById(true, mushroomId);
+
+        // Act
+        service.archiveMushroom(mushroomId, token);
+
+        // Assert
+        verify(repository, times(1)).updateArchivedById(true, mushroomId);
+    }
+
+    @Test
+    void testArchiveAlreadyArchivedMushroom() {
+        long mushroomId = 1L;
+        String token = "valid_token";
+        Mushroom mushroom = new Mushroom();
+        mushroom.setArchived(true);
+        UserEntity user = new UserEntity();
+        user.setUsername("username");
+        mushroom.setUser(user);
+
+        when(repository.findById(mushroomId)).thenReturn(Optional.of(mushroom));
+        when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("username");
+
+        assertThrows(IllegalArgumentException.class, () -> service.archiveMushroom(mushroomId, token));
+
+        assertTrue(mushroom.getArchived());
+        verify(repository, never()).updateArchivedById(anyBoolean(), anyLong());
+    }
+
+    @Test
+    void testArchiveMushroomWithInvalidToken() {
+        long mushroomId = 1L;
+        String invalidToken = "invalid_token";
+        Mushroom mushroom = new Mushroom();
+        mushroom.setArchived(false);
+        UserEntity user = new UserEntity();
+        user.setUsername("username");
+        mushroom.setUser(user); // Initialize the user object
+
+        when(repository.findById(mushroomId)).thenReturn(Optional.of(mushroom));
+
+        assertThrows(BadCredentialsException.class, () -> service.archiveMushroom(mushroomId, invalidToken));
+
+        assertFalse(mushroom.getArchived());
+        verify(repository, never()).updateArchivedById(anyBoolean(), anyLong());
     }
 }
