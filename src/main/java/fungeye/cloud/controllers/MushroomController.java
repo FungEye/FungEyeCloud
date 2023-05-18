@@ -20,6 +20,7 @@ public class MushroomController {
         this.service = service;
     }
 
+    @Deprecated
     @PostMapping("/mushroom")
     public ResponseEntity<MushroomDto> createMushroom(
             @RequestBody MushroomCreationDTO dto) {

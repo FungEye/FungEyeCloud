@@ -44,7 +44,6 @@ class MushroomControllerTest {
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
-        mushroomDto.setUserId(0);
 
         when(service.createMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
 
@@ -68,7 +67,6 @@ class MushroomControllerTest {
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
-        mushroomDto.setUserId(3);
 
         when(service.createDefaultMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
 
@@ -90,7 +88,6 @@ class MushroomControllerTest {
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
-        mushroomDto.setUserId(2);
 
         UserEntity user = new UserEntity();
         user.setId(2);
