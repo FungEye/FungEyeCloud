@@ -63,7 +63,7 @@ public class MushroomController {
         return new ResponseEntity<>(all, HttpStatus.FOUND);
     }
 
-    @GetMapping(value = "/mushroom/custom/{userId}")
+    @GetMapping(value = "/mushroom/custom/{username}")
     public ResponseEntity<List<MushroomDto>> getDefaultAndCustom(@PathVariable String username)
     {
         List<MushroomDto> allDefault = service.getAllDefault();
