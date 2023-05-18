@@ -4,6 +4,7 @@ import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
+import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
 import fungeye.cloud.service.mappers.MeasuredConditionsMapper;
@@ -17,9 +18,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +36,7 @@ class MeasuredConditionsServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         this.service = new MeasuredConditionsService(repository, boxRepository);
     }
 
@@ -185,5 +184,47 @@ class MeasuredConditionsServiceTest {
         assertEquals(actual, service.getHistoricalMeasurements(boxId));
     }
 
+    @Test
+    void testGetLatestForUser() {
+        //Given
+        UserEntity user = new UserEntity();
+        user.setUsername("john");
 
+        Box box = new Box();
+        box.setId(1L);
+        box.setUserEntity(user);
+
+        Set<MeasuredCondition> set = new HashSet<>();
+        Instant timestamp = Instant.now();
+        for (int i = 0; i < 10; i++) {
+            MeasuredCondition cond = new MeasuredCondition();
+            MeasuredConditionId id = new MeasuredConditionId();
+            id.setDateTime(timestamp.plusSeconds(i * 60));
+            id.setBoxId(1L);
+            cond.setBox(box);
+            cond.setTemperature(25.0 * i);
+            cond.setHumidity(60.0 * i);
+            cond.setLight((double) (100 * i));
+            cond.setCo2((double) (23 * i));
+            cond.setId(id);
+
+            set.add(cond);
+        }
+
+        box.setMeasuredConditions(set);
+        List<MeasuredCondition> conditionsList = set.stream().toList();
+
+        List<Box> johnsBoxes = new ArrayList<>();
+        johnsBoxes.add(box);
+
+        List<MeasuredConditionDto> expected = MeasuredConditionsMapper.mapToDtoList(set);
+
+        // When
+        when(boxRepository.findBoxesByUserEntity_Username("john")).thenReturn(johnsBoxes);
+        when(repository.findFirstById_BoxIdOrderById_DateTimeDesc(1L)).thenReturn(conditionsList.get(9));
+
+        MeasuredConditionDto actual = service.getLatestForUser("john").get(0);
+
+        assertEquals(MeasuredConditionsMapper.mapToDto(conditionsList.get(9)), actual);
+    }
 }
