@@ -1,12 +1,11 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.HistoricalMeasurementDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionDto;
-import fungeye.cloud.domain.dtos.SearchConditionsParam;
-import fungeye.cloud.domain.dtos.SingleMeasurementDto;
+import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
+import fungeye.cloud.service.mappers.BoxMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -97,5 +96,16 @@ public class MeasuredConditionsService {
         }
 
         return result;
+    }
+
+    public List<MeasuredConditionDto> getLatestForUser(String username)
+    {
+        List<MeasuredConditionDto> conditionDtos = new ArrayList<>();
+        List<Box> boxes = boxRepository.findBoxesByUserEntity_Username(username);
+        for (Box box:
+             boxes) {
+            conditionDtos.add(mapToDto(repository.findFirstById_BoxIdOrderById_DateTimeDesc(box.getId())));
+        }
+        return conditionDtos;
     }
 }
