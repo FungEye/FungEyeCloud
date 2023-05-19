@@ -21,7 +21,7 @@ class IdealConditionsMapperTest {
         idealCondition = new IdealCondition();
         IdealConditionId id = new IdealConditionId();
         id.setMushroomId(1L);
-        id.setDevelopmentStage("Fruiting");
+        id.setDevelopmentStage("fruiting");
         idealCondition.setId(id);
         idealCondition.setTemperatureHigh(27.0);
         idealCondition.setTemperatureLow(24.0);
@@ -34,7 +34,7 @@ class IdealConditionsMapperTest {
 
         dto = new IdealConditionDto();
         dto.setMushroomId(1L);
-        dto.setDevelopmentStage("Fruiting");
+        dto.setDevelopmentStage("fruiting");
         dto.setTempHigh(27.0);
         dto.setTempLow(24.0);
         dto.setHumidityHigh(80.0);

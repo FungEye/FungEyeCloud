@@ -1,9 +1,6 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
-import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
-import fungeye.cloud.domain.dtos.MushroomCreationDTO;
-import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +23,7 @@ class MushroomMapperTest {
     private static final String MUSHROOM_DESC = "Large, dark-brown mushroom with an earthy flavor";
     private static final String MUSHROOM_ORIGIN = "Japan";
     private static final int USER_ID = 1;
+    private static final String MUSHROOM_IMAGE = "image.com";
 
     private Mushroom mushroom;
     private UserEntity user;
@@ -38,6 +36,7 @@ class MushroomMapperTest {
         mushroom.setName(MUSHROOM_NAME);
         mushroom.setDescription(MUSHROOM_DESC);
         mushroom.setOrigin(MUSHROOM_ORIGIN);
+        mushroom.setImageUrl(MUSHROOM_IMAGE);
         user = new UserEntity();
         user.setId(USER_ID);
         mushroom.setUser(user);
@@ -58,7 +57,7 @@ class MushroomMapperTest {
         assertEquals(MUSHROOM_NAME, mushroomDto.getName());
         assertEquals(MUSHROOM_DESC, mushroomDto.getDescription());
         assertEquals(MUSHROOM_ORIGIN, mushroomDto.getOrigin());
-        assertEquals(USER_ID, mushroomDto.getUserId());
+        assertEquals(MUSHROOM_IMAGE, mushroomDto.getImageUrl());
     }
 
     @Test
@@ -103,11 +102,15 @@ class MushroomMapperTest {
         DefaultMushroomCreationDto dto = new DefaultMushroomCreationDto();
         dto.setName("Button Mushroom");
         dto.setDescription("A common mushroom");
+        dto.setOrigin("France");
+        dto.setImageUrl("image.com");
 
         Mushroom mushroom = MushroomMapper.mapDefaultCreateToMushroom(dto);
 
         assertEquals(dto.getName(), mushroom.getName());
         assertEquals(dto.getDescription(), mushroom.getDescription());
+        assertEquals(dto.getOrigin(), mushroom.getOrigin());
+        assertEquals(dto.getImageUrl(), mushroom.getImageUrl());
     }
 
     @Test
@@ -115,10 +118,41 @@ class MushroomMapperTest {
         CustomMushroomCreationDto dto = new CustomMushroomCreationDto();
         dto.setName("Button Mushroom");
         dto.setDescription("A common mushroom");
+        dto.setOrigin("France");
+        dto.setImageUrl("image.com");
 
         Mushroom mushroom = MushroomMapper.mapCustomCreateToMushroom(dto);
 
         assertEquals(dto.getName(), mushroom.getName());
         assertEquals(dto.getDescription(), mushroom.getDescription());
+        assertEquals(dto.getOrigin(), mushroom.getOrigin());
+        assertEquals(dto.getImageUrl(), mushroom.getImageUrl());
+    }
+
+    @Test
+    void testMapWithIdealConditionsToMushroom() {
+        MushroomWithConditionsDto dto = new MushroomWithConditionsDto();
+        dto.setName("Button Mushroom");
+        dto.setDescription("A common mushroom");
+        dto.setOrigin("France");
+        dto.setImageUrl("image.com");
+
+        Mushroom mushroom = MushroomMapper.mapFromMushroomWithConditionsDto(dto);
+
+        assertEquals(dto.getName(), mushroom.getName());
+        assertEquals(dto.getDescription(), mushroom.getDescription());
+        assertEquals(dto.getOrigin(), mushroom.getOrigin());
+        assertEquals(dto.getImageUrl(), mushroom.getImageUrl());
+    }
+
+    @Test
+    void testMapMushroomToWithIdealConditions() {
+        MushroomWithConditionsDto dto = MushroomMapper.mapToMushroomWithConditionsDto(mushroom);
+
+        assertEquals(mushroom.getName(), dto.getName());
+        assertEquals(mushroom.getDescription(), dto.getDescription());
+        assertEquals(mushroom.getId(), dto.getId());
+        assertEquals(mushroom.getOrigin(), dto.getOrigin());
+        assertEquals(mushroom.getImageUrl(), dto.getImageUrl());
     }
 }

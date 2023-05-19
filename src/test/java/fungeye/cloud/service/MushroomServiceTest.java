@@ -40,7 +40,7 @@ class MushroomServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -196,6 +196,7 @@ class MushroomServiceTest {
     void testGetCustom() {
         UserEntity admin = new UserEntity();
         admin.setId(3);
+        admin.setUsername("admin");
 
         UserEntity user = new UserEntity();
         user.setId(2);
@@ -369,5 +370,93 @@ class MushroomServiceTest {
 
         assertFalse(mushroom.getArchived());
         verify(repository, never()).updateArchivedById(anyBoolean(), anyLong());
+    }
+
+    @Test
+    void testGetDefaultWithConditions() {
+        UserEntity admin = new UserEntity();
+        admin.setId(3);
+        admin.setUsername("admin");
+
+        Mushroom mushroom3 = new Mushroom();
+        mushroom3.setId(3L);
+        mushroom3.setName("Mushroom3");
+        mushroom3.setDescription("Default mushroom 1");
+        mushroom3.setUser(admin);
+
+        Set<IdealCondition> ideal = new HashSet<>();
+
+        IdealCondition idealCondition1 = new IdealCondition();
+
+        idealCondition1.setId(new IdealConditionId(mushroom3.getId(), "spawn run"));
+        idealCondition1.setMushroom(mushroom3);
+        idealCondition1.setTemperatureLow(20.0);
+        idealCondition1.setTemperatureHigh(25.0);
+        idealCondition1.setHumidityLow(60.0);
+        idealCondition1.setHumidityHigh(80.0);
+        idealCondition1.setCo2Low(100.0);
+        idealCondition1.setCo2High(1000.0);
+        idealCondition1.setLightLow(100.0);
+        idealCondition1.setLightHigh(1000.0);
+        ideal.add(idealCondition1);
+
+        List<IdealCondition> conditionList = ideal.stream().toList();
+
+        mushroom3.setIdealConditions(ideal);
+
+        List<Mushroom> shrooms = new ArrayList<>();
+        shrooms.add(mushroom3);
+
+        when(repository.findByUser_Username("admin")).thenReturn(shrooms);
+        when(idealConditionRepository.findByMushroom_Id(3L)).thenReturn(conditionList);
+
+        List<MushroomWithConditionsDto> actual = service.getDefaultMushroomsWithConditions();
+
+        assertEquals(actual.get(0).getId(), mushroom3.getId());
+        assertEquals(actual.get(0).getIdealConditionDtos().get(0).getHumidityHigh(), 80.0);
+    }
+
+    @Test
+    void testGetCustomWithConditions() {
+        UserEntity admin = new UserEntity();
+        admin.setId(3);
+        admin.setUsername("john");
+
+        Mushroom mushroom3 = new Mushroom();
+        mushroom3.setId(3L);
+        mushroom3.setName("Mushroom3");
+        mushroom3.setDescription("Default mushroom 1");
+        mushroom3.setUser(admin);
+
+        Set<IdealCondition> ideal = new HashSet<>();
+
+        IdealCondition idealCondition1 = new IdealCondition();
+
+        idealCondition1.setId(new IdealConditionId(mushroom3.getId(), "spawn run"));
+        idealCondition1.setMushroom(mushroom3);
+        idealCondition1.setTemperatureLow(20.0);
+        idealCondition1.setTemperatureHigh(25.0);
+        idealCondition1.setHumidityLow(60.0);
+        idealCondition1.setHumidityHigh(80.0);
+        idealCondition1.setCo2Low(100.0);
+        idealCondition1.setCo2High(1000.0);
+        idealCondition1.setLightLow(100.0);
+        idealCondition1.setLightHigh(1000.0);
+        ideal.add(idealCondition1);
+
+        List<IdealCondition> conditionList = ideal.stream().toList();
+
+        mushroom3.setIdealConditions(ideal);
+
+        List<Mushroom> shrooms = new ArrayList<>();
+        shrooms.add(mushroom3);
+
+        when(repository.findByUser_Username("john")).thenReturn(shrooms);
+        when(idealConditionRepository.findByMushroom_Id(3L)).thenReturn(conditionList);
+
+        List<MushroomWithConditionsDto> actual = service.getCustomMushroomsWithConditions("john");
+
+        assertEquals(actual.get(0).getId(), mushroom3.getId());
+        assertEquals(actual.get(0).getIdealConditionDtos().get(0).getHumidityHigh(), 80.0);
     }
 }

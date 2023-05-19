@@ -43,4 +43,8 @@ public class Mushroom {
 
     @Column(name = "archived")
     private Boolean archived = false;
+
+    @Size(max = 255)
+    @Column(name = "image_url")
+    private String imageUrl;
 }
