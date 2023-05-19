@@ -388,7 +388,7 @@ class MushroomServiceTest {
 
         IdealCondition idealCondition1 = new IdealCondition();
 
-        idealCondition1.setId(new IdealConditionId(mushroom3.getId(), "Spawn run"));
+        idealCondition1.setId(new IdealConditionId(mushroom3.getId(), "spawn run"));
         idealCondition1.setMushroom(mushroom3);
         idealCondition1.setTemperatureLow(20.0);
         idealCondition1.setTemperatureHigh(25.0);
@@ -432,7 +432,7 @@ class MushroomServiceTest {
 
         IdealCondition idealCondition1 = new IdealCondition();
 
-        idealCondition1.setId(new IdealConditionId(mushroom3.getId(), "Spawn run"));
+        idealCondition1.setId(new IdealConditionId(mushroom3.getId(), "spawn run"));
         idealCondition1.setMushroom(mushroom3);
         idealCondition1.setTemperatureLow(20.0);
         idealCondition1.setTemperatureHigh(25.0);
