@@ -2,9 +2,11 @@ package fungeye.cloud.controllers;
 
 import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.IdealCondition;
+import fungeye.cloud.domain.enities.IdealConditionId;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.service.MushroomService;
+import fungeye.cloud.service.mappers.IdealConditionsMapper;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +46,6 @@ class MushroomControllerTest {
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
-        mushroomDto.setUserId(0);
 
         when(service.createMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
 
@@ -68,7 +69,6 @@ class MushroomControllerTest {
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
-        mushroomDto.setUserId(3);
 
         when(service.createDefaultMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
 
@@ -90,7 +90,6 @@ class MushroomControllerTest {
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
-        mushroomDto.setUserId(2);
 
         UserEntity user = new UserEntity();
         user.setId(2);
@@ -257,5 +256,54 @@ class MushroomControllerTest {
 
         assertEquals("Archived", response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testGetDefaultAndCustomWithConditions() {
+        UserEntity admin = new UserEntity();
+        admin.setId(2);
+        admin.setUsername("john");
+
+        Mushroom mushroom3 = new Mushroom();
+        mushroom3.setId(3L);
+        mushroom3.setName("Mushroom3");
+        mushroom3.setDescription("Default mushroom 1");
+        mushroom3.setUser(admin);
+
+        Set<IdealCondition> ideal = new HashSet<>();
+
+        IdealCondition idealCondition1 = new IdealCondition();
+
+        idealCondition1.setId(new IdealConditionId(mushroom3.getId(), "Spawn run"));
+        idealCondition1.setMushroom(mushroom3);
+        idealCondition1.setTemperatureLow(20.0);
+        idealCondition1.setTemperatureHigh(25.0);
+        idealCondition1.setHumidityLow(60.0);
+        idealCondition1.setHumidityHigh(80.0);
+        idealCondition1.setCo2Low(100.0);
+        idealCondition1.setCo2High(1000.0);
+        idealCondition1.setLightLow(100.0);
+        idealCondition1.setLightHigh(1000.0);
+        ideal.add(idealCondition1);
+
+        List<IdealCondition> conditionList = ideal.stream().toList();
+
+        List<IdealConditionDto> idealConditionDtos = IdealConditionsMapper.mapToIdealConditionDtoList(conditionList);
+
+        mushroom3.setIdealConditions(ideal);
+
+        List<Mushroom> shrooms = new ArrayList<>();
+        shrooms.add(mushroom3);
+
+        List<MushroomWithConditionsDto> mushroomWithConditionsDtos = new ArrayList<>();
+        MushroomWithConditionsDto dto = MushroomMapper.mapToMushroomWithConditionsDto(mushroom3);
+        mushroomWithConditionsDtos.add(dto);
+
+        when(service.getCustomMushroomsWithConditions("john")).thenReturn(mushroomWithConditionsDtos);
+
+        ResponseEntity<List<MushroomWithConditionsDto>> response = controller.getDefaultAndCustomWithConditions("john");
+
+        assertEquals(Objects.requireNonNull(response.getBody()).get(0).getId(), mushroom3.getId());
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 }

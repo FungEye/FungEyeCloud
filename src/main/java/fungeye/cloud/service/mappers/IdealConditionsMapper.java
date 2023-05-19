@@ -5,6 +5,9 @@ import fungeye.cloud.domain.dtos.IdealConditionDto;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.IdealConditionId;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IdealConditionsMapper {
     private IdealConditionsMapper() {
         throw new IllegalStateException("Utility class");
@@ -64,4 +67,18 @@ public class IdealConditionsMapper {
 
         return idealCondition;
     }
+
+    public static List<IdealConditionDto> mapToIdealConditionDtoList(List<IdealCondition> conditions) {
+        List<IdealConditionDto> dtos = new ArrayList<>();
+        conditions.forEach(condition -> dtos.add(mapToIdealConditionDto(condition)));
+
+        return dtos;
+    }
+
+     public static List<IdealCondition> mapFromIdealConditionDtoList(List<IdealConditionDto> dtos) {
+        List<IdealCondition> conditions = new ArrayList<>();
+        dtos.forEach(dto -> conditions.add(mapToIdealCondition(dto)));
+
+        return conditions;
+     }
 }
