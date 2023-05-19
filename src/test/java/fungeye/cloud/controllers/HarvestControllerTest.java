@@ -41,22 +41,22 @@ class HarvestControllerTest {
 
     @Test
     void getAllHarvestsByUserIdWhenOneEntry() {
-        int userId = 1;
+        String username = "john";
         HarvestDetailsDto result1 = new HarvestDetailsDto();
         List<HarvestDetailsDto> expectedOutput = new ArrayList<>();
         expectedOutput.add(result1);
-        when(service.getAllHarvestsByUserId(userId)).thenReturn(expectedOutput);
+        when(service.getAllHarvestsByUsername(username)).thenReturn(expectedOutput);
 
-        ResponseEntity<List<HarvestDetailsDto>> responseEntity = controller.getAllHarvestsByUserId(userId);
+        ResponseEntity<List<HarvestDetailsDto>> responseEntity = controller.getAllHarvestsByUsername(username);
 
         assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
         assertEquals(expectedOutput, responseEntity.getBody());
-        verify(service, times(1)).getAllHarvestsByUserId(userId);
+        verify(service, times(1)).getAllHarvestsByUsername(username);
     }
 
     @Test
     void getAllHarvestsByUserIdWhenFiveEntries() {
-        int userId = 1;
+        String username = "john";
         HarvestDetailsDto result1 = new HarvestDetailsDto();
         HarvestDetailsDto result2 = new HarvestDetailsDto();
         HarvestDetailsDto result3 = new HarvestDetailsDto();
@@ -68,12 +68,12 @@ class HarvestControllerTest {
         expectedOutput.add(result3);
         expectedOutput.add(result4);
         expectedOutput.add(result5);
-        when(service.getAllHarvestsByUserId(userId)).thenReturn(expectedOutput);
+        when(service.getAllHarvestsByUsername(username)).thenReturn(expectedOutput);
 
-        ResponseEntity<List<HarvestDetailsDto>> responseEntity = controller.getAllHarvestsByUserId(userId);
+        ResponseEntity<List<HarvestDetailsDto>> responseEntity = controller.getAllHarvestsByUsername(username);
 
         assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
         assertEquals(expectedOutput, responseEntity.getBody());
-        verify(service, times(1)).getAllHarvestsByUserId(userId);
+        verify(service, times(1)).getAllHarvestsByUsername(username);
     }
 }

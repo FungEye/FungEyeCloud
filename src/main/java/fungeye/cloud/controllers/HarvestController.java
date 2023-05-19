@@ -17,6 +17,7 @@ public class HarvestController {
 
     private HarvestService service;
 
+    // Not sure why it is complaining about the bean not being found, but the tests work
     public HarvestController(HarvestService service) {
         this.service = service;
     }
@@ -26,10 +27,10 @@ public class HarvestController {
         return new ResponseEntity<>(service.addHarvest(dto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<HarvestDetailsDto>> getAllHarvestsByUserId(@PathVariable(name = "userId") int userId) {
+    @GetMapping("/{username}")
+    public ResponseEntity<List<HarvestDetailsDto>> getAllHarvestsByUsername(@PathVariable(name = "username") String username) {
 
-        return new ResponseEntity<>(service.getAllHarvestsByUserId(userId), HttpStatus.FOUND);
+        return new ResponseEntity<>(service.getAllHarvestsByUsername(username), HttpStatus.FOUND);
     }
 
 
