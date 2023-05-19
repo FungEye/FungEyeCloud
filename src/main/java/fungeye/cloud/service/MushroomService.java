@@ -168,6 +168,8 @@ public class MushroomService {
             List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
             List<IdealConditionDto> conditionDtos = IdealConditionsMapper.mapToIdealConditionDtoList(found);
             dto.setIdealConditionDtos(conditionDtos);
+
+            dtos.add(dto);
         }
 
         return dtos;

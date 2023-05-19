@@ -1,9 +1,6 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.CustomMushroomCreationDto;
-import fungeye.cloud.domain.dtos.DefaultMushroomCreationDto;
-import fungeye.cloud.domain.dtos.MushroomCreationDTO;
-import fungeye.cloud.domain.dtos.MushroomDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -130,5 +127,32 @@ class MushroomMapperTest {
         assertEquals(dto.getDescription(), mushroom.getDescription());
         assertEquals(dto.getOrigin(), mushroom.getOrigin());
         assertEquals(dto.getImageUrl(), mushroom.getImageUrl());
+    }
+
+    @Test
+    void testMapWithIdealConditionsToMushroom() {
+        MushroomWithConditionsDto dto = new MushroomWithConditionsDto();
+        dto.setName("Button Mushroom");
+        dto.setDescription("A common mushroom");
+        dto.setOrigin("France");
+        dto.setImageUrl("image.com");
+
+        Mushroom mushroom = MushroomMapper.mapFromMushroomWithConditionsDto(dto);
+
+        assertEquals(dto.getName(), mushroom.getName());
+        assertEquals(dto.getDescription(), mushroom.getDescription());
+        assertEquals(dto.getOrigin(), mushroom.getOrigin());
+        assertEquals(dto.getImageUrl(), mushroom.getImageUrl());
+    }
+
+    @Test
+    void testMapMushroomToWithIdealConditions() {
+        MushroomWithConditionsDto dto = MushroomMapper.mapToMushroomWithConditionsDto(mushroom);
+
+        assertEquals(mushroom.getName(), dto.getName());
+        assertEquals(mushroom.getDescription(), dto.getDescription());
+        assertEquals(mushroom.getId(), dto.getId());
+        assertEquals(mushroom.getOrigin(), dto.getOrigin());
+        assertEquals(mushroom.getImageUrl(), dto.getImageUrl());
     }
 }
