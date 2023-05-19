@@ -76,4 +76,27 @@ class HarvestControllerTest {
         assertEquals(expectedOutput, responseEntity.getBody());
         verify(service, times(1)).getAllHarvestsByUsername(username);
     }
+
+    @Test
+    void getAllHarvestsByGrowId() {
+        String username = "john";
+        HarvestDetailsDto result1 = new HarvestDetailsDto();
+        HarvestDetailsDto result2 = new HarvestDetailsDto();
+        HarvestDetailsDto result3 = new HarvestDetailsDto();
+        HarvestDetailsDto result4 = new HarvestDetailsDto();
+        HarvestDetailsDto result5 = new HarvestDetailsDto();
+        List<HarvestDetailsDto> expectedOutput = new ArrayList<>();
+        expectedOutput.add(result1);
+        expectedOutput.add(result2);
+        expectedOutput.add(result3);
+        expectedOutput.add(result4);
+        expectedOutput.add(result5);
+        when(service.getAllHarvestsByGrowId(1L)).thenReturn(expectedOutput);
+
+        ResponseEntity<List<HarvestDetailsDto>> responseEntity = controller.getAllHarvestsByGrowId(1L);
+
+        assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
+        assertEquals(expectedOutput, responseEntity.getBody());
+        verify(service, times(1)).getAllHarvestsByGrowId(1L);
+    }
 }

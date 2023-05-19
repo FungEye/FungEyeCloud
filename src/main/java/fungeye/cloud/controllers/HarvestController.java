@@ -33,5 +33,11 @@ public class HarvestController {
         return new ResponseEntity<>(service.getAllHarvestsByUsername(username), HttpStatus.FOUND);
     }
 
+    @GetMapping("/grows/{growId}")
+    public ResponseEntity<List<HarvestDetailsDto>> getAllHarvestsByGrowId(@PathVariable(name = "growId") Long growId) {
+
+        return new ResponseEntity<>(service.getAllHarvestsByGrowId(growId), HttpStatus.FOUND);
+    }
+
 
 }
