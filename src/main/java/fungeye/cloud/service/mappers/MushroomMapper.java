@@ -106,4 +106,30 @@ public class MushroomMapper {
 
         return mush;
     }
+
+    public static MushroomWithConditionsDto mapToMushroomWithConditionsDto(Mushroom mushroom) {
+        MushroomWithConditionsDto dto = new MushroomWithConditionsDto();
+        dto.setId(mushroom.getId());
+        dto.setDescription(mushroom.getDescription());
+        dto.setName(mushroom.getName());
+        dto.setOrigin(mushroom.getOrigin());
+        dto.setImageUrl(mushroom.getImageUrl());
+
+        return dto;
+    }
+
+    public static Mushroom mapFromMushroomWithConditionsDto(MushroomWithConditionsDto dto) {
+        Mushroom mushroom = new Mushroom();
+        mushroom.setName(dto.getName());
+        mushroom.setDescription(dto.getDescription());
+        mushroom.setOrigin(dto.getOrigin());
+        mushroom.setImageUrl(dto.getImageUrl());
+
+        // Create a user with only an id
+        UserEntity user = new UserEntity();
+        user.setUsername(dto.getUsername());
+        mushroom.setUser(user);
+
+        return mushroom;
+    }
 }
