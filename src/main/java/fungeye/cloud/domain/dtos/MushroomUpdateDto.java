@@ -12,16 +12,7 @@ public class MushroomUpdateDto {
     private Long id;
     private String name;
     private String description;
+    private String origin;
     private List<IdealCondition> idealConditions;
-
-    public MushroomUpdateDto(Long id, String name, String description, List<IdealCondition> idealConditions) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.idealConditions = idealConditions;
-    }
-
-    public MushroomUpdateDto() {}
-
-
+    private String imageUrl;
 }

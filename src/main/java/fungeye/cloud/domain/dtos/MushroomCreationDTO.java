@@ -9,4 +9,5 @@ public class MushroomCreationDTO {
     private String description;
     private String origin;
     private int userId;
+    private String imageUrl;
 }

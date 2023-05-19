@@ -22,7 +22,7 @@ public class MushroomMapper {
         dto.setDescription(mush.getDescription());
         dto.setName(mush.getName());
         dto.setOrigin(mush.getOrigin());
-        dto.setUserId(mush.getUser().getId());
+        dto.setImageUrl(mush.getImageUrl());
 
         return dto;
     }
@@ -46,6 +46,7 @@ public class MushroomMapper {
         mushroom.setName(dto.getName());
         mushroom.setDescription(dto.getDescription());
         mushroom.setOrigin(dto.getOrigin());
+        mushroom.setImageUrl(dto.getImageUrl());
 
         // Create a user with only an id
         UserEntity user = new UserEntity();
@@ -61,6 +62,7 @@ public class MushroomMapper {
         mushroom.setName(dto.getName());
         mushroom.setDescription(dto.getDescription());
         mushroom.setOrigin(dto.getOrigin());
+        mushroom.setImageUrl(dto.getImageUrl());
 
         // Create a user with only an id
         UserEntity user = new UserEntity();
@@ -86,6 +88,7 @@ public class MushroomMapper {
         mushroomDto.setId(dto.getId());
         mushroomDto.setDescription(dto.getDescription());
         mushroomDto.setName(dto.getName());
+        mushroomDto.setImageUrl(dto.getImageUrl());
 
         return mushroomDto;
     }
@@ -96,9 +99,9 @@ public class MushroomMapper {
         mush.setId(dto.getId());
         mush.setName(dto.getName());
         mush.setDescription(dto.getDescription());
+        mush.setImageUrl(dto.getImageUrl());
 
-        Set<IdealCondition> list = new HashSet<>();
-        list.addAll(dto.getIdealConditions());
+        Set<IdealCondition> list = new HashSet<>(dto.getIdealConditions());
         mush.setIdealConditions(list);
 
         return mush;
