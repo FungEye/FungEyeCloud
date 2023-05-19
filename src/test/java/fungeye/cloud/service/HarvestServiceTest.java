@@ -140,21 +140,22 @@ class HarvestServiceTest {
         result.add(details2);
         result.add(details3);
 
-        int userID = 1;
+        String username = "john";
 
-        when(repository.findByGrow_Box_UserEntity_Id(userID)).thenReturn(harvests);
+        when(repository.findByGrow_Box_UserEntity_UsernameOrderByDateHarvestedDesc(username)).thenReturn(harvests);
         when(mapper.mapEntityToDetailsDto(harvest)).thenReturn(details1);
         when(mapper.mapEntityToDetailsDto(harvest2)).thenReturn(details2);
         when(mapper.mapEntityToDetailsDto(harvest3)).thenReturn(details3);
 
-        Assertions.assertEquals(result, service.getAllHarvestsByUserId(1));
+        Assertions.assertEquals(result, service.getAllHarvestsByUsername(username));
     }
 
     @Test
     void getAllHarvestsByUserIdWhenNoHarvestsArePresent() {
-        int userID = 1;
-        when(repository.findByGrow_Box_UserEntity_Id(userID)).thenReturn(new ArrayList<>());
+        String username = "john";
+        when(repository.findByGrow_Box_UserEntity_UsernameOrderByDateHarvestedDesc(username))
+                .thenReturn(new ArrayList<>());
 
-        Assertions.assertThrows(NoSuchElementException.class, () -> service.getAllHarvestsByUserId(userID));
+        Assertions.assertThrows(NoSuchElementException.class, () -> service.getAllHarvestsByUsername(username));
     }
 }
