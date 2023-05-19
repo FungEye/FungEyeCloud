@@ -42,6 +42,16 @@ public class HarvestService {
         return result;
     }
 
-
-
+    public List<HarvestDetailsDto> getAllHarvestsByGrowId(Long growId) {
+        List<Harvest> response = repository.findByGrow_IdOrderByDateHarvestedDesc(growId);
+        if (response.isEmpty()) {
+            throw new NoSuchElementException(String.format("Grow #%d has no harvests.", growId));
+        }
+        List<HarvestDetailsDto> result = new ArrayList<>();
+        for (Harvest h: response
+        ) {
+            result.add(mapper.mapEntityToDetailsDto(h));
+        }
+        return result;
+    }
 }

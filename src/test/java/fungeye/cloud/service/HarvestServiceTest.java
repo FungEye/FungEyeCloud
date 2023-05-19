@@ -158,4 +158,58 @@ class HarvestServiceTest {
 
         Assertions.assertThrows(NoSuchElementException.class, () -> service.getAllHarvestsByUsername(username));
     }
+
+    @Test
+    void testGetAllHarvestsByGrowId() {
+        details2 = new HarvestDetailsDto();
+        details2.setId(2L);
+        details2.setHarvestDate(new SimpleDateDto(
+                LocalDate.now().getYear(), LocalDate.now().getMonthValue(),
+                LocalDate.now().getDayOfMonth()
+        ));
+        details2.setWeight(200.0);
+        details2.setGrowId(1L);
+        details2.setMushroomName("MUSHROOM");
+
+        details3 = new HarvestDetailsDto();
+        details3.setId(3L);
+        details3.setHarvestDate(new SimpleDateDto(
+                LocalDate.now().getYear(), LocalDate.now().getMonthValue(),
+                LocalDate.now().getDayOfMonth()
+        ));
+        details3.setWeight(300.0);
+        details3.setGrowId(1L);
+        details3.setMushroomName("MUSHROOM");
+
+        harvest2 = new Harvest();
+        harvest2.setId(2L);
+        harvest2.setDateHarvested(LocalDate.now());
+        harvest2.setMushroom(mushroom);
+        harvest2.setGrow(grow);
+        harvest2.setWeight(200.0);
+
+        harvest3 = new Harvest();
+        harvest3.setId(3L);
+        harvest3.setDateHarvested(LocalDate.now());
+        harvest3.setMushroom(mushroom);
+        harvest3.setGrow(grow);
+        harvest3.setWeight(300.0);
+
+        List<Harvest> harvests = new ArrayList<>();
+        harvests.add(harvest);
+        harvests.add(harvest2);
+        harvests.add(harvest3);
+
+        List<HarvestDetailsDto> result = new ArrayList<>();
+        result.add(details1);
+        result.add(details2);
+        result.add(details3);
+
+        when(repository.findByGrow_IdOrderByDateHarvestedDesc(1L)).thenReturn(harvests);
+        when(mapper.mapEntityToDetailsDto(harvest)).thenReturn(details1);
+        when(mapper.mapEntityToDetailsDto(harvest2)).thenReturn(details2);
+        when(mapper.mapEntityToDetailsDto(harvest3)).thenReturn(details3);
+
+        Assertions.assertEquals(result, service.getAllHarvestsByGrowId(1L));
+    }
 }
