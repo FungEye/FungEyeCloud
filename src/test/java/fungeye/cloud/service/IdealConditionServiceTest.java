@@ -32,7 +32,7 @@ class IdealConditionServiceTest {
         // Arrange
         IdealConditionDto dtoIn = new IdealConditionDto();
         dtoIn.setMushroomId(1L);
-        dtoIn.setDevelopmentStage("Spawn run");
+        dtoIn.setDevelopmentStage("spawn run");
         dtoIn.setTempHigh(28.0);
         dtoIn.setTempLow(24.0);
         dtoIn.setHumidityHigh(80.0);
@@ -79,7 +79,7 @@ class IdealConditionServiceTest {
         mushroom.setName("Button Mushroom");
 
         IdealCondition idealCondition1 = new IdealCondition();
-        idealCondition1.setId(new IdealConditionId(mushroomId, "Spawn run"));
+        idealCondition1.setId(new IdealConditionId(mushroomId, "spawn run"));
         idealCondition1.setMushroom(mushroom);
         idealCondition1.setTemperatureLow(20.0);
         idealCondition1.setTemperatureHigh(25.0);
@@ -91,7 +91,7 @@ class IdealConditionServiceTest {
         idealCondition1.setLightLow(100.0);
 
         IdealCondition idealCondition2 = new IdealCondition();
-        idealCondition2.setId(new IdealConditionId(mushroomId, "Pinhead formation"));
+        idealCondition2.setId(new IdealConditionId(mushroomId, "pinning"));
         idealCondition2.setMushroom(mushroom);
         idealCondition2.setTemperatureLow(18.0);
         idealCondition2.setTemperatureHigh(22.0);
@@ -121,8 +121,8 @@ class IdealConditionServiceTest {
         assertEquals(mushroomId, dto1.getMushroomId());
         assertEquals(mushroomId, dto2.getMushroomId());
 
-        assertEquals("Spawn run", dto1.getDevelopmentStage());
-        assertEquals("Pinhead formation", dto2.getDevelopmentStage());
+        assertEquals("spawn run", dto1.getDevelopmentStage());
+        assertEquals("pinning", dto2.getDevelopmentStage());
 
         assertEquals(20, dto1.getTempLow());
         assertEquals(25, dto1.getTempHigh());

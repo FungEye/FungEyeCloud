@@ -14,4 +14,15 @@ public class IdealConditionDto {
     private double co2Low;
     private double lightHigh;
     private double lightLow;
+
+    public void setDevelopmentStage(String developmentStage) {
+        if (developmentStage.equals("spawn run") ||
+                developmentStage.equals("pinning") ||
+                developmentStage.equals("fruiting")) {
+            this.developmentStage = developmentStage;
+        }
+        else {
+            throw new IllegalArgumentException("Not a valid development stage");
+        }
+    }
 }
