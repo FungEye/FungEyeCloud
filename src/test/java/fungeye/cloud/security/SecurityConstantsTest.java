@@ -24,7 +24,8 @@ class SecurityConstantsTest {
     @Test
     void testConstantValues() {
         assertEquals("secret", JWT_SECRET);
-        assertEquals(900000, JWT_EXPIRATION);
+        //assertEquals(900000, JWT_EXPIRATION);
+        assertEquals(10800000, JWT_EXPIRATION);
     }
 
 }
