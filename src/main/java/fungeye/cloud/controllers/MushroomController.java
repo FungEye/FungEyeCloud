@@ -29,9 +29,9 @@ public class MushroomController {
     }
 
     @PostMapping("/mushroom/default")
-    public ResponseEntity<MushroomDto> createDefaultMushroom(
+    public ResponseEntity<MushroomWithConditionsDto> createDefaultMushroom(
             @RequestBody DefaultMushroomCreationDto dto) {
-        MushroomDto saved = service.createDefaultMushroom(dto);
+        MushroomWithConditionsDto saved = service.createDefaultMushroom(dto);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
@@ -45,10 +45,10 @@ public class MushroomController {
 
     // New endpoint using the username instead and with conditions
     @PostMapping("/mushroom/custom/conditions")
-    public ResponseEntity<MushroomDto> createCustomMushroomWithConditions(
+    public ResponseEntity<MushroomWithConditionsDto> createCustomMushroomWithConditions(
             @RequestBody CustomMushroomCreationDto dto) {
         // They do the same thing, but this one isn't admin protected
-        MushroomDto saved = service.createCustomMushroom(dto);
+        MushroomWithConditionsDto saved = service.createCustomMushroom(dto);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 

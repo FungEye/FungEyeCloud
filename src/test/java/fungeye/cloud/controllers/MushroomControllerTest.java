@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.*;
 
@@ -65,14 +64,72 @@ class MushroomControllerTest {
         mushroomCreationDTO.setName("Portobello");
         mushroomCreationDTO.setDescription("Large mushroom with a meaty texture.");
 
-        MushroomDto mushroomDto = new MushroomDto();
+        MushroomWithConditionsDto mushroomDto = new MushroomWithConditionsDto();
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
 
+        List<IdealConditionDto> idealConditionDtos = new ArrayList<>();
+
+        IdealConditionDto conditionDto1 = new IdealConditionDto();
+        conditionDto1.setMushroomId(1L);
+        conditionDto1.setDevelopmentStage("spawn run");
+        conditionDto1.setTempHigh(27.0);
+        conditionDto1.setTempLow(24.0);
+        conditionDto1.setHumidityHigh(80.0);
+        conditionDto1.setHumidityLow(70.0);
+        conditionDto1.setCo2High(800.0);
+        conditionDto1.setCo2Low(200.0);
+        conditionDto1.setLightHigh(1000.0);
+        conditionDto1.setLightLow(200.0);
+
+        IdealConditionDto conditionDto2 = new IdealConditionDto();
+        conditionDto2.setMushroomId(1L);
+        conditionDto2.setDevelopmentStage("pinning");
+        conditionDto2.setTempHigh(27.0);
+        conditionDto2.setTempLow(24.0);
+        conditionDto2.setHumidityHigh(80.0);
+        conditionDto2.setHumidityLow(70.0);
+        conditionDto2.setCo2High(800.0);
+        conditionDto2.setCo2Low(200.0);
+        conditionDto2.setLightHigh(1000.0);
+        conditionDto2.setLightLow(200.0);
+
+        IdealConditionDto conditionDto3 = new IdealConditionDto();
+        conditionDto3.setMushroomId(1L);
+        conditionDto3.setDevelopmentStage("fruiting");
+        conditionDto3.setTempHigh(27.0);
+        conditionDto3.setTempLow(24.0);
+        conditionDto3.setHumidityHigh(80.0);
+        conditionDto3.setHumidityLow(70.0);
+        conditionDto3.setCo2High(800.0);
+        conditionDto3.setCo2Low(200.0);
+        conditionDto3.setLightHigh(1000.0);
+        conditionDto3.setLightLow(200.0);
+
+        idealConditionDtos.add(conditionDto1);
+        idealConditionDtos.add(conditionDto2);
+        idealConditionDtos.add(conditionDto3);
+
+        mushroomDto.setIdealConditionDtos(idealConditionDtos);
+
+        Mushroom saved = MushroomMapper.mapFromMushroomWithConditionsDto(mushroomDto);
+        saved.setId(1L);
+
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        saved.setUser(user);
+
+        Set<IdealCondition> idealConditionSet = new HashSet<>();
+        for (IdealConditionDto dto:
+                idealConditionDtos) {
+            idealConditionSet.add(IdealConditionsMapper.mapToIdealCondition(dto));
+        }
+        saved.setIdealConditions(idealConditionSet);
+
         when(service.createDefaultMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
 
-        ResponseEntity<MushroomDto> response1 = controller.createDefaultMushroom(mushroomCreationDTO);
+        ResponseEntity<MushroomWithConditionsDto> response1 = controller.createDefaultMushroom(mushroomCreationDTO);
 
         verify(service, times(1)).createDefaultMushroom(mushroomCreationDTO);
         assertEquals(HttpStatus.CREATED, response1.getStatusCode());
@@ -86,7 +143,7 @@ class MushroomControllerTest {
         mushroomCreationDTO.setDescription("Large mushroom with a meaty texture.");
         mushroomCreationDTO.setUsername("john");
 
-        MushroomDto mushroomDto = new MushroomDto();
+        MushroomWithConditionsDto mushroomDto = new MushroomWithConditionsDto();
         mushroomDto.setId(1L);
         mushroomDto.setName("Portobello");
         mushroomDto.setDescription("Large mushroom with a meaty texture.");
@@ -95,9 +152,65 @@ class MushroomControllerTest {
         user.setId(2);
         user.setUsername("john");
 
+        List<IdealConditionDto> idealConditionDtos = new ArrayList<>();
+
+        IdealConditionDto conditionDto1 = new IdealConditionDto();
+        conditionDto1.setMushroomId(1L);
+        conditionDto1.setDevelopmentStage("spawn run");
+        conditionDto1.setTempHigh(27.0);
+        conditionDto1.setTempLow(24.0);
+        conditionDto1.setHumidityHigh(80.0);
+        conditionDto1.setHumidityLow(70.0);
+        conditionDto1.setCo2High(800.0);
+        conditionDto1.setCo2Low(200.0);
+        conditionDto1.setLightHigh(1000.0);
+        conditionDto1.setLightLow(200.0);
+
+        IdealConditionDto conditionDto2 = new IdealConditionDto();
+        conditionDto2.setMushroomId(1L);
+        conditionDto2.setDevelopmentStage("pinning");
+        conditionDto2.setTempHigh(27.0);
+        conditionDto2.setTempLow(24.0);
+        conditionDto2.setHumidityHigh(80.0);
+        conditionDto2.setHumidityLow(70.0);
+        conditionDto2.setCo2High(800.0);
+        conditionDto2.setCo2Low(200.0);
+        conditionDto2.setLightHigh(1000.0);
+        conditionDto2.setLightLow(200.0);
+
+        IdealConditionDto conditionDto3 = new IdealConditionDto();
+        conditionDto3.setMushroomId(1L);
+        conditionDto3.setDevelopmentStage("fruiting");
+        conditionDto3.setTempHigh(27.0);
+        conditionDto3.setTempLow(24.0);
+        conditionDto3.setHumidityHigh(80.0);
+        conditionDto3.setHumidityLow(70.0);
+        conditionDto3.setCo2High(800.0);
+        conditionDto3.setCo2Low(200.0);
+        conditionDto3.setLightHigh(1000.0);
+        conditionDto3.setLightLow(200.0);
+
+        idealConditionDtos.add(conditionDto1);
+        idealConditionDtos.add(conditionDto2);
+        idealConditionDtos.add(conditionDto3);
+
+        mushroomDto.setIdealConditionDtos(idealConditionDtos);
+
+        Mushroom saved = MushroomMapper.mapFromMushroomWithConditionsDto(mushroomDto);
+        saved.setId(1L);
+
+        saved.setUser(user);
+
+        Set<IdealCondition> idealConditionSet = new HashSet<>();
+        for (IdealConditionDto dto:
+                idealConditionDtos) {
+            idealConditionSet.add(IdealConditionsMapper.mapToIdealCondition(dto));
+        }
+        saved.setIdealConditions(idealConditionSet);
+
         when(service.createCustomMushroom(mushroomCreationDTO)).thenReturn(mushroomDto);
 
-        ResponseEntity<MushroomDto> response1 = controller.createCustomMushroomWithConditions(mushroomCreationDTO);
+        ResponseEntity<MushroomWithConditionsDto> response1 = controller.createCustomMushroomWithConditions(mushroomCreationDTO);
 
         verify(service, times(1)).createCustomMushroom(mushroomCreationDTO);
         assertEquals(HttpStatus.CREATED, response1.getStatusCode());
