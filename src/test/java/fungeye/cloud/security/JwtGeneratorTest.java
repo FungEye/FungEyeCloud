@@ -2,6 +2,7 @@ package fungeye.cloud.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,5 +52,17 @@ class JwtGeneratorTest {
     @Test
     void validateToken() {
         assertTrue(test.validateToken(token));
+    }
+
+    @Test
+    void validateToken_InvalidToken_ThrowsException() {
+        // Arrange
+        JwtGenerator jwtGenerator = new JwtGenerator();
+        String invalidToken = "invalid_token";
+
+        // Act & Assert
+        Assertions.assertThrows(Exception.class, () -> {
+            jwtGenerator.validateToken(invalidToken);
+        });
     }
 }
