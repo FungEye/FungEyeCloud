@@ -55,14 +55,12 @@ class JwtGeneratorTest {
     }
 
     @Test
-    void validateToken_InvalidToken_ThrowsException() {
+    void validateToken_InvalidToken() {
         // Arrange
         JwtGenerator jwtGenerator = new JwtGenerator();
         String invalidToken = "invalid_token";
 
         // Act & Assert
-        Assertions.assertThrows(Exception.class, () -> {
-            jwtGenerator.validateToken(invalidToken);
-        });
+        Assertions.assertFalse(jwtGenerator.validateToken(invalidToken));
     }
 }
