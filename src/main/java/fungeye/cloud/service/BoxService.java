@@ -3,15 +3,17 @@ package fungeye.cloud.service;
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.domain.dtos.GrowDto;
+import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.persistence.repository.BoxRepository;
+import fungeye.cloud.persistence.repository.MushroomRepository;
 import fungeye.cloud.service.mappers.BoxMapper;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.service.mappers.GrowMapper;
-import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,10 +25,13 @@ public class BoxService {
 
     private BoxRepository repository;
     private GrowRepository growRepository;
+    private final MushroomRepository mushroomRepository;
 
-    public BoxService(BoxRepository repository, GrowRepository growRepository) {
+    public BoxService(BoxRepository repository, GrowRepository growRepository,
+                      MushroomRepository mushroomRepository) {
         this.repository = repository;
         this.growRepository = growRepository;
+        this.mushroomRepository = mushroomRepository;
     }
 
     public BoxDto createBox()
@@ -36,15 +41,7 @@ public class BoxService {
 
     public List<BoxDetailsDto> getAll() {
         List<BoxDetailsDto> boxDtoList = mapToBoxDtoList(repository.findAll());
-        for (BoxDetailsDto boxDto:
-             boxDtoList) {
-            List<Grow> grows = growRepository.findByBox_Id(boxDto.getId());
-            Set<Grow> growSet = new HashSet<>(grows);
-            List<GrowDto> growDtos = GrowMapper.mapToGrowDtoList(growSet);
-            boxDto.setGrows(growDtos);
-        }
-
-        return boxDtoList;
+        return setGrows(boxDtoList);
     }
 
     public BoxDetailsDto getById(Long id)
@@ -52,7 +49,7 @@ public class BoxService {
         return mapToBoxDto(repository.findById(id).orElseThrow());
     }
 
-    public List<BoxDto> getAllByUserName(String userName) {
+    public List<BoxDto> getAllEmptyByUserName(String userName) {
 
         List<Box> boxes = repository.findBoxesByUserEntity_Username(userName);
         List<BoxDto> dtoList = new ArrayList<>();
@@ -69,6 +66,30 @@ public class BoxService {
 
         }
         return dtoList;
+    }
+
+    public List<SimpleBoxGrowDto> getAllByUsername(String username) {
+        List<Box> boxes = repository.findByUserEntity_UsernameOrderByIdAsc(username);
+        for (Box box:
+             boxes) {
+            List<Grow> grows = growRepository.findByBox_Id(box.getId());
+            Set<Grow> growSet = new HashSet<>(grows);
+            box.setGrows(growSet);
+        }
+
+        return mapToSimpleBoxGrowDtoList(boxes);
+    }
+
+    private List<BoxDetailsDto> setGrows(List<BoxDetailsDto> boxDtoList) {
+        for (BoxDetailsDto boxDto:
+                boxDtoList) {
+            List<Grow> grows = growRepository.findByBox_Id(boxDto.getId());
+            Set<Grow> growSet = new HashSet<>(grows);
+            List<GrowDto> growDtos = GrowMapper.mapToGrowDtoList(growSet);
+            boxDto.setGrows(growDtos);
+        }
+
+        return boxDtoList;
     }
 
 

@@ -123,7 +123,7 @@ class BoxServiceTest {
         when(repository.findBoxesByUserEntity_Username(username)).thenReturn(boxes);
 
         BoxService service = new BoxService(repository, growRepository);
-        List<BoxDto> result = service.getAllByUserName(username);
+        List<BoxDto> result = service.getAllEmptyByUserName(username);
 
         assertEquals(dtos.get(0).getId(), result.get(0).getId());
         verify(repository, times(1)).findBoxesByUserEntity_Username(username);

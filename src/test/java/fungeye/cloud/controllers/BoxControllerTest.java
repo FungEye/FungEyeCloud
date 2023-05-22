@@ -3,7 +3,6 @@ package fungeye.cloud.controllers;
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.service.BoxService;
-import lombok.experimental.StandardException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -89,13 +88,13 @@ class BoxControllerTest {
         List<BoxDto> dtos = new ArrayList<>();
         dtos.add(dto1);
         dtos.add(dto2);
-        when(boxService.getAllByUserName(userName)).thenReturn(dtos);
+        when(boxService.getAllEmptyByUserName(userName)).thenReturn(dtos);
 
         ResponseEntity<List<BoxDto>> responseEntity = boxController.getAllBoxesByUserName(userName);
 
         assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
         assertEquals(dtos, responseEntity.getBody());
-        verify(boxService, times(1)).getAllByUserName(userName);
+        verify(boxService, times(1)).getAllEmptyByUserName(userName);
 
     }
 
