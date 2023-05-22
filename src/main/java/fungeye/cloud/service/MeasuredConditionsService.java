@@ -104,7 +104,10 @@ public class MeasuredConditionsService {
         List<Box> boxes = boxRepository.findBoxesByUserEntity_Username(username);
         for (Box box:
              boxes) {
-            conditionDtos.add(mapToDto(repository.findFirstById_BoxIdOrderById_DateTimeDesc(box.getId())));
+            MeasuredCondition foundCondition = repository.findFirstById_BoxIdOrderById_DateTimeDesc(box.getId());
+            if (foundCondition != null) {
+                conditionDtos.add(mapToDto(repository.findFirstById_BoxIdOrderById_DateTimeDesc(box.getId())));
+            }
         }
         return conditionDtos;
     }
