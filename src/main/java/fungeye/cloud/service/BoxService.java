@@ -25,13 +25,10 @@ public class BoxService {
 
     private BoxRepository repository;
     private GrowRepository growRepository;
-    private MushroomRepository mushroomRepository;
 
-    public BoxService(BoxRepository repository, GrowRepository growRepository,
-                      MushroomRepository mushroomRepository) {
+    public BoxService(BoxRepository repository, GrowRepository growRepository) {
         this.repository = repository;
         this.growRepository = growRepository;
-        this.mushroomRepository = mushroomRepository;
     }
 
     public BoxDto createBox()

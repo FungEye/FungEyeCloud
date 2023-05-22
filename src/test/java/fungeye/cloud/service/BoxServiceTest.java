@@ -21,7 +21,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
-import static fungeye.cloud.service.mappers.BoxMapper.mapToSimpleBoxGrowDtoList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -41,7 +40,7 @@ class BoxServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        service = new BoxService(repository, growRepository, mushroomRepository);
+        service = new BoxService(repository, growRepository);
     }
 
     @Test
