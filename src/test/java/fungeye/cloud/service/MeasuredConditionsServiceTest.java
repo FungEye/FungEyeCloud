@@ -7,6 +7,7 @@ import fungeye.cloud.domain.enities.MeasuredConditionId;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
+import fungeye.cloud.security.JwtGenerator;
 import fungeye.cloud.service.mappers.MeasuredConditionsMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,18 +35,30 @@ class MeasuredConditionsServiceTest {
     @Mock
     private BoxRepository boxRepository;
 
+    @Mock
+    private JwtGenerator generator;
+
+    String token;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        this.service = new MeasuredConditionsService(repository, boxRepository);
+        this.service = new MeasuredConditionsService(repository, boxRepository, generator);
+        token = "TOKEN_VALUE";
     }
 
     @Test
     void testGetLatestMeasuredCondition() {
         // Given
         long boxId = 1L;
+
+        UserEntity user = new UserEntity();
+        user.setUsername("john");
+
         Box box = new Box();
         box.setId(boxId);
+        box.setUserEntity(user);
+
         MeasuredConditionId id = new MeasuredConditionId();
         id.setDateTime(Instant.now());
         id.setBoxId(1L);
@@ -55,11 +68,16 @@ class MeasuredConditionsServiceTest {
         measuredCondition.setHumidity(60.0);
         measuredCondition.setId(id);
 
+
+
+
         // When
         when(repository.findTopByBox_IdOrderByIdDesc(anyLong())).thenReturn(measuredCondition);
+        when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("john");
+        when(boxRepository.getReferenceById(boxId)).thenReturn(box);
 
         // Then
-        MeasuredConditionDto result = service.getLatestMeasuredCondition(boxId);
+        MeasuredConditionDto result = service.getLatestMeasuredCondition(boxId, token);
         assertEquals(measuredCondition.getTemperature(), result.getTemperature());
         assertEquals(measuredCondition.getHumidity(), result.getHumidity());
     }
@@ -123,8 +141,15 @@ class MeasuredConditionsServiceTest {
     void getHistoricalMeasurementsWithContent() {
         //Given
         long boxId = 1L;
+
+        UserEntity user = new UserEntity();
+        user.setUsername("john");
+
         Box box = new Box();
         box.setId(boxId);
+        box.setUserEntity(user);
+
+
         List<MeasuredCondition> list = new ArrayList<>();
         Instant timestamp = Instant.now();
         for (int i = 0; i < 10; i++) {
@@ -177,11 +202,12 @@ class MeasuredConditionsServiceTest {
 
         //When
         when(repository.findAllByBox_Id(boxId)).thenReturn(list);
+        when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("john");
+        when(boxRepository.getReferenceById(boxId)).thenReturn(box);
 
 
         //Then
-
-        assertEquals(actual, service.getHistoricalMeasurements(boxId));
+        assertEquals(actual, service.getHistoricalMeasurements(boxId, token));
     }
 
     @Test
@@ -220,10 +246,11 @@ class MeasuredConditionsServiceTest {
         List<MeasuredConditionDto> expected = MeasuredConditionsMapper.mapToDtoList(set);
 
         // When
+        when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("john");
         when(boxRepository.findBoxesByUserEntity_Username("john")).thenReturn(johnsBoxes);
         when(repository.findFirstById_BoxIdOrderById_DateTimeDesc(1L)).thenReturn(conditionsList.get(9));
 
-        MeasuredConditionDto actual = service.getLatestForUser("john").get(0);
+        MeasuredConditionDto actual = service.getLatestForUser("john", token).get(0);
 
         assertEquals(MeasuredConditionsMapper.mapToDto(conditionsList.get(9)), actual);
     }
