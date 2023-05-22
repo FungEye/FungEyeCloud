@@ -57,6 +57,7 @@ class HarvestMapperTest {
         harvest.setMushroom(mushroom);
         harvest.setId(1L);
         harvest.setWeight(22.5);
+        harvest.setComment("Small, but effective");
 
         create = new HarvestCreationDto();
         create.setHarvestDate(new SimpleDateDto(
@@ -64,6 +65,7 @@ class HarvestMapperTest {
                 LocalDate.now().getDayOfMonth()));
         create.setGrowId(1L);
         create.setWeight(22.5);
+        create.setComment("Small, but effective");
 
         details = new HarvestDetailsDto();
         details.setId(1L);
@@ -73,6 +75,7 @@ class HarvestMapperTest {
                 LocalDate.now().getDayOfMonth()));
         details.setGrowId(1L);
         details.setMushroomName("Wohooo, correct mushroom!");
+        details.setComment("Small, but effective");
 
 
 
@@ -85,10 +88,9 @@ class HarvestMapperTest {
         when(growRepo.getReferenceById(1L)).thenReturn(grow);
         when(growRepo.findById(1L)).thenReturn(Optional.of(grow));
         when(mushroomRepo.getReferenceById(any())).thenReturn(mushroom);
-        assertEquals(harvest.getMushroom().getName(), mapper.mapCreationDtoToEntity(create).getMushroom().getName());
-        assertEquals(harvest.getDateHarvested(), mapper.mapCreationDtoToEntity(create).getDateHarvested());
-        assertEquals(harvest.getGrow().getId(), mapper.mapCreationDtoToEntity(create).getGrow().getId());
-        assertEquals(harvest.getWeight(), mapper.mapCreationDtoToEntity(create).getWeight());
+        Harvest created = mapper.mapCreationDtoToEntity(create);
+        created.setId(1L);
+        assertEquals(harvest, created);
     }
 
     @Test
