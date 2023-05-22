@@ -2,7 +2,13 @@ package fungeye.cloud.controllers;
 
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
+import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
+import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
+import fungeye.cloud.domain.enities.Box;
+import fungeye.cloud.domain.enities.Grow;
+import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.service.BoxService;
+import fungeye.cloud.service.mappers.GrowMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +24,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -80,7 +88,7 @@ class BoxControllerTest {
     }
 
     @Test
-    void testGetAllBoxesByUserId() {
+    void testGetAllEmptyBoxesByUsername() {
         String userName = "Liepa";
         BoxDto dto1 = new BoxDto();
         BoxDto dto2 = new BoxDto();
@@ -90,13 +98,53 @@ class BoxControllerTest {
         dtos.add(dto2);
         when(boxService.getAllEmptyByUserName(userName)).thenReturn(dtos);
 
-        ResponseEntity<List<BoxDto>> responseEntity = boxController.getAllBoxesByUserName(userName);
+        ResponseEntity<List<BoxDto>> responseEntity = boxController.getAllEmptyBoxesByUserName(userName);
 
         assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
         assertEquals(dtos, responseEntity.getBody());
         verify(boxService, times(1)).getAllEmptyByUserName(userName);
-
     }
+
+    @Test
+    void testGetAllBoxesByUsername() {
+        String username = "john";
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setName("Portobello");
+        mushroom.setId(2L);
+
+        Set<Grow> grows = new HashSet<>();
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setMushroom(mushroom);
+
+        grows.add(grow);
+
+        Box box = new Box();
+        box.setId(1L);
+        box.setGrows(grows);
+
+        List<Box> boxes = new ArrayList<>();
+        boxes.add(box);
+
+        SimpleBoxGrowDto simpleBoxGrowDto1 = new SimpleBoxGrowDto();
+        simpleBoxGrowDto1.setId(1L);
+
+        List<GrowIdMushroomNameDto> mushroomNameDtos = GrowMapper.mapToGrowIdMushroomNameDtoList(grows);
+        simpleBoxGrowDto1.setSimpleGrowDtos(mushroomNameDtos);
+
+        List<SimpleBoxGrowDto> simpleBoxGrowDtos = new ArrayList<>();
+        simpleBoxGrowDtos.add(simpleBoxGrowDto1);
+
+        when(boxService.getAllByUsername(username)).thenReturn(simpleBoxGrowDtos);
+
+        ResponseEntity<List<SimpleBoxGrowDto>> actual = boxController.getAllBoxesByUsername(username);
+
+        assertEquals(HttpStatus.OK, actual.getStatusCode());
+        assertEquals(simpleBoxGrowDtos, actual.getBody());
+    }
+
 
 
 }

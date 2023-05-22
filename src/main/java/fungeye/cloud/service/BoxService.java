@@ -25,7 +25,7 @@ public class BoxService {
 
     private BoxRepository repository;
     private GrowRepository growRepository;
-    private final MushroomRepository mushroomRepository;
+    private MushroomRepository mushroomRepository;
 
     public BoxService(BoxRepository repository, GrowRepository growRepository,
                       MushroomRepository mushroomRepository) {
