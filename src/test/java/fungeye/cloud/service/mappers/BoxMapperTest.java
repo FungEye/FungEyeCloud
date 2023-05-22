@@ -2,6 +2,8 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
+import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
+import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
 import fungeye.cloud.domain.enities.*;
 import org.junit.jupiter.api.Test;
 
@@ -11,11 +13,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
-import static fungeye.cloud.service.mappers.BoxMapper.mapToBoxDto;
-import static fungeye.cloud.service.mappers.BoxMapper.mapToBoxDtoList;
+import static fungeye.cloud.service.mappers.BoxMapper.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class BoxMapperTest {
 
@@ -240,5 +240,143 @@ class BoxMapperTest {
 
         // check if the result is correct
         assertEquals(box.getId(), dto.getId());
+    }
+
+    @Test
+    void testMapToSimpleBoxGrowDto() {
+        Mushroom mushroom = new Mushroom();
+        mushroom.setName("Portobello");
+        mushroom.setId(2L);
+
+        Set<Grow> grows = new HashSet<>();
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setMushroom(mushroom);
+
+        grows.add(grow);
+
+        Box box = new Box();
+        box.setId(1L);
+        box.setGrows(grows);
+
+        SimpleBoxGrowDto expected = new SimpleBoxGrowDto();
+        expected.setId(1L);
+
+        List<GrowIdMushroomNameDto> mushroomNameDtos = GrowMapper.mapToGrowIdMushroomNameDtoList(grows);
+        expected.setSimpleGrowDtos(mushroomNameDtos);
+
+        SimpleBoxGrowDto actual = mapToSimpleBoxGrowDto(box);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testMapFromSimpleBoxGrowDto() {
+        SimpleBoxGrowDto dto = new SimpleBoxGrowDto();
+
+        dto.setId(1L);
+
+        List<GrowIdMushroomNameDto> growIdMushroomNameDtos = new ArrayList<>();
+        GrowIdMushroomNameDto nameDto = new GrowIdMushroomNameDto();
+        nameDto.setId(1L);
+        nameDto.setMushroomName("Portobello");
+        growIdMushroomNameDtos.add(nameDto);
+
+        dto.setSimpleGrowDtos(growIdMushroomNameDtos);
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setName("Portobello");
+
+        Set<Grow> grows = new HashSet<>();
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setMushroom(mushroom);
+
+        grows.add(grow);
+
+        Box expected = new Box();
+        expected.setId(1L);
+        expected.setGrows(grows);
+
+        Box actual = mapFromSimpleBoxGrowDto(dto);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testMapToSimpleBoxGrowDtoList() {
+        Mushroom mushroom = new Mushroom();
+        mushroom.setName("Portobello");
+        mushroom.setId(2L);
+
+        Set<Grow> grows = new HashSet<>();
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setMushroom(mushroom);
+
+        grows.add(grow);
+
+        Box box = new Box();
+        box.setId(1L);
+        box.setGrows(grows);
+
+        List<Box> boxes = new ArrayList<>();
+        boxes.add(box);
+
+        SimpleBoxGrowDto expected1 = new SimpleBoxGrowDto();
+        expected1.setId(1L);
+
+        List<GrowIdMushroomNameDto> mushroomNameDtos = GrowMapper.mapToGrowIdMushroomNameDtoList(grows);
+        expected1.setSimpleGrowDtos(mushroomNameDtos);
+
+        List<SimpleBoxGrowDto> expected = new ArrayList<>();
+        expected.add(expected1);
+
+        List<SimpleBoxGrowDto> actual = mapToSimpleBoxGrowDtoList(boxes);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testMapFromSimpleBoxGrowDtoList() {
+        SimpleBoxGrowDto dto = new SimpleBoxGrowDto();
+
+        dto.setId(1L);
+
+        List<GrowIdMushroomNameDto> growIdMushroomNameDtos = new ArrayList<>();
+        GrowIdMushroomNameDto nameDto = new GrowIdMushroomNameDto();
+        nameDto.setId(1L);
+        nameDto.setMushroomName("Portobello");
+        growIdMushroomNameDtos.add(nameDto);
+
+        dto.setSimpleGrowDtos(growIdMushroomNameDtos);
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setName("Portobello");
+
+        Set<Grow> grows = new HashSet<>();
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setMushroom(mushroom);
+
+        grows.add(grow);
+
+        Box expected1 = new Box();
+        expected1.setId(1L);
+        expected1.setGrows(grows);
+
+        List<Box> expected = new ArrayList<>();
+        expected.add(expected1);
+
+        List<SimpleBoxGrowDto> dtos = new ArrayList<>();
+        dtos.add(dto);
+
+        List<Box> actual = mapFromSimpleBoxGrowDtoList(dtos);
+
+        assertEquals(expected, actual);
     }
 }

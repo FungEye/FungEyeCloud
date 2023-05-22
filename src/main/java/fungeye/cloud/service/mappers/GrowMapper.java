@@ -3,12 +3,14 @@ package fungeye.cloud.service.mappers;
 import fungeye.cloud.domain.dtos.GrowCreationDto;
 import fungeye.cloud.domain.dtos.GrowDto;
 import fungeye.cloud.domain.dtos.GrowIdDto;
+import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -96,5 +98,38 @@ public class GrowMapper {
         grows.forEach(g -> dtos.add(mapToGrowIdDto(g)));
 
         return dtos;
+    }
+
+    public static GrowIdMushroomNameDto mapToGrowIdMushroomNameDto(Grow grow) {
+        GrowIdMushroomNameDto dto = new GrowIdMushroomNameDto();
+        dto.setId(grow.getId());
+        dto.setMushroomName(grow.getMushroom().getName());
+
+        return dto;
+    }
+
+    public static Grow mapFromGrowIdMushroomNameDto(GrowIdMushroomNameDto dto) {
+        Grow grow = new Grow();
+        grow.setId(dto.getId());
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setName(dto.getMushroomName());
+        grow.setMushroom(mushroom);
+
+        return grow;
+    }
+
+    public static List<GrowIdMushroomNameDto> mapToGrowIdMushroomNameDtoList(Set<Grow> set) {
+        List<GrowIdMushroomNameDto> dtos = new ArrayList<>();
+        set.forEach(g -> dtos.add(mapToGrowIdMushroomNameDto(g)));
+
+        return dtos;
+    }
+
+    public static Set<Grow> mapFromGrowIdMushroomNameDtoList(List<GrowIdMushroomNameDto> dtos) {
+        Set<Grow> set = new HashSet<>();
+        dtos.forEach(d -> set.add(mapFromGrowIdMushroomNameDto(d)));
+
+        return set;
     }
 }
