@@ -2,7 +2,9 @@ package fungeye.cloud.domain.enities;
 
 import fungeye.cloud.domain.enities.users.UserEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -25,4 +27,8 @@ public class Box {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
+
+    @Size(min = 16, max = 16)
+    @Column(name = "eui")
+    private String eui;
 }
