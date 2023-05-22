@@ -1,22 +1,18 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.BoxDetailsDto;
-import fungeye.cloud.domain.dtos.BoxDto;
-import fungeye.cloud.domain.dtos.GrowDto;
-import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
+import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
-import fungeye.cloud.persistence.repository.MushroomRepository;
+import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.service.mappers.BoxMapper;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
+import java.util.*;
+
 import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.service.mappers.GrowMapper;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static fungeye.cloud.service.mappers.BoxMapper.*;
 
@@ -25,15 +21,20 @@ public class BoxService {
 
     private BoxRepository repository;
     private GrowRepository growRepository;
+    private UserRepository userRepository;
 
-    public BoxService(BoxRepository repository, GrowRepository growRepository) {
+    public BoxService(BoxRepository repository, GrowRepository growRepository, UserRepository userRepository) {
         this.repository = repository;
         this.growRepository = growRepository;
+        this.userRepository = userRepository;
     }
 
-    public BoxDto createBox()
-    {
-        return mapToSimpleDto(repository.save(new Box()));
+    public BoxDto createBox(BoxCreationDto dto) {
+        Box toCreate = mapFromBoxCreationDto(dto);
+        Optional<UserEntity> found = userRepository.findByUsername(dto.getUsername());
+        found.ifPresent(toCreate::setUserEntity);
+        Box saved = repository.save(toCreate);
+        return mapToSimpleDto(saved);
     }
 
     public List<BoxDetailsDto> getAll() {

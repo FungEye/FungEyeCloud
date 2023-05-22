@@ -1,5 +1,6 @@
 package fungeye.cloud.controllers;
 
+import fungeye.cloud.domain.dtos.BoxCreationDto;
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
@@ -22,8 +23,8 @@ public class BoxController {
     }
 
     @PostMapping("/box")
-    public ResponseEntity<BoxDto> createBox() {
-        return new ResponseEntity<>(service.createBox(), HttpStatus.CREATED);
+    public ResponseEntity<BoxDto> createBox(BoxCreationDto dto) {
+        return new ResponseEntity<>(service.createBox(dto), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/box{id}")
