@@ -1,9 +1,11 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.BoxCreationDto;
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
 import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
 import fungeye.cloud.domain.enities.Box;
+import fungeye.cloud.domain.enities.users.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,5 +77,24 @@ public class BoxMapper {
         dtos.forEach(d -> list.add(mapFromSimpleBoxGrowDto(d)));
 
         return list;
+    }
+
+    public static BoxCreationDto mapToBoxCreationDto(Box box) {
+        BoxCreationDto dto = new BoxCreationDto();
+        dto.setUsername(box.getUserEntity().getUsername());
+        dto.setEui(box.getEui());
+
+        return dto;
+    }
+
+    public static Box mapFromBoxCreationDto(BoxCreationDto dto) {
+        Box box = new Box();
+        box.setEui(dto.getEui());
+
+        UserEntity user = new UserEntity();
+        user.setUsername(dto.getUsername());
+        box.setUserEntity(user);
+
+        return box;
     }
 }

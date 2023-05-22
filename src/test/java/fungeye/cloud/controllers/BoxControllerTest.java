@@ -1,9 +1,6 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.BoxDetailsDto;
-import fungeye.cloud.domain.dtos.BoxDto;
-import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
-import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -50,15 +47,19 @@ class BoxControllerTest {
 
     @Test
     void testCreateBox() throws Exception {
+        BoxCreationDto creationDto = new BoxCreationDto();
+        creationDto.setEui("0123456789ABCDEF");
+        creationDto.setUsername("john");
+
         BoxDto boxDto = new BoxDto();
         boxDto.setId(1L);
 
-        given(boxService.createBox()).willReturn(boxDto);
+        when(boxService.createBox(creationDto)).thenReturn(boxDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/box")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1));
+        ResponseEntity<BoxDto> response = boxController.createBox(creationDto);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(boxDto, response.getBody());
     }
 
     @Test

@@ -1,15 +1,15 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.BoxDetailsDto;
-import fungeye.cloud.domain.dtos.BoxDto;
-import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
-import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
+import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.persistence.repository.MushroomRepository;
+import fungeye.cloud.persistence.repository.UserRepository;
+import fungeye.cloud.service.mappers.BoxMapper;
 import fungeye.cloud.service.mappers.GrowMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,10 +18,10 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.*;
 
-import static fungeye.cloud.service.mappers.BoxMapper.mapToSimpleBoxGrowDtoList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -34,6 +34,9 @@ class BoxServiceTest {
     private GrowRepository growRepository;
 
     @Mock
+    private UserRepository userRepository;
+
+    @Mock
     private MushroomRepository mushroomRepository;
 
     private BoxService service;
@@ -41,21 +44,36 @@ class BoxServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        service = new BoxService(repository, growRepository, mushroomRepository);
+        service = new BoxService(repository, growRepository, userRepository);
     }
 
     @Test
     void testCreateBox() {
         // Given
+        BoxCreationDto dto = new BoxCreationDto();
+        dto.setUsername("john");
+        dto.setEui("0123456789ABCDEF");
+
         Box box = new Box();
+
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        user.setUsername("john");
+        box.setUserEntity(user);
+
+        box.setEui("0123456789ABCDEF");
+        box.setId(1L);
+
+        BoxDto expected = BoxMapper.mapToSimpleDto(box);
+
+        when(userRepository.findByUsername("john")).thenReturn(Optional.of(user));
         when(repository.save(ArgumentMatchers.any())).thenReturn(box);
 
         // When
-        BoxDto dto = service.createBox();
+        BoxDto actual = service.createBox(dto);
 
         // Then
-        Assertions.assertNotNull(dto);
-        verify(repository, Mockito.times(1)).save(ArgumentMatchers.any());
+        assertEquals(expected, actual);
     }
 
     @Test
