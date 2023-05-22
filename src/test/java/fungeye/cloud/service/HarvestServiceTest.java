@@ -60,6 +60,7 @@ class HarvestServiceTest {
                 LocalDate.now().getDayOfMonth()
         ));
         create.setWeight(100.0);
+        create.setComment("First harvest of tasty fungus");
 
         harvest = new Harvest();
         harvest.setId(1L);
@@ -67,12 +68,14 @@ class HarvestServiceTest {
         harvest.setMushroom(mushroom);
         harvest.setGrow(grow);
         harvest.setWeight(100.0);
+        harvest.setComment("First harvest of tasty fungus");
 
         inProgress = new Harvest();
         inProgress.setDateHarvested(LocalDate.now());
         inProgress.setMushroom(mushroom);
         inProgress.setGrow(grow);
         inProgress.setWeight(100.0);
+        inProgress.setComment("First harvest of tasty fungus");
 
         details1 = new HarvestDetailsDto();
         details1.setId(1L);
@@ -83,6 +86,7 @@ class HarvestServiceTest {
         details1.setWeight(100.0);
         details1.setGrowId(1L);
         details1.setMushroomName("MUSHROOM");
+        details1.setComment("First harvest of tasty fungus");
     }
 
     @Test
@@ -105,6 +109,7 @@ class HarvestServiceTest {
         details2.setWeight(200.0);
         details2.setGrowId(1L);
         details2.setMushroomName("MUSHROOM");
+        details2.setComment("Doubled harvest! Wow!");
 
         details3 = new HarvestDetailsDto();
         details3.setId(3L);
@@ -115,6 +120,7 @@ class HarvestServiceTest {
         details3.setWeight(300.0);
         details3.setGrowId(1L);
         details3.setMushroomName("MUSHROOM");
+        details3.setComment("Humidity and temp are dialed in");
 
         harvest2 = new Harvest();
         harvest2.setId(2L);
@@ -122,6 +128,7 @@ class HarvestServiceTest {
         harvest2.setMushroom(mushroom);
         harvest2.setGrow(grow);
         harvest2.setWeight(200.0);
+        harvest2.setComment("Doubled harvest! Wow!");
 
         harvest3 = new Harvest();
         harvest3.setId(3L);
@@ -129,6 +136,7 @@ class HarvestServiceTest {
         harvest3.setMushroom(mushroom);
         harvest3.setGrow(grow);
         harvest3.setWeight(300.0);
+        harvest3.setComment("Humidity and temp are dialed in");
 
         List<Harvest> harvests = new ArrayList<>();
         harvests.add(harvest);
@@ -187,6 +195,7 @@ class HarvestServiceTest {
         harvest2.setMushroom(mushroom);
         harvest2.setGrow(grow);
         harvest2.setWeight(200.0);
+        harvest2.setComment("Doubled harvest! Wow!");
 
         harvest3 = new Harvest();
         harvest3.setId(3L);
@@ -194,6 +203,7 @@ class HarvestServiceTest {
         harvest3.setMushroom(mushroom);
         harvest3.setGrow(grow);
         harvest3.setWeight(300.0);
+        harvest3.setComment("Humidity and temp are dialed in");
 
         List<Harvest> harvests = new ArrayList<>();
         harvests.add(harvest);
