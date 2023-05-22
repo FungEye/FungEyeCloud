@@ -1,0 +1,7 @@
+Create the container:
+1)  docker build -t fungeye/backend .
+    - after the -t is just the name of the container
+Run the container:
+2)  docker run -d -p 8080:8080 -p 443:443  --name FungeyeBackend fungeye/backend:latest
+    - remember to put in both -p 8080:8080 AND -p 443:443 for websockets to work
+
