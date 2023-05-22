@@ -172,11 +172,12 @@ public class HardwareTutorial implements WebSocket.Listener {
             condDto.setCo2((double) co2);
             condDto.setLight((double) light);
             measurementService.addMeasuredCondition(condDto);
-            sendDownLink(
-                    "{cmd : 'tx';EUI : 0004A30B00ED6757;port: 1;data: 0001}"
 
-            );
         }
+        sendDownLink(
+                "{\"cmd\" : \"tx\",\"EUI\" : \"0004A30B00ED6757\",\"port\": 1,\"confirmed\" : true,\"data\": \"11\"}"
+
+        );
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
     }

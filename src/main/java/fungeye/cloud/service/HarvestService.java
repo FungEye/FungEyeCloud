@@ -28,10 +28,10 @@ public class HarvestService {
         return mapper.mapEntityToDetailsDto(created);
     }
 
-    public List<HarvestDetailsDto> getAllHarvestsByUserId(int userId) {
-        List<Harvest> response = repository.findByGrow_Box_UserEntity_Id(userId);
+    public List<HarvestDetailsDto> getAllHarvestsByUsername(String username) {
+        List<Harvest> response = repository.findByGrow_Box_UserEntity_UsernameOrderByDateHarvestedDesc(username);
         if (response.isEmpty()) {
-            throw new NoSuchElementException(String.format("User with ID#%d has no harvests.", userId));
+            throw new NoSuchElementException(String.format("#%s has no harvests.", username));
         }
         List<HarvestDetailsDto> result = new ArrayList<>();
         for (Harvest h: response
@@ -42,6 +42,16 @@ public class HarvestService {
         return result;
     }
 
-
-
+    public List<HarvestDetailsDto> getAllHarvestsByGrowId(Long growId) {
+        List<Harvest> response = repository.findByGrow_IdOrderByDateHarvestedDesc(growId);
+        if (response.isEmpty()) {
+            throw new NoSuchElementException(String.format("Grow #%d has no harvests.", growId));
+        }
+        List<HarvestDetailsDto> result = new ArrayList<>();
+        for (Harvest h: response
+        ) {
+            result.add(mapper.mapEntityToDetailsDto(h));
+        }
+        return result;
+    }
 }

@@ -1,6 +1,7 @@
 package fungeye.cloud.domain.enities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -27,5 +28,9 @@ public class Harvest {
 
     @Column(name = "date_harvested", nullable = false)
     private LocalDate dateHarvested;
+
+    @Size(max = 1000)
+    @Column(name = "comment")
+    private String comment;
 
 }

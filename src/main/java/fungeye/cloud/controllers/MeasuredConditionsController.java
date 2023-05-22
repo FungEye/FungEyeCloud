@@ -3,7 +3,6 @@ package fungeye.cloud.controllers;
 import fungeye.cloud.domain.dtos.HistoricalMeasurementDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.SearchConditionsParam;
-import fungeye.cloud.domain.dtos.SingleMeasurementDto;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,14 +42,19 @@ public class MeasuredConditionsController {
     }
 
     @GetMapping(value = "box{id}/measurements/historical")
-    public ResponseEntity<HistoricalMeasurementDto> getHistoricalMeasurements(@PathVariable("id") Long id) {
+    public ResponseEntity<HistoricalMeasurementDto> getHistoricalMeasurements(@PathVariable("id") Long id, @RequestHeader(name = "Authorization") String token) {
 
-        return new ResponseEntity<>(service.getHistoricalMeasurements(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.getHistoricalMeasurements(id, token), HttpStatus.OK);
     }
 
 
     @GetMapping(value = "box{id}/measurements/latest")
-    public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(service.getLatestMeasuredCondition(id), HttpStatus.OK);
+    public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id") Long id, @RequestHeader(name = "Authorization") String token) {
+        return new ResponseEntity<>(service.getLatestMeasuredCondition(id, token), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "{username}/measurements/latest")
+    public ResponseEntity<List<MeasuredConditionDto>> getAllLatestForUser(@PathVariable String username, @RequestHeader(name = "Authorization") String token) {
+        return new ResponseEntity<>(service.getLatestForUser(username, token), HttpStatus.OK);
     }
 }

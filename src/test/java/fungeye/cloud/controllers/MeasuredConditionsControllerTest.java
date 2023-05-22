@@ -1,12 +1,8 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.HistoricalMeasurementDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
-import fungeye.cloud.domain.dtos.SingleMeasurementDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.JsonPathResultMatchers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDateTime;
@@ -22,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
 
 
 @WebMvcTest(value = MeasuredConditionsController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
@@ -47,7 +42,7 @@ class MeasuredConditionsControllerTest {
         measuredConditionDto.setTemperature(25.0);
         measuredConditionDto.setHumidity(40.0);
 
-        Mockito.when(service.getMeasuredConditions(any())).thenReturn(Collections.singletonList(measuredConditionDto));
+        when(service.getMeasuredConditions(any())).thenReturn(Collections.singletonList(measuredConditionDto));
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/box1/measurements")
@@ -69,11 +64,11 @@ class MeasuredConditionsControllerTest {
         measuredConditionDto.setTemperature(25.0);
         measuredConditionDto.setHumidity(40.0);
 
-        Mockito.when(service.getLatestMeasuredCondition(anyLong())).thenReturn(measuredConditionDto);
+        when(service.getLatestMeasuredCondition(anyLong(), anyString())).thenReturn(measuredConditionDto);
 
         // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/box1/measurements/latest")
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON).header("Authorization", "JWT_TOKEN"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id.boxId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.temperature").value(25.0))
@@ -103,12 +98,12 @@ class MeasuredConditionsControllerTest {
         expected.setCo2(co2);
         expected.setLight(light);
 
-        Mockito.when(service.getHistoricalMeasurements(anyLong())).thenReturn(expected);
+        when(service.getHistoricalMeasurements(anyLong(), anyString())).thenReturn(expected);
 
 
         // Act and assert
         mockMvc.perform(MockMvcRequestBuilders.get("/box1/measurements/historical")
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON).header("Authorization", "JWT_TOKEN"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.temperature[0].value").value(10.0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.humidity[0].value").value(10))
@@ -130,16 +125,48 @@ class MeasuredConditionsControllerTest {
         expected.setCo2(co2);
         expected.setLight(light);
 
-        Mockito.when(service.getHistoricalMeasurements(anyLong())).thenReturn(expected);
+        when(service.getHistoricalMeasurements(anyLong(), anyString())).thenReturn(expected);
 
 
         // Act and assert
         mockMvc.perform(MockMvcRequestBuilders.get("/box1/measurements/historical")
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON).header("Authorization", "JWT_TOKEN"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.temperature[0]").doesNotExist())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.humidity[0]").doesNotExist())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.co2[0]").doesNotExist())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.light[0]").doesNotExist());
+    }
+
+    @Test
+    void testGetLatestForUser() throws Exception {
+        List<MeasuredConditionDto> expected = new ArrayList<>();
+        MeasuredConditionDto dto = new MeasuredConditionDto();
+
+        DateTimeDto dateTimeDto = new DateTimeDto();
+        dateTimeDto.setDay(5);
+        dateTimeDto.setMonth(5);
+        dateTimeDto.setYear(2023);
+        dateTimeDto.setHour(12);
+        dateTimeDto.setMinute(13);
+        dateTimeDto.setSecond(14);
+
+        MeasuredConditionIdDto id = new MeasuredConditionIdDto();
+        id.setBoxId(1L);
+        id.setDateTime(dateTimeDto);
+
+        dto.setId(id);
+        dto.setTemperature(20.5);
+        dto.setHumidity(50.0);
+        dto.setLight(100.0);
+        dto.setCo2(200.0);
+
+        expected.add(dto);
+
+        when(service.getLatestForUser("john", "JWT_TOKEN")).thenReturn(expected);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/john/measurements/latest")
+                        .accept(MediaType.APPLICATION_JSON).header("Authorization", "JWT_TOKEN"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
