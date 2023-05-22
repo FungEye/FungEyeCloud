@@ -32,6 +32,9 @@ public class HarvestMapper {
                 dto.getHarvestDate().getMonth(),
                 dto.getHarvestDate().getDay()));
         toCreate.setWeight(dto.getWeight());
+        if (dto.getComment() != null) {
+            toCreate.setComment(dto.getComment());
+        }
 
         return toCreate;
     }
@@ -47,6 +50,10 @@ public class HarvestMapper {
         );
         details.setGrowId(harvest.getGrow().getId());
         details.setWeight(harvest.getWeight());
+        if(harvest.getComment() != null) {
+            details.setComment(harvest.getComment());
+        }
+
         return details;
     }
 }

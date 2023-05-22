@@ -18,4 +18,5 @@ public class HarvestDetailsDto extends HarvestCreationDto implements Serializabl
     private Long growId;
     private Double weight;
     private SimpleDateDto harvestDate;
+    private String comment;
 }
