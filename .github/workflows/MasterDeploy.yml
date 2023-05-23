@@ -46,7 +46,6 @@ jobs:
           echo "automatic_scaling:" >> staging/app.yaml
           echo "  min_num_instances: 4" >> staging/app.yaml
           echo "  max_num_instances: 20" >> staging/app.yaml
-          echo "  min_idle_instances: 4" >> staging/app.yaml
           echo "network:" >> staging/app.yaml
           echo "  session_affinity: true" >> staging/app.yaml
           echo "liveness_check:" >> staging/app.yaml
