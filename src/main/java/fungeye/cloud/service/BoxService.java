@@ -36,8 +36,8 @@ public class BoxService {
     }
 
     public BoxDto createBox(BoxCreationDto dto) {
-        Box toCreate = mapFromBoxCreationDto(dto);
         Optional<UserEntity> found = userRepository.findByUsername(dto.getUsername());
+        Box toCreate = mapFromBoxCreationDto(dto);
         found.ifPresent(toCreate::setUserEntity);
         Box saved = repository.save(toCreate);
         return mapToSimpleDto(saved);
