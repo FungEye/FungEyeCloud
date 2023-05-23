@@ -1,16 +1,16 @@
-FROM maven:3.8.5-eclipse-temurin-17-alpine AS build
+FROM maven:3.9.2-eclipse-temurin-17-alpine as BUILD
 RUN mkdir -p /app
 WORKDIR /app
 COPY pom.xml /app
 COPY src /app/src
 RUN mvn -B package --file pom.xml -DskipTests
 
-
-# Fetch the Java sdk image
 FROM eclipse-temurin:17-jdk-alpine
-# Expose port 8080
 EXPOSE 8080
+EXPOSE 443
 
-COPY --from=build /app/target/*jar FungEye-1.0.jar
-# Start the application
-ENTRYPOINT ["java", "-jar", "/FungEye-1.0.jar"]
+RUN apk add --no-cache tzdata
+ENV TZ=Europe/Copenhagen
+
+COPY --from=build /app/target/*jar cloud-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "/cloud-0.0.1-SNAPSHOT.jar"]

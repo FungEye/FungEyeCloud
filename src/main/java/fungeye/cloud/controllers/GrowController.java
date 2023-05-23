@@ -34,11 +34,17 @@ public class GrowController {
         return new ResponseEntity<>(service.getAllGrowsByUsername(username), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping("/grow/update")
     public ResponseEntity<GrowDto> updateGrow(GrowUpdateDto dto)
     {
         return new ResponseEntity<>(service.updateGrow(dto), HttpStatus.OK);
     }
 
+
+    @PatchMapping("/grow/endGrow")
+    public ResponseEntity<GrowDto> endGrow(GrowIdDto dto)
+    {
+        return new ResponseEntity<>(service.endGrow(dto), HttpStatus.OK);
+    }
 
 }

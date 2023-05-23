@@ -30,13 +30,13 @@ public class HarvestController {
     @GetMapping("/{username}")
     public ResponseEntity<List<HarvestDetailsDto>> getAllHarvestsByUsername(@PathVariable(name = "username") String username) {
 
-        return new ResponseEntity<>(service.getAllHarvestsByUsername(username), HttpStatus.FOUND);
+        return new ResponseEntity<>(service.getAllHarvestsByUsername(username), HttpStatus.OK);
     }
 
     @GetMapping("/grows/{growId}")
     public ResponseEntity<List<HarvestDetailsDto>> getAllHarvestsByGrowId(@PathVariable(name = "growId") Long growId) {
 
-        return new ResponseEntity<>(service.getAllHarvestsByGrowId(growId), HttpStatus.FOUND);
+        return new ResponseEntity<>(service.getAllHarvestsByGrowId(growId), HttpStatus.OK);
     }
 
 

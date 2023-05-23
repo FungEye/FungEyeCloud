@@ -29,6 +29,6 @@ public class IdealConditionsController {
     public ResponseEntity<List<IdealConditionDto>> getIdealConditionsByMushroomId(@PathVariable Long mushroomId)
     {
         List<IdealConditionDto> found = service.getByMushroomId(mushroomId);
-        return new ResponseEntity<>(found, HttpStatus.FOUND);
+        return new ResponseEntity<>(found, HttpStatus.OK);
     }
 }

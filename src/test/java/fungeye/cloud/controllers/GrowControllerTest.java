@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class GrowControllerTest {
@@ -44,8 +46,8 @@ class GrowControllerTest {
 
     @Test
     void testCreateGrow() throws Exception {
-        // Arrange
 
+        // Arrange
         GrowCreationDto dto = new GrowCreationDto();
         dto.setBoxId(1L);
         dto.setMushroomId(1L);
@@ -71,12 +73,11 @@ class GrowControllerTest {
         // Assert
         assertEquals(HttpStatus.CREATED, response1.getStatusCode());
         assertEquals(savedDto, response1.getBody());
-
-
     }
 
     @Test
     void testGetAllGrowsByUsername() throws Exception {
+
         List<GrowDto> grows = new ArrayList<>();
 
         GrowDto dto1 = new GrowDto();
@@ -119,6 +120,7 @@ class GrowControllerTest {
 
     @Test
     void testUpdateGrow() throws Exception {
+
         Grow initial = new Grow();
         initial.setId(1L);
         initial.setIsActive(true);
@@ -148,5 +150,38 @@ class GrowControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
+    }
+
+    @Test
+    void testEndGrow() throws Exception {
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setIsActive(true);
+        grow.setDevelopmentStage("Fruiting");
+        grow.setDateStarted(LocalDate.of(2023, 5, 5));
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        grow.setMushroom(mushroom);
+
+        Box box = new Box();
+        box.setId(1L);
+        grow.setBox(box);
+
+        GrowIdDto toEnd = new GrowIdDto();
+        toEnd.setId(1L);
+
+        GrowDto dto = GrowMapper.mapToGrowDto(grow);
+        dto.setActive(false);
+
+        Mockito.when(service.endGrow(toEnd)).thenReturn(dto);
+
+        ResponseEntity<GrowDto> response = controller.endGrow(toEnd);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+
+        verify(service, times(1)).endGrow(toEnd);
     }
 }
