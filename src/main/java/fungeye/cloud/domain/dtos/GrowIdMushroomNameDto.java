@@ -6,4 +6,5 @@ import lombok.Data;
 public class GrowIdMushroomNameDto {
     private Long id;
     private String mushroomName;
+    private Long mushroomId;
 }

@@ -94,25 +94,34 @@ class GrowControllerTest {
         dto2.setMushroomId(2L);
         dto2.setStage("Spawn run");
         dto2.setActive(true);
-
         dto2.setDate(dateTimeDto);
+
+        Mushroom mushroom1 = new Mushroom();
+        mushroom1.setId(1L);
+        Mushroom mushroom2 = new Mushroom();
+        mushroom2.setId(2L);
 
         grows.add(dto1);
         grows.add(dto2);
 
-        List<GrowIdDto> expectedIds = new ArrayList<>();
-        GrowIdDto id1 = new GrowIdDto();
-        id1.setId(dto1.getId());
-        GrowIdDto id2 = new GrowIdDto();
-        id2.setId(dto2.getId());
-        expectedIds.add(id1);
-        expectedIds.add(id2);
+        List<GrowIdMushroomNameDto> expectedIds = new ArrayList<>();
+
+        GrowIdMushroomNameDto dtoWithMushId1 = new GrowIdMushroomNameDto();
+        dtoWithMushId1.setId(dto1.getId());
+        dtoWithMushId1.setMushroomId(mushroom1.getId());
+
+        GrowIdMushroomNameDto dtoWithMushId2 = new GrowIdMushroomNameDto();
+        dtoWithMushId2.setId(dto2.getId());
+        dtoWithMushId2.setMushroomId(mushroom2.getId());
+
+        expectedIds.add(dtoWithMushId1);
+        expectedIds.add(dtoWithMushId2);
 
         List<Grow> convertedGrows = GrowMapper.mapFromGrowDtoList(grows);
 
         Mockito.when(service.getAllGrowsByUsername("john")).thenReturn(expectedIds);
 
-        ResponseEntity<List<GrowIdDto>> response1 = controller.getGrowsByUsername("john");
+        ResponseEntity<List<GrowIdMushroomNameDto>> response1 = controller.getGrowsByUsername("john");
 
         assertEquals(expectedIds, response1.getBody());
         assertEquals(HttpStatus.OK, response1.getStatusCode());

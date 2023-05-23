@@ -58,6 +58,15 @@ public class GrowMapper {
 
         return grow;
     }
+
+    public static GrowIdMushroomNameDto mapGrowIdWithMushroomIdDto(Grow grow)
+    {
+        GrowIdMushroomNameDto dto = new GrowIdMushroomNameDto();
+        dto.setId(grow.getId());
+        dto.setMushroomId(grow.getId());
+
+        return dto;
+    }
     public static GrowDto mapToGrowDto (Grow grow)
     {
         GrowDto dto = new GrowDto();
