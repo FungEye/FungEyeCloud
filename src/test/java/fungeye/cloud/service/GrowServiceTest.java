@@ -142,26 +142,23 @@ class GrowServiceTest {
     @Test
     void testEndGrow()throws Exception {
 
+        Box box = new Box();
+        box.setId(1L);
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+
         Grow grow = new Grow();
         grow.setId(1L);
         grow.setIsActive(true);
         grow.setDevelopmentStage("Fruiting");
         grow.setDateStarted(LocalDate.of(2023, 5, 5));
-
-        Mushroom mushroom = new Mushroom();
-        mushroom.setId(1L);
-        grow.setMushroom(mushroom);
-
-        Box box = new Box();
-        box.setId(1L);
         grow.setBox(box);
-
-        GrowIdDto toEnd = new GrowIdDto();
-        toEnd.setId(1L);
+        grow.setMushroom(mushroom);
 
         Mockito.when(repository.findById(1L)).thenReturn(Optional.of(grow));
 
-        GrowDto dto = service.endGrow(toEnd);
+        GrowDto dto = service.endGrow(1L);
         dto.setActive(false);
 
         assertEquals(grow.getId(), dto.getId());
