@@ -129,21 +129,36 @@ public class HardwareTutorial implements WebSocket.Listener {
     //onText()
     @Override
     public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-        String indented = null;
-        String dataValue = null;
-        Instant instant;
         try {
-            JSONObject jsonObject = new JSONObject(data.toString());
-            indented = jsonObject.toString(4);
-            dataValue = jsonObject.optString("data"); // Extracts the "data" value from the JSON object
-            String time = jsonObject.optString("time"); // Extracts the "time" value from the JSON object
-            //timestamp = Timestamp.valueOf(time);
-            long ts = jsonObject.getLong("ts"); // Extracts the "ts" (timestamp) value from the JSON object
-            instant = Instant.ofEpochMilli(ts);
+            JSONObject object = new JSONObject(data.toString());
+            if (object.getString("cmd").equals("rx")) {
+                // IT IS A MEASUREMENT!
+                LOGGER.info("Measurement received!");
+                readAndAddMeasurement(object);
+            }
+            else if (object.getString("cmd").equals("tx")) {
+                // IT IS AN ACKNOWLEDGEMENT!
+                LOGGER.info("Acknowledgement received!");
+            }
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        // System.out.println(indented);
+
+        //TODO Ask Martin about if and why this is needed
+        /*
+        sendDownLink(
+                "{\"cmd\" : \"tx\",\"EUI\" : \"0004A30B00ED6757\",\"port\": 1,\"confirmed\" : true,\"data\": \"11\"}"
+
+        );
+         */
+        webSocket.request(1);
+        return new CompletableFuture().completedFuture("Data received successfully").thenAccept(LOGGER::info);
+    }
+
+    private void readAndAddMeasurement(JSONObject jsonObject) throws JSONException {
+        String dataValue = jsonObject.optString("data"); // Extracts the "data" value from the JSON object
+        long ts = jsonObject.getLong("ts"); // Extracts the "ts" (timestamp) value from the JSON object
+        Instant instant = Instant.ofEpochMilli(ts);
 
         // Check if "data" value is present and print it
         if (!dataValue.isEmpty()) {
@@ -174,14 +189,7 @@ public class HardwareTutorial implements WebSocket.Listener {
             // measurementService.addMeasuredCondition(condDto);
             // Using the below method to send a copy of the measurement to all active boxes
             measurementService.addMeasuredCondition(condDto);
-
         }
-        sendDownLink(
-                "{\"cmd\" : \"tx\",\"EUI\" : \"0004A30B00ED6757\",\"port\": 1,\"confirmed\" : true,\"data\": \"11\"}"
-
-        );
-        webSocket.request(1);
-        return new CompletableFuture().completedFuture("onText() completed.").thenAccept(LOGGER::info);
     }
 
 

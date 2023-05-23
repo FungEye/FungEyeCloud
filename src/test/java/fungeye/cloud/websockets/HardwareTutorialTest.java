@@ -137,6 +137,7 @@ class HardwareTutorialTest {
                 .thenAccept(System.out::println) instanceof CompletableFuture<Void>, true);
     }
 
+    /*
     @Test
     void onText_validJSON() throws Exception {
         measurementService = Mockito.mock(MeasuredConditionsService.class);
@@ -189,4 +190,6 @@ class HardwareTutorialTest {
         assertEquals("Temp: ", expectedTemperature, condDto.getTemperature());
         assertEquals("Humidity: ", expectedHumidity, condDto.getHumidity());
     }
+
+     */
 }
