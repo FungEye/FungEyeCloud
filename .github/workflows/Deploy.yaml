@@ -2,9 +2,6 @@ name: Docker Build and Deploy TEST
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   build_and_deploy:
