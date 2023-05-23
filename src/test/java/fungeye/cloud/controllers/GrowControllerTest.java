@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class GrowControllerTest {
@@ -148,5 +150,37 @@ class GrowControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
+    }
+
+    @Test
+    void testEndGrow() throws Exception {
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setIsActive(true);
+        grow.setDevelopmentStage("Fruiting");
+        grow.setDateStarted(LocalDate.of(2023, 5, 5));
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+        grow.setMushroom(mushroom);
+
+        Box box = new Box();
+        box.setId(1L);
+        grow.setBox(box);
+
+        GrowIdDto toEnd = new GrowIdDto();
+        toEnd.setId(1L);
+
+        GrowDto dto = GrowMapper.mapToGrowDto(grow);
+        dto.setActive(false);
+
+        Mockito.when(service.endGrow(toEnd)).thenReturn(dto);
+
+        ResponseEntity<GrowDto> response = controller.endGrow(toEnd);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+
+        verify(service, times(1)).endGrow(toEnd);
     }
 }
