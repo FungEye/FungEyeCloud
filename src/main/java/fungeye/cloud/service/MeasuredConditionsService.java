@@ -2,9 +2,11 @@ package fungeye.cloud.service;
 
 import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Box;
+import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
+import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.security.JwtGenerator;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
@@ -28,13 +31,16 @@ public class MeasuredConditionsService {
 
     private final MeasuredConditionRepository repository;
     private final BoxRepository boxRepository;
+    private final GrowRepository growRepository;
     private JwtGenerator generator;
 
 
-    public MeasuredConditionsService(MeasuredConditionRepository repository, BoxRepository boxRepository, JwtGenerator generator) {
+    public MeasuredConditionsService(MeasuredConditionRepository repository, BoxRepository boxRepository,
+                                     JwtGenerator generator, GrowRepository growRepository) {
         this.repository = repository;
         this.boxRepository = boxRepository;
         this.generator = generator;
+        this.growRepository = growRepository;
     }
 
     public MeasuredConditionDto getLatestMeasuredCondition(long boxId, String token) {
@@ -70,6 +76,28 @@ public class MeasuredConditionsService {
         toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
         MeasuredConditionDto response = mapToDto(repository.save(toCreate));
         log.info(String.format("Measurement persisted in database for box # %d", response.getId().getBoxId()));
+    }
+
+    // Because of the current limitation to one device, this method duplicates the measurement
+    // and adds it to all boxes that have an active grow
+    public void addMeasuredConditionCopyToAllActiveGrows(MeasuredConditionDto dto) {
+        List<Box> allBoxes = boxRepository.findAll();
+        // Find all boxes that have active grows
+        for (Box box:
+             allBoxes) {
+            Grow activeGrow = growRepository.findByBox_IdAndIsActive(box.getId(), true);
+            if (activeGrow != null) {
+                // Set the box id of the measurement and persist
+                MeasuredConditionIdDto idDto = dto.getId();
+                idDto.setBoxId(box.getId());
+                dto.setId(idDto);
+                MeasuredCondition toCreate = mapToEntity(dto);
+                toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
+                MeasuredConditionDto response = mapToDto(repository.save(toCreate));
+                log.info(String.format("Measurement persisted in database for box # %d", response.getId().getBoxId()));
+            }
+        }
+
     }
 
     public HistoricalMeasurementDto getHistoricalMeasurements(Long boxId, String token) {
