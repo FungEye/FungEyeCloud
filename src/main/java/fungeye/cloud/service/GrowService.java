@@ -1,9 +1,6 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.GrowCreationDto;
-import fungeye.cloud.domain.dtos.GrowDto;
-import fungeye.cloud.domain.dtos.GrowIdDto;
-import fungeye.cloud.domain.dtos.GrowUpdateDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.service.mappers.GrowMapper;
@@ -30,14 +27,14 @@ public class GrowService {
         return GrowMapper.mapToGrowDto(created);
     }
 
-    public List<GrowIdDto> getAllGrowsByUsername(String username)
+    public List<GrowIdMushroomNameDto> getAllGrowsByUsername(String username)
     {
         List<Grow> grows = repository.findGrowsByBox_UserEntity_Username(username);
-        List<GrowIdDto> dtoList = new ArrayList<>();
+        List<GrowIdMushroomNameDto> dtoList = new ArrayList<>();
 
         for (Grow grow : grows)
         {
-            dtoList.add(GrowMapper.mapToGrowIdDto(grow));
+            dtoList.add(GrowMapper.mapGrowIdWithMushroomIdDto(grow));
         }
 
         return dtoList;
