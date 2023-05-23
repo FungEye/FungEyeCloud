@@ -41,4 +41,11 @@ public class GrowController {
     }
 
 
+    @PatchMapping("/")
+    public ResponseEntity<GrowDto> endGrow(GrowIdDto dto)
+    {
+        return new ResponseEntity<>(service.endGrow(dto), HttpStatus.OK);
+    }
+
+
 }
