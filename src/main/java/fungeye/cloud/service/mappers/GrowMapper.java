@@ -21,8 +21,7 @@ public class GrowMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Grow mapFromCreationDto(GrowCreationDto dto)
-    {
+    public static Grow mapFromCreationDto(GrowCreationDto dto) {
         Grow grow = new Grow();
         grow.setDateStarted(LocalDate.of(
                 dto.getDate().getYear(),
@@ -42,8 +41,11 @@ public class GrowMapper {
         return grow;
     }
 
-    public static Grow mapFromDto(GrowDto dto){
+    public static Grow mapFromDto(GrowDto dto) {
         Grow grow = new Grow();
+        if (dto.getId() != null) {
+            grow.setId(dto.getId());
+        }
         grow.setDateStarted(DateTimeMapper.mapFromDateDto(dto.getDate()));
         grow.setIsActive(grow.getIsActive());
         grow.setDevelopmentStage(dto.getStage());
@@ -52,23 +54,26 @@ public class GrowMapper {
         box.setId(dto.getBoxId());
         grow.setBox(box);
 
+
         Mushroom mushroom = new Mushroom();
-        mushroom.setId(dto.getMushroomId());
-        grow.setMushroom(mushroom);
+        if (dto.getMushroomId() != null) {
+
+            mushroom.setId(dto.getMushroomId());
+            grow.setMushroom(mushroom);
+        }
 
         return grow;
     }
 
-    public static GrowIdMushroomNameDto mapGrowIdWithMushroomIdDto(Grow grow)
-    {
+    public static GrowIdMushroomNameDto mapGrowIdWithMushroomIdDto(Grow grow) {
         GrowIdMushroomNameDto dto = new GrowIdMushroomNameDto();
         dto.setId(grow.getId());
         dto.setMushroomId(grow.getId());
 
         return dto;
     }
-    public static GrowDto mapToGrowDto (Grow grow)
-    {
+
+    public static GrowDto mapToGrowDto(Grow grow) {
         GrowDto dto = new GrowDto();
         dto.setId(grow.getId());
         dto.setActive(grow.getIsActive());
@@ -94,8 +99,7 @@ public class GrowMapper {
         return list;
     }
 
-    public static GrowIdDto mapToGrowIdDto(Grow grow)
-    {
+    public static GrowIdDto mapToGrowIdDto(Grow grow) {
         GrowIdDto dto = new GrowIdDto();
         dto.setId(grow.getId());
 
