@@ -44,7 +44,6 @@ jobs:
           echo "runtime: java" > staging/app.yaml
           echo "env: flexible" >> staging/app.yaml
           echo "automatic_scaling:" >> staging/app.yaml
-          echo "  cool_down_period: 120s" >> staging/app.yaml
           echo "  min_num_instances: 4" >> staging/app.yaml
           echo "  max_num_instances: 20" >> staging/app.yaml
           echo "  min_idle_instances: 4" >> staging/app.yaml
