@@ -1,6 +1,7 @@
-name: Docker Build and Deploy
+name: Docker Build and Deploy TEST
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -30,19 +31,3 @@ jobs:
           file: Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:${{ github.sha }}
-
-      - name: Set up Google Cloud CLI
-        uses: google-github-actions/setup-gcloud@v0.5.1
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-
-      - name: Deploy to Google Cloud Run
-        run: |
-          gcloud run deploy <YOUR_SERVICE_NAME> \
-            --image=ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:${{ github.sha }} \
-            --platform=managed \
-            --region=europe-west4 \
-            --allow-unauthenticated \
-            --port=8080 \
-            --port=443
