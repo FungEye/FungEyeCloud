@@ -53,6 +53,7 @@ public class MushroomService {
         Mushroom saved = repository.save(toSave);
         Long mushroomId = saved.getId();
         List<IdealConditionCreationDto> conditionCreationDtos = dto.getIdealConditionCreationDtos();
+        List<IdealConditionDto> savedConditionDtos = new ArrayList<>();
         if (conditionCreationDtos != null && !conditionCreationDtos.isEmpty()) {
             for (IdealConditionCreationDto idealDto :
             conditionCreationDtos) {
@@ -60,10 +61,14 @@ public class MushroomService {
                 IdealConditionId id = conditionToSave.getId();
                 id.setMushroomId(mushroomId);
                 conditionToSave.setId(id);
-                idealConditionRepository.save(conditionToSave);
+                conditionToSave.setMushroom(saved);
+                IdealConditionDto savedCondition = IdealConditionsMapper.mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
+                savedConditionDtos.add(savedCondition);
             }
         }
-        return MushroomMapper.mapToMushroomWithConditionsDto(saved);
+        MushroomWithConditionsDto mushroomWithConditionsDto = MushroomMapper.mapToMushroomWithConditionsDto(saved);
+        mushroomWithConditionsDto.setIdealConditionDtos(savedConditionDtos);
+        return mushroomWithConditionsDto;
     }
 
     public MushroomWithConditionsDto createCustomMushroom(CustomMushroomCreationDto dto) {
@@ -73,6 +78,7 @@ public class MushroomService {
         Mushroom saved = repository.save(toSave);
         Long mushroomId = saved.getId();
         List<IdealConditionCreationDto> conditionCreationDtos = dto.getIdealConditionCreationDtos();
+        List<IdealConditionDto> savedConditionDtos = new ArrayList<>();
         if (conditionCreationDtos != null && !conditionCreationDtos.isEmpty()) {
             for (IdealConditionCreationDto idealDto :
                     conditionCreationDtos) {
@@ -80,10 +86,14 @@ public class MushroomService {
                 IdealConditionId id = conditionToSave.getId();
                 id.setMushroomId(mushroomId);
                 conditionToSave.setId(id);
-                idealConditionRepository.save(conditionToSave);
+                conditionToSave.setMushroom(saved);
+                IdealConditionDto savedCondition = IdealConditionsMapper.mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
+                savedConditionDtos.add(savedCondition);
             }
         }
-        return MushroomMapper.mapToMushroomWithConditionsDto(saved);
+        MushroomWithConditionsDto mushroomWithConditionsDto = MushroomMapper.mapToMushroomWithConditionsDto(saved);
+        mushroomWithConditionsDto.setIdealConditionDtos(savedConditionDtos);
+        return mushroomWithConditionsDto;
     }
 
     public MushroomDto getByMushroomId(Long id) {
