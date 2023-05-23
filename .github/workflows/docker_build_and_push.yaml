@@ -2,6 +2,18 @@ name: Docker Build and Deploy TEST
 
 on:
   workflow_dispatch:
+  
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  issues: write
+  packages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
 
 jobs:
   build_and_deploy:
