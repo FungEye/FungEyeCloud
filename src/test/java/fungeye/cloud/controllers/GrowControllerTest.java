@@ -50,7 +50,7 @@ class GrowControllerTest {
         dto.setBoxId(1L);
         dto.setMushroomId(1L);
         dto.setUsername("john");
-        dto.setDevelopStage("Spawn run");
+        dto.setDevelopStage("spawn run");
 
         SimpleDateDto dateDto = new SimpleDateDto(2023, 5, 5);
         dto.setDate(dateDto);
@@ -81,7 +81,7 @@ class GrowControllerTest {
         GrowDto dto1 = new GrowDto();
         dto1.setBoxId(1L);
         dto1.setMushroomId(1L);
-        dto1.setStage("Spawn run");
+        dto1.setStage("spawn run");
         dto1.setActive(true);
 
         DateTimeDto dateTimeDto = DateTimeMapper.mapToDateDto(LocalDate.now());
@@ -90,7 +90,7 @@ class GrowControllerTest {
         GrowDto dto2 = new GrowDto();
         dto2.setBoxId(2L);
         dto2.setMushroomId(2L);
-        dto2.setStage("Spawn run");
+        dto2.setStage("spawn run");
         dto2.setActive(true);
         dto2.setDate(dateTimeDto);
 
@@ -131,7 +131,7 @@ class GrowControllerTest {
         Grow initial = new Grow();
         initial.setId(1L);
         initial.setIsActive(true);
-        initial.setDevelopmentStage("Fruiting");
+        initial.setDevelopmentStage("fruiting");
         initial.setDateStarted(LocalDate.of(2023, 5, 5));
 
         Mushroom mushroom = new Mushroom();
@@ -145,11 +145,11 @@ class GrowControllerTest {
         GrowUpdateDto update = new GrowUpdateDto();
         update.setId(1L);
         update.setIsActive(false);
-        update.setDevelopStage("Fruiting");
+        update.setDevelopStage("fruiting");
 
         GrowDto dto = GrowMapper.mapToGrowDto(initial);
         dto.setActive(false);
-        dto.setStage("Fruiting");
+        dto.setStage("fruiting");
 
         Mockito.when(service.updateGrow(update)).thenReturn(dto);
 
@@ -165,7 +165,7 @@ class GrowControllerTest {
         Grow grow = new Grow();
         grow.setId(1L);
         grow.setIsActive(true);
-        grow.setDevelopmentStage("Fruiting");
+        grow.setDevelopmentStage("fruiting");
         grow.setDateStarted(LocalDate.of(2023, 5, 5));
 
         Mushroom mushroom = new Mushroom();

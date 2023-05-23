@@ -24,4 +24,15 @@ public class GrowDto {
 
     public GrowDto() {
     }
+
+    public void setStage(String stage) {
+        if (stage.equals("spawn run") ||
+                stage.equals("pinning") ||
+                stage.equals("fruiting")) {
+            this.stage = stage;
+        }
+        else {
+            throw new IllegalArgumentException("Not a valid development stage");
+        }
+    }
 }
