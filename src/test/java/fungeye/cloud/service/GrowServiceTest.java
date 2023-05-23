@@ -60,33 +60,39 @@ class GrowServiceTest {
 
     @Test
     void testGetAllGrowsByUsername()throws Exception{
+
         List<GrowDto> grows = new ArrayList<>();
+        DateTimeDto dateTimeDto = DateTimeMapper.mapToDateDto(LocalDate.now());
 
         GrowDto dto1 = new GrowDto();
-        dto1.setBoxId(1L);
+        dto1.setId(1L);
         dto1.setMushroomId(1L);
-        dto1.setStage("Spawn run");
-        dto1.setActive(true);
-
-        DateTimeDto dateTimeDto = DateTimeMapper.mapToDateDto(LocalDate.now());
         dto1.setDate(dateTimeDto);
 
         GrowDto dto2 = new GrowDto();
-        dto2.setBoxId(2L);
+        dto2.setId(2L);
         dto2.setMushroomId(2L);
-        dto2.setStage("Spawn run");
-        dto2.setActive(true);
-
         dto2.setDate(dateTimeDto);
 
         grows.add(dto1);
         grows.add(dto2);
 
-        List<GrowIdDto> expectedIds = new ArrayList<>();
-        GrowIdDto id1 = new GrowIdDto();
+        Mushroom mushroom1 = new Mushroom();
+        mushroom1.setId(1L);
+
+        Mushroom mushroom2 = new Mushroom();
+        mushroom2.setId(2L);
+
+        List<GrowIdMushroomNameDto> expectedIds = new ArrayList<>();
+
+        GrowIdMushroomNameDto id1 = new GrowIdMushroomNameDto();
         id1.setId(dto1.getId());
-        GrowIdDto id2 = new GrowIdDto();
+        id1.setMushroomId(mushroom1.getId());
+
+        GrowIdMushroomNameDto id2 = new GrowIdMushroomNameDto();
         id2.setId(dto2.getId());
+        id2.setMushroomId(mushroom2.getId());
+
         expectedIds.add(id1);
         expectedIds.add(id2);
 
@@ -94,9 +100,10 @@ class GrowServiceTest {
 
         Mockito.when(repository.findGrowsByBox_UserEntity_Username("john")).thenReturn(convertedGrows);
 
-        List<GrowIdDto> actual = service.getAllGrowsByUsername("john");
+        List<GrowIdMushroomNameDto> actual = service.getAllGrowsByUsername("john");
 
         assertEquals(expectedIds.size(), actual.size());
+
         for (int i = 0; i < expectedIds.size(); i++) {
             assertEquals(expectedIds.get(i), actual.get(i));
         }

@@ -1,9 +1,6 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.GrowCreationDto;
-import fungeye.cloud.domain.dtos.GrowDto;
-import fungeye.cloud.domain.dtos.GrowIdDto;
-import fungeye.cloud.domain.dtos.GrowUpdateDto;
+import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.service.GrowService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +26,7 @@ public class GrowController {
     }
 
     @GetMapping("/grow/all")
-    public ResponseEntity<List<GrowIdDto>>getGrowsByUsername (String username)
+    public ResponseEntity<List<GrowIdMushroomNameDto>>getGrowsByUsername (String username)
     {
         return new ResponseEntity<>(service.getAllGrowsByUsername(username), HttpStatus.OK);
     }
