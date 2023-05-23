@@ -101,7 +101,7 @@ class BoxControllerTest {
 
         ResponseEntity<List<BoxDto>> responseEntity = boxController.getAllEmptyBoxesByUserName(userName);
 
-        assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(dtos, responseEntity.getBody());
         verify(boxService, times(1)).getAllEmptyByUserName(userName);
     }

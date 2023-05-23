@@ -56,7 +56,7 @@ class IdealConditionsControllerTest {
         ResponseEntity<List<IdealConditionDto>> responseEntity = controller.getIdealConditionsByMushroomId(mushroomId);
 
         // then
-        assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedOutput, responseEntity.getBody());
         verify(service, times(1)).getByMushroomId(mushroomId);
     }
