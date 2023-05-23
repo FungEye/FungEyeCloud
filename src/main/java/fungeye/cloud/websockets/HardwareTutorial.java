@@ -189,7 +189,7 @@ public class HardwareTutorial implements WebSocket.Listener {
             condDto.setLight((double) light);
             // measurementService.addMeasuredCondition(condDto);
             // Using the below method to send a copy of the measurement to all active boxes
-            measurementService.addMeasuredCondition(condDto);
+            measurementService.addMeasuredConditionCopyToAllActiveGrows(condDto);
         }
     }
 }
