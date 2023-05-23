@@ -47,5 +47,4 @@ public class GrowController {
         return new ResponseEntity<>(service.endGrow(dto), HttpStatus.OK);
     }
 
-
 }

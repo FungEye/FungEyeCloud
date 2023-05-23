@@ -11,4 +11,5 @@ public class CustomMushroomCreationDto {
     private String origin;
     private List<IdealConditionCreationDto> idealConditionCreationDtos;
     private String username;
+    private String imageUrl;
 }

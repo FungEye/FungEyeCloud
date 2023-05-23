@@ -10,4 +10,5 @@ public class DefaultMushroomCreationDto {
     private String description;
     private String origin;
     private List<IdealConditionCreationDto> idealConditionCreationDtos;
+    private String imageUrl;
 }

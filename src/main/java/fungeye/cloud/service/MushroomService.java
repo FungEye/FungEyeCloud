@@ -44,7 +44,7 @@ public class MushroomService {
     }
 
 
-    public MushroomDto createDefaultMushroom(DefaultMushroomCreationDto dto) {
+    public MushroomWithConditionsDto createDefaultMushroom(DefaultMushroomCreationDto dto) {
         Mushroom toSave = MushroomMapper.mapDefaultCreateToMushroom(dto);
         Optional<UserEntity> user = userRepository.findById(3);
         user.ifPresent(toSave::setUser);
@@ -61,10 +61,10 @@ public class MushroomService {
                 idealConditionRepository.save(conditionToSave);
             }
         }
-        return MushroomMapper.mapToMushroomDto(saved);
+        return MushroomMapper.mapToMushroomWithConditionsDto(saved);
     }
 
-    public MushroomDto createCustomMushroom(CustomMushroomCreationDto dto) {
+    public MushroomWithConditionsDto createCustomMushroom(CustomMushroomCreationDto dto) {
         Mushroom toSave = MushroomMapper.mapCustomCreateToMushroom(dto);
         Optional<UserEntity> user = userRepository.findByUsername(dto.getUsername());
         user.ifPresent(toSave::setUser);
@@ -81,7 +81,7 @@ public class MushroomService {
                 idealConditionRepository.save(conditionToSave);
             }
         }
-        return MushroomMapper.mapToMushroomDto(saved);
+        return MushroomMapper.mapToMushroomWithConditionsDto(saved);
     }
 
     public MushroomDto getByMushroomId(Long id) {
@@ -140,7 +140,6 @@ public class MushroomService {
     {
         Mushroom toUpdate = repository.findById(dto.getId()).orElseThrow();
         List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
-        Set<IdealCondition> newConditions = new HashSet<>();
         Mushroom updated;
 
         if(toUpdate.getName().isEmpty())
@@ -152,12 +151,35 @@ public class MushroomService {
             toUpdate.setName(dto.getName());
             toUpdate.setDescription(dto.getDescription());
 
-            newConditions.addAll(found);
+            Set<IdealCondition> newConditions = new HashSet<>(found);
             toUpdate.setIdealConditions(newConditions);
             log.info("HERE");
             updated = repository.save(toUpdate);
         }
-
         return MushroomMapper.mapToMushroomDto(updated);
+    }
+
+    private List<MushroomWithConditionsDto> getMushroomWithConditionDtosByUsername(String username) {
+        List<Mushroom> mushrooms = repository.findByUser_Username(username);
+        List<MushroomWithConditionsDto> dtos = new ArrayList<>();
+        for (Mushroom mushroom :
+                mushrooms) {
+            MushroomWithConditionsDto dto = MushroomMapper.mapToMushroomWithConditionsDto(mushroom);
+            List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
+            List<IdealConditionDto> conditionDtos = IdealConditionsMapper.mapToIdealConditionDtoList(found);
+            dto.setIdealConditionDtos(conditionDtos);
+
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
+    public List<MushroomWithConditionsDto> getDefaultMushroomsWithConditions() {
+        return getMushroomWithConditionDtosByUsername("admin");
+    }
+
+    public List<MushroomWithConditionsDto> getCustomMushroomsWithConditions(String username) {
+        return getMushroomWithConditionDtosByUsername(username);
     }
 }
