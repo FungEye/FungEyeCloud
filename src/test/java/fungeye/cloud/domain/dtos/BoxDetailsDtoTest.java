@@ -1,5 +1,8 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.box.BoxDetailsDto;
+import fungeye.cloud.domain.dtos.grow.GrowDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

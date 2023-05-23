@@ -1,7 +1,7 @@
 package fungeye.cloud.websockets;
 
-import fungeye.cloud.domain.dtos.MeasuredConditionDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionIdDto;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,6 +1,6 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.UserCreationDto;
+import fungeye.cloud.domain.dtos.user.UserCreationDto;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import org.junit.jupiter.api.Test;
 

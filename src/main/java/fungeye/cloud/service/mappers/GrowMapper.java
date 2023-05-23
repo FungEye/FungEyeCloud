@@ -1,9 +1,8 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.GrowCreationDto;
-import fungeye.cloud.domain.dtos.GrowDto;
-import fungeye.cloud.domain.dtos.GrowIdDto;
-import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
+import fungeye.cloud.domain.dtos.grow.GrowCreationDto;
+import fungeye.cloud.domain.dtos.grow.GrowDto;
+import fungeye.cloud.domain.dtos.grow.GrowIdMushroomNameDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -99,19 +98,9 @@ public class GrowMapper {
         return list;
     }
 
-    public static GrowIdDto mapToGrowIdDto(Grow grow) {
-        GrowIdDto dto = new GrowIdDto();
-        dto.setId(grow.getId());
 
-        return dto;
-    }
 
-    public static List<GrowIdDto> mapToGrowIdDtoList(List<Grow> grows) {
-        List<GrowIdDto> dtos = new ArrayList<>();
-        grows.forEach(g -> dtos.add(mapToGrowIdDto(g)));
 
-        return dtos;
-    }
 
     public static GrowIdMushroomNameDto mapToGrowIdMushroomNameDto(Grow grow) {
         GrowIdMushroomNameDto dto = new GrowIdMushroomNameDto();

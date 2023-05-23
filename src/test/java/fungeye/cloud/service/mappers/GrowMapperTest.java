@@ -1,7 +1,7 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.GrowDto;
-import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
+import fungeye.cloud.domain.dtos.grow.GrowDto;
+import fungeye.cloud.domain.dtos.grow.GrowIdMushroomNameDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;

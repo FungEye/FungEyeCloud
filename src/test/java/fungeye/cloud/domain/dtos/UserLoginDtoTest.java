@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.user.UserLoginDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,6 +39,6 @@ class UserLoginDtoTest {
 
     @Test
     void canEqual() {
-        assertTrue(dto.canEqual(new UserLoginDto(username, password)));
+        assertEquals(dto, new UserLoginDto(username, password));
     }
 }

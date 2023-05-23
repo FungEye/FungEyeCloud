@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.box.BoxDto;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

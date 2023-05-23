@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.auth.AuthResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,10 +44,5 @@ class AuthResponseDtoTest {
     void testEquals() {
         AuthResponseDto toCompare = new AuthResponseDto("token");
         assertEquals(dto, toCompare);
-    }
-
-    @Test
-    void canEqual() {
-        assertTrue(dto.canEqual(new AuthResponseDto("TEST")));
     }
 }

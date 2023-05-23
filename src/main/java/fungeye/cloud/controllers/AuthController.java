@@ -1,8 +1,8 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.AuthResponseDto;
-import fungeye.cloud.domain.dtos.UserCreationDto;
-import fungeye.cloud.domain.dtos.UserLoginDto;
+import fungeye.cloud.domain.dtos.auth.AuthResponseDto;
+import fungeye.cloud.domain.dtos.user.UserCreationDto;
+import fungeye.cloud.domain.dtos.user.UserLoginDto;
 import fungeye.cloud.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
