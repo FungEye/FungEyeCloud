@@ -52,7 +52,7 @@ jobs:
           echo "  session_affinity: true" >> staging/app.yaml
           echo "liveness_check:" >> staging/app.yaml
           echo "  initial_delay_sec: \"300\"" >> staging/app.yaml
-          echo "  check_interval_sec: \"30\" >> staging/app.yaml
+          echo "  check_interval_sec: \"30\"" >> staging/app.yaml
           echo "  timeout_sec: \"4\"" >> staging/app.yaml
           echo "  failure_threshold: 4" >> staging/app.yaml
           echo "  success_threshold: 2" >> staging/app.yaml
