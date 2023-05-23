@@ -49,7 +49,7 @@ class HarvestControllerTest {
 
         ResponseEntity<List<HarvestDetailsDto>> responseEntity = controller.getAllHarvestsByUsername(username);
 
-        assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedOutput, responseEntity.getBody());
         verify(service, times(1)).getAllHarvestsByUsername(username);
     }
@@ -72,7 +72,7 @@ class HarvestControllerTest {
 
         ResponseEntity<List<HarvestDetailsDto>> responseEntity = controller.getAllHarvestsByUsername(username);
 
-        assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedOutput, responseEntity.getBody());
         verify(service, times(1)).getAllHarvestsByUsername(username);
     }
@@ -95,7 +95,7 @@ class HarvestControllerTest {
 
         ResponseEntity<List<HarvestDetailsDto>> responseEntity = controller.getAllHarvestsByGrowId(1L);
 
-        assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedOutput, responseEntity.getBody());
         verify(service, times(1)).getAllHarvestsByGrowId(1L);
     }

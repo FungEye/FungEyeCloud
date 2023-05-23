@@ -231,7 +231,7 @@ class MushroomControllerTest {
         ResponseEntity<MushroomDto> response = controller.getMushroomById(mushroomId);
 
         verify(service, times(1)).getByMushroomId(mushroomId);
-        assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(mushroomDto, response.getBody());
     }
 
@@ -255,7 +255,7 @@ class MushroomControllerTest {
         ResponseEntity<List<MushroomDto>> response = controller.getAllDefaultMushrooms();
 
         verify(service, times(1)).getAllDefault();
-        assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(mushroomDtos, response.getBody());
     }
 
@@ -306,7 +306,7 @@ class MushroomControllerTest {
         ResponseEntity<List<MushroomDto>> response = controller.getDefaultAndCustom("john");
 
         assertEquals(expected, response.getBody());
-        assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
 
         verify(service, times(1)).getCustom("john");
         verify(service, times(1)).getAllDefault();

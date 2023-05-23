@@ -55,13 +55,13 @@ public class MushroomController {
     @GetMapping(value = "/mushroom/{id}")
     public ResponseEntity<MushroomDto> getMushroomById(@PathVariable Long id) {
         MushroomDto found = service.getByMushroomId(id);
-        return new ResponseEntity<>(found, HttpStatus.FOUND);
+        return new ResponseEntity<>(found, HttpStatus.OK);
     }
 
     @GetMapping(value = "/mushroom")
     public ResponseEntity<List<MushroomDto>> getAllDefaultMushrooms() {
         List<MushroomDto> all = service.getAllDefault();
-        return new ResponseEntity<>(all, HttpStatus.FOUND);
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @GetMapping(value = "/mushroom/custom/{username}")
@@ -69,7 +69,7 @@ public class MushroomController {
         List<MushroomDto> allDefault = service.getAllDefault();
         List<MushroomDto> custom = service.getCustom(username);
         custom.addAll(allDefault);
-        return new ResponseEntity<>(custom, HttpStatus.FOUND);
+        return new ResponseEntity<>(custom, HttpStatus.OK);
     }
 
     @PatchMapping(value = "/mushroom/{id}")
