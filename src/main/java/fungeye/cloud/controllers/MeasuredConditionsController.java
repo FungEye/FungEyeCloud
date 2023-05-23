@@ -2,6 +2,7 @@ package fungeye.cloud.controllers;
 
 import fungeye.cloud.domain.dtos.measured.HistoricalMeasurementDto;
 import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionWithStageDto;
 import fungeye.cloud.domain.dtos.measured.SearchConditionsParam;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.springframework.http.HttpStatus;
@@ -49,12 +50,26 @@ public class MeasuredConditionsController {
 
 
     @GetMapping(value = "box{id}/measurements/latest")
-    public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id") Long id, @RequestHeader(name = "Authorization") String token) {
-        return new ResponseEntity<>(service.getLatestMeasuredCondition(id, token), HttpStatus.OK);
+    public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id") Long id,
+                                                                               @RequestHeader(name = "Authorization") String token,
+                                                                               @RequestParam Optional<Boolean> stage) {
+        if (stage.isEmpty() || !stage.get()){
+            return new ResponseEntity<>(service.getLatestMeasuredCondition(id, token), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(service.getLatestMeasuredConditionWithStage(id, token), HttpStatus.OK);
+        }
     }
 
     @GetMapping(value = "{username}/measurements/latest")
-    public ResponseEntity<List<MeasuredConditionDto>> getAllLatestForUser(@PathVariable String username, @RequestHeader(name = "Authorization") String token) {
-        return new ResponseEntity<>(service.getLatestForUser(username, token), HttpStatus.OK);
+    public ResponseEntity<List<MeasuredConditionDto>> getAllLatestForUser(@PathVariable String username,
+                                                                          @RequestHeader(name = "Authorization") String token,
+                                                                          @RequestParam Optional<Boolean> stage) {
+        if (stage.isEmpty() || !stage.get()) {
+            return new ResponseEntity<>(service.getLatestForUser(username, token), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(service.getLatestForUserWithStage(username, token), HttpStatus.OK);
+        }
     }
 }
