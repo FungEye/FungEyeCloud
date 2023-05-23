@@ -46,8 +46,8 @@ class GrowControllerTest {
 
     @Test
     void testCreateGrow() throws Exception {
-        // Arrange
 
+        // Arrange
         GrowCreationDto dto = new GrowCreationDto();
         dto.setBoxId(1L);
         dto.setMushroomId(1L);
@@ -73,12 +73,11 @@ class GrowControllerTest {
         // Assert
         assertEquals(HttpStatus.CREATED, response1.getStatusCode());
         assertEquals(savedDto, response1.getBody());
-
-
     }
 
     @Test
     void testGetAllGrowsByUsername() throws Exception {
+
         List<GrowDto> grows = new ArrayList<>();
 
         GrowDto dto1 = new GrowDto();
@@ -121,6 +120,7 @@ class GrowControllerTest {
 
     @Test
     void testUpdateGrow() throws Exception {
+
         Grow initial = new Grow();
         initial.setId(1L);
         initial.setIsActive(true);
@@ -154,6 +154,7 @@ class GrowControllerTest {
 
     @Test
     void testEndGrow() throws Exception {
+
         Grow grow = new Grow();
         grow.setId(1L);
         grow.setIsActive(true);
