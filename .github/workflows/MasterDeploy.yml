@@ -42,12 +42,28 @@ jobs:
       - name: Create app.yaml
         run: |
           echo "runtime: java" > staging/app.yaml
-          echo "env: flex" >> staging/app.yaml
+          echo "env: flexible" >> staging/app.yaml
+          echo "automatic_scaling:" >> staging/app.yaml
+          echo "  cool_down_period: 120s" >> staging/app.yaml
+          echo "  min_num_instances: 4" >> staging/app.yaml
+          echo "  max_num_instances: 20" >> staging/app.yaml
+          echo "  min_idle_instances: 4" >> staging/app.yaml
+          echo "network:" >> staging/app.yaml
+          echo "  session_affinity: true" >> staging/app.yaml
+          echo "liveness_check:" >> staging/app.yaml
+          echo "  initial_delay_sec: \"300\"" >> staging/app.yaml
+          echo "  check_interval_sec: \"30\" >> staging/app.yaml
+          echo "  timeout_sec: \"4\"" >> staging/app.yaml
+          echo "  failure_threshold: 4" >> staging/app.yaml
+          echo "  success_threshold: 2" >> staging/app.yaml
+          echo "readiness_check:" >> staging/app.yaml
+          echo "  check_interval_sec: \"60\"" >> staging/app.yaml
+          echo "  timeout_sec: \"4\"" >> staging/app.yaml
           echo "runtime_config:" >> staging/app.yaml
           echo "  operating_system: \"ubuntu22\"" >> staging/app.yaml
           echo "  runtime_version: \"17\"" >> staging/app.yaml
-          echo "network:" >> staging/app.yaml
-          echo "  session_affinity: true" >> staging/app.yaml
+          
+
           
       
 
