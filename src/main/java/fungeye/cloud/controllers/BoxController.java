@@ -23,7 +23,7 @@ public class BoxController {
     }
 
     @PostMapping("/box")
-    public ResponseEntity<BoxDto> createBox(BoxCreationDto dto) {
+    public ResponseEntity<BoxDto> createBox(@RequestBody BoxCreationDto dto) {
         return new ResponseEntity<>(service.createBox(dto), HttpStatus.CREATED);
     }
 
