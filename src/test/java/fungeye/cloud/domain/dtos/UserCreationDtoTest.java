@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.user.UserCreationDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

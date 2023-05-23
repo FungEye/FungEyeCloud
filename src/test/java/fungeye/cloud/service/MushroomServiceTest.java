@@ -1,6 +1,7 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionCreationDto;
+import fungeye.cloud.domain.dtos.mushroom.*;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.IdealConditionId;
 import fungeye.cloud.domain.enities.Mushroom;

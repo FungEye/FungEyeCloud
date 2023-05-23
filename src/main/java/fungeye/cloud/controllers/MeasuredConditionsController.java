@@ -1,8 +1,8 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.HistoricalMeasurementDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionDto;
-import fungeye.cloud.domain.dtos.SearchConditionsParam;
+import fungeye.cloud.domain.dtos.measured.HistoricalMeasurementDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
+import fungeye.cloud.domain.dtos.measured.SearchConditionsParam;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

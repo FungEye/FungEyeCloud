@@ -1,10 +1,7 @@
 package fungeye.cloud.domain.enities;
 
-import fungeye.cloud.domain.dtos.MushroomDto;
-import fungeye.cloud.domain.dtos.MushroomUpdateDto;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.service.MushroomService;
-import fungeye.cloud.service.mappers.MushroomMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,7 +11,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 class MushroomTest {
 

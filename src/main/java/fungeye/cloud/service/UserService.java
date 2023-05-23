@@ -1,8 +1,8 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.AuthResponseDto;
-import fungeye.cloud.domain.dtos.UserCreationDto;
-import fungeye.cloud.domain.dtos.UserLoginDto;
+import fungeye.cloud.domain.dtos.auth.AuthResponseDto;
+import fungeye.cloud.domain.dtos.user.UserCreationDto;
+import fungeye.cloud.domain.dtos.user.UserLoginDto;
 import fungeye.cloud.domain.enities.users.Role;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.domain.exceptions.NotUniqueException;

@@ -1,6 +1,6 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.mushroom.*;
 import fungeye.cloud.service.MushroomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

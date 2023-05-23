@@ -1,9 +1,9 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.BoxCreationDto;
-import fungeye.cloud.domain.dtos.BoxDetailsDto;
-import fungeye.cloud.domain.dtos.BoxDto;
-import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
+import fungeye.cloud.domain.dtos.box.BoxCreationDto;
+import fungeye.cloud.domain.dtos.box.BoxDetailsDto;
+import fungeye.cloud.domain.dtos.box.BoxDto;
+import fungeye.cloud.domain.dtos.box.SimpleBoxGrowDto;
 import fungeye.cloud.service.BoxService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

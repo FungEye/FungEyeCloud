@@ -1,5 +1,7 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.date.SimpleDateDto;
+import fungeye.cloud.domain.dtos.harvest.HarvestCreationDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

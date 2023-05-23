@@ -1,6 +1,10 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.date.DateTimeDto;
+import fungeye.cloud.domain.dtos.measured.HistoricalMeasurementDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionIdDto;
+import fungeye.cloud.domain.dtos.measured.SingleMeasurementDto;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.HarvestCreationDto;
-import fungeye.cloud.domain.dtos.HarvestDetailsDto;
+import fungeye.cloud.domain.dtos.harvest.HarvestCreationDto;
+import fungeye.cloud.domain.dtos.harvest.HarvestDetailsDto;
 import fungeye.cloud.service.HarvestService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

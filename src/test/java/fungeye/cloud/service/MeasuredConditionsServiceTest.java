@@ -1,6 +1,6 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.measured.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

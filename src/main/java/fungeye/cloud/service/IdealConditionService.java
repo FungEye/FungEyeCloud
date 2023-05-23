@@ -1,6 +1,6 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.IdealConditionDto;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionDto;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.persistence.repository.IdealConditionRepository;
 import fungeye.cloud.service.mappers.IdealConditionsMapper;
