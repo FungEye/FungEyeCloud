@@ -62,7 +62,14 @@ public class MeasuredConditionsController {
     }
 
     @GetMapping(value = "{username}/measurements/latest")
-    public ResponseEntity<List<MeasuredConditionDto>> getAllLatestForUser(@PathVariable String username, @RequestHeader(name = "Authorization") String token) {
-        return new ResponseEntity<>(service.getLatestForUser(username, token), HttpStatus.OK);
+    public ResponseEntity<List<MeasuredConditionDto>> getAllLatestForUser(@PathVariable String username,
+                                                                          @RequestHeader(name = "Authorization") String token,
+                                                                          @RequestParam Optional<Boolean> stage) {
+        if (stage.isEmpty() || !stage.get()) {
+            return new ResponseEntity<>(service.getLatestForUser(username, token), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(service.getLatestForUserWithStage(username, token), HttpStatus.OK);
+        }
     }
 }

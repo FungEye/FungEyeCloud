@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class MeasuredConditionWithStageDto extends MeasuredConditionDto{
+public class MeasuredConditionWithStageDto extends MeasuredConditionDto {
 
     @Nullable
     private String developmentStage;
@@ -14,10 +14,10 @@ public class MeasuredConditionWithStageDto extends MeasuredConditionDto{
     public void setDevelopmentStage(String developmentStage) {
         if (developmentStage.equals("spawn run") ||
                 developmentStage.equals("pinning") ||
-                developmentStage.equals("fruiting")) {
+                developmentStage.equals("fruiting") ||
+                developmentStage.equals("")) {
             this.developmentStage = developmentStage;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Not a valid development stage");
         }
     }

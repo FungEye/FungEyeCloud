@@ -8,6 +8,7 @@ import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
 import fungeye.cloud.security.JwtGenerator;
+import fungeye.cloud.service.mappers.MeasuredConditionsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
@@ -166,6 +168,33 @@ public class MeasuredConditionsService {
                 }
             }
             return conditionDtos;
+        } else
+            throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", jwtUsername, username));
+    }
+
+    public List<MeasuredConditionDto> getLatestForUserWithStage(String username, String token) {
+        String jwtUsername = generator.getUsernameFromJwt(token.substring(7));
+        if (jwtUsername.equals(username)) {
+            List<MeasuredConditionDto> conditionWithStageDtos = new ArrayList<>();
+            List<Box> boxes = boxRepository.findBoxesByUserEntity_Username(username);
+            for (Box box :
+                    boxes) {
+                MeasuredCondition foundCondition = repository.findFirstById_BoxIdOrderById_DateTimeDesc(box.getId());
+                if (foundCondition != null) {
+                    Grow foundGrow = growRepository.findFirstByBox_IdOrderByDateStartedDesc(box.getId());
+                    if (foundGrow != null) {
+                        MeasuredConditionWithStageDto withStageDto = MeasuredConditionsMapper.mapToMeasuredConditionWithStageDto(foundCondition);
+                        withStageDto.setDevelopmentStage(foundGrow.getDevelopmentStage());
+                        conditionWithStageDtos.add(withStageDto);
+                    }
+                    else {
+                        MeasuredConditionWithStageDto noStageDto = MeasuredConditionsMapper.mapToMeasuredConditionWithStageDto(foundCondition);
+                        noStageDto.setDevelopmentStage("");
+                        conditionWithStageDtos.add(noStageDto);
+                    }
+                }
+            }
+            return conditionWithStageDtos;
         } else
             throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", jwtUsername, username));
     }
