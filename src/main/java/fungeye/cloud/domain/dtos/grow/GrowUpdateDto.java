@@ -8,7 +8,7 @@ public class GrowUpdateDto {
     private String developStage;
     private Boolean isActive;
 
-    public void setDevelopmentStage(String developStage) {
+    public void setDevelopStage(String developStage) {
         if (developStage.equals("spawn run") ||
                 developStage.equals("pinning") ||
                 developStage.equals("fruiting")) {
