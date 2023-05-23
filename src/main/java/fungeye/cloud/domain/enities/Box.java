@@ -24,7 +24,7 @@ public class Box {
     @OneToMany(mappedBy = "box")
     private Set<MeasuredCondition> measuredConditions = new LinkedHashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
