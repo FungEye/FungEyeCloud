@@ -1,10 +1,7 @@
 package fungeye.cloud.controllers;
 
 import fungeye.cloud.domain.dtos.date.DateTimeDto;
-import fungeye.cloud.domain.dtos.measured.HistoricalMeasurementDto;
-import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
-import fungeye.cloud.domain.dtos.measured.MeasuredConditionIdDto;
-import fungeye.cloud.domain.dtos.measured.SingleMeasurementDto;
+import fungeye.cloud.domain.dtos.measured.*;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,20 +60,22 @@ class MeasuredConditionsControllerTest {
         MeasuredConditionIdDto idDto = new MeasuredConditionIdDto();
         idDto.setBoxId(1L);
 
-        MeasuredConditionDto measuredConditionDto = new MeasuredConditionDto();
+        MeasuredConditionWithStageDto measuredConditionDto = new MeasuredConditionWithStageDto();
         measuredConditionDto.setId(idDto);
         measuredConditionDto.setTemperature(25.0);
         measuredConditionDto.setHumidity(40.0);
+        measuredConditionDto.setDevelopmentStage("spawn run");
 
-        when(service.getLatestMeasuredCondition(anyLong(), anyString())).thenReturn(measuredConditionDto);
+        when(service.getLatestMeasuredConditionWithStage(anyLong(), anyString())).thenReturn(measuredConditionDto);
 
         // Act and Assert
-        mockMvc.perform(MockMvcRequestBuilders.get("/box1/measurements/latest")
+        mockMvc.perform(MockMvcRequestBuilders.get("/box1/measurements/latest?stage=true")
                         .accept(MediaType.APPLICATION_JSON).header("Authorization", "JWT_TOKEN"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id.boxId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.temperature").value(25.0))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.humidity").value(40.0));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.humidity").value(40.0))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.developmentStage").value("spawn run"));
     }
 
     @Test

@@ -46,6 +46,20 @@ public class MeasuredConditionsService {
             throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", tokenUsername, username));
     }
 
+    public MeasuredConditionWithStageDto getLatestMeasuredConditionWithStage(long boxId, String token) {
+        Box bEntity = boxRepository.getReferenceById(boxId);
+        String username = bEntity.getUserEntity().getUsername();
+        String tokenUsername = generator.getUsernameFromJwt(token.substring(7));
+        if (username.equals(tokenUsername)) {
+            MeasuredConditionWithStageDto withStageDto = mapToMeasuredConditionWithStageDto(repository.findTopByBox_IdOrderByIdDesc(boxId));
+            Grow currentGrow = growRepository.findByBox_IdAndIsActive(boxId, true);
+            withStageDto.setDevelopmentStage(currentGrow.getDevelopmentStage());
+            return withStageDto;
+        }
+        else
+            throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", tokenUsername, username));
+    }
+
     public List<MeasuredConditionDto> getMeasuredConditions(SearchConditionsParam param) {
         List<MeasuredCondition> conditions = repository.findAllByBox_Id(param.getId());
         List<MeasuredCondition> result = new ArrayList<>();
