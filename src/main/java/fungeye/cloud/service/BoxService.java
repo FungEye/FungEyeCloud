@@ -3,10 +3,13 @@ package fungeye.cloud.service;
 import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
+import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
+import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.service.mappers.BoxMapper;
+import fungeye.cloud.service.mappers.MeasuredConditionsMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,11 +25,14 @@ public class BoxService {
     private BoxRepository repository;
     private GrowRepository growRepository;
     private UserRepository userRepository;
+    private MeasuredConditionRepository measuredConditionRepository;
 
-    public BoxService(BoxRepository repository, GrowRepository growRepository, UserRepository userRepository) {
+    public BoxService(BoxRepository repository, GrowRepository growRepository,
+                      UserRepository userRepository, MeasuredConditionRepository measuredConditionRepository) {
         this.repository = repository;
         this.growRepository = growRepository;
         this.userRepository = userRepository;
+        this.measuredConditionRepository = measuredConditionRepository;
     }
 
     public BoxDto createBox(BoxCreationDto dto) {
@@ -44,7 +50,18 @@ public class BoxService {
 
     public BoxDetailsDto getById(Long id)
     {
-        return mapToBoxDto(repository.findById(id).orElseThrow());
+        BoxDetailsDto boxDetailsDto = mapToBoxDto(repository.findById(id).orElseThrow());
+
+        List<MeasuredCondition> measuredConditions = measuredConditionRepository.findAllByBox_Id(id);
+        List<MeasuredConditionDto> measuredConditionDtos = MeasuredConditionsMapper.mapToDtoList(measuredConditions);
+        boxDetailsDto.setConditions(measuredConditionDtos);
+
+        List<Grow> grows = growRepository.findByBox_Id(id);
+        Set<Grow> growSet = new HashSet<>(grows);
+        List<GrowDto> growDtos = GrowMapper.mapToGrowDtoList(growSet);
+        boxDetailsDto.setGrows(growDtos);
+
+        return boxDetailsDto;
     }
 
     public List<BoxDto> getAllEmptyByUserName(String userName) {
