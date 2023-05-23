@@ -11,4 +11,5 @@ public class HarvestCreationDto implements Serializable {
     private Long growId;
     private Double weight;
     private SimpleDateDto harvestDate;
+    private String comment;
 }

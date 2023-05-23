@@ -1,8 +1,11 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.BoxCreationDto;
 import fungeye.cloud.domain.dtos.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.BoxDto;
+import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
 import fungeye.cloud.domain.enities.Box;
+import fungeye.cloud.domain.enities.users.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +49,52 @@ public class BoxMapper {
         return list;
     }
 
+    public static SimpleBoxGrowDto mapToSimpleBoxGrowDto(Box box) {
+        SimpleBoxGrowDto dto = new SimpleBoxGrowDto();
+        dto.setId(box.getId());
+        dto.setSimpleGrowDtos(GrowMapper.mapToGrowIdMushroomNameDtoList(box.getGrows()));
 
+        return dto;
+    }
+
+    public static Box mapFromSimpleBoxGrowDto(SimpleBoxGrowDto dto) {
+        Box box = new Box();
+        box.setId(dto.getId());
+        box.setGrows(GrowMapper.mapFromGrowIdMushroomNameDtoList(dto.getSimpleGrowDtos()));
+
+        return box;
+    }
+
+    public static List<SimpleBoxGrowDto> mapToSimpleBoxGrowDtoList(List<Box> boxes) {
+        List<SimpleBoxGrowDto> dtos = new ArrayList<>();
+        boxes.forEach(b -> dtos.add(mapToSimpleBoxGrowDto(b)));
+
+        return dtos;
+    }
+
+    public static List<Box> mapFromSimpleBoxGrowDtoList(List<SimpleBoxGrowDto> dtos) {
+        List<Box> list = new ArrayList<>();
+        dtos.forEach(d -> list.add(mapFromSimpleBoxGrowDto(d)));
+
+        return list;
+    }
+
+    public static BoxCreationDto mapToBoxCreationDto(Box box) {
+        BoxCreationDto dto = new BoxCreationDto();
+        dto.setUsername(box.getUserEntity().getUsername());
+        dto.setEui(box.getEui());
+
+        return dto;
+    }
+
+    public static Box mapFromBoxCreationDto(BoxCreationDto dto) {
+        Box box = new Box();
+        box.setEui(dto.getEui());
+
+        UserEntity user = new UserEntity();
+        user.setUsername(dto.getUsername());
+        box.setUserEntity(user);
+
+        return box;
+    }
 }

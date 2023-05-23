@@ -72,7 +72,7 @@ public class MushroomController {
         return new ResponseEntity<>(custom, HttpStatus.FOUND);
     }
 
-    @PutMapping(value = "/mushroom/{id}")
+    @PatchMapping(value = "/mushroom/{id}")
     public ResponseEntity<String> archiveMushroom(@PathVariable long id, @RequestHeader(name = "Authorization") String token) {
         service.archiveMushroom(id, token);
         return ResponseEntity.ok("Archived");

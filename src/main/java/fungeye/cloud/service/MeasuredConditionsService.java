@@ -3,11 +3,16 @@ package fungeye.cloud.service;
 import fungeye.cloud.domain.dtos.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.MeasuredCondition;
+import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
+import fungeye.cloud.persistence.repository.UserRepository;
+import fungeye.cloud.security.JwtGenerator;
 import fungeye.cloud.service.mappers.BoxMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,21 +23,27 @@ import java.util.List;
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
 @Service
+@Slf4j
 public class MeasuredConditionsService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MeasuredConditionsService.class);
 
     private final MeasuredConditionRepository repository;
     private final BoxRepository boxRepository;
+    private JwtGenerator generator;
 
-    public MeasuredConditionsService(MeasuredConditionRepository repository,
-                                     BoxRepository boxRepository) {
+
+    public MeasuredConditionsService(MeasuredConditionRepository repository, BoxRepository boxRepository, JwtGenerator generator) {
         this.repository = repository;
         this.boxRepository = boxRepository;
+        this.generator = generator;
     }
 
-    public MeasuredConditionDto getLatestMeasuredCondition(long boxId) {
-        return mapToDto(repository.findTopByBox_IdOrderByIdDesc(boxId));
+    public MeasuredConditionDto getLatestMeasuredCondition(long boxId, String token) {
+        Box bEntity = boxRepository.getReferenceById(boxId);
+        String username = bEntity.getUserEntity().getUsername();
+        String tokenUsername = generator.getUsernameFromJwt(token.substring(7));
+        if (username.equals(tokenUsername)) return mapToDto(repository.findTopByBox_IdOrderByIdDesc(boxId));
+        else
+            throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", tokenUsername, username));
     }
 
     public List<MeasuredConditionDto> getMeasuredConditions(SearchConditionsParam param) {
@@ -58,54 +69,68 @@ public class MeasuredConditionsService {
         MeasuredCondition toCreate = mapToEntity(dto);
         toCreate.setBox(boxRepository.getReferenceById(dto.getId().getBoxId()));
         MeasuredConditionDto response = mapToDto(repository.save(toCreate));
-        LOGGER.info(String.format("Measurement persisted in database for box # %d", response.getId().getBoxId()));
+        log.info(String.format("Measurement persisted in database for box # %d", response.getId().getBoxId()));
     }
 
-    public HistoricalMeasurementDto getHistoricalMeasurements(Long boxId) {
-        List<MeasuredCondition> measuredConditions = repository.findAllByBox_Id(boxId);
-        HistoricalMeasurementDto result = new HistoricalMeasurementDto();
-        result.setTemperature(new ArrayList<>());
-        result.setLight(new ArrayList<>());
-        result.setHumidity(new ArrayList<>());
-        result.setCo2(new ArrayList<>());
-        for (MeasuredCondition cond: measuredConditions
-             ) {
-            // Temperature
-            SingleMeasurementDto temp = new SingleMeasurementDto();
-            temp.setValue(cond.getTemperature());
-            temp.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
-            result.getTemperature().add(temp);
+    public HistoricalMeasurementDto getHistoricalMeasurements(Long boxId, String token) {
+        Box bEntity = boxRepository.getReferenceById(boxId);
+        String username = bEntity.getUserEntity().getUsername();
+        String tokenUsername = generator.getUsernameFromJwt(token.substring(7));
+        if (username.equals(tokenUsername)) {
 
-            // Humidity
-            SingleMeasurementDto humidity = new SingleMeasurementDto();
-            humidity.setValue(cond.getHumidity());
-            humidity.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
-            result.getHumidity().add(humidity);
+            List<MeasuredCondition> measuredConditions = repository.findAllByBox_Id(boxId);
+            HistoricalMeasurementDto result = new HistoricalMeasurementDto();
+            result.setTemperature(new ArrayList<>());
+            result.setLight(new ArrayList<>());
+            result.setHumidity(new ArrayList<>());
+            result.setCo2(new ArrayList<>());
+            for (MeasuredCondition cond : measuredConditions
+            ) {
+                // Temperature
+                SingleMeasurementDto temp = new SingleMeasurementDto();
+                temp.setValue(cond.getTemperature());
+                temp.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
+                result.getTemperature().add(temp);
 
-            // CO2
-            SingleMeasurementDto co2 = new SingleMeasurementDto();
-            co2.setValue(cond.getCo2());
-            co2.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
-            result.getCo2().add(co2);
+                // Humidity
+                SingleMeasurementDto humidity = new SingleMeasurementDto();
+                humidity.setValue(cond.getHumidity());
+                humidity.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
+                result.getHumidity().add(humidity);
 
-            // Light
-            SingleMeasurementDto light = new SingleMeasurementDto();
-            light.setValue(cond.getLight());
-            light.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
-            result.getLight().add(light);
+                // CO2
+                SingleMeasurementDto co2 = new SingleMeasurementDto();
+                co2.setValue(cond.getCo2());
+                co2.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
+                result.getCo2().add(co2);
+
+                // Light
+                SingleMeasurementDto light = new SingleMeasurementDto();
+                light.setValue(cond.getLight());
+                light.setDateTime(LocalDateTime.ofInstant(cond.getId().getDateTime(), ZoneId.systemDefault()));
+                result.getLight().add(light);
+            }
+
+            return result;
         }
+        else throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", tokenUsername, username));
 
-        return result;
     }
 
-    public List<MeasuredConditionDto> getLatestForUser(String username)
-    {
-        List<MeasuredConditionDto> conditionDtos = new ArrayList<>();
-        List<Box> boxes = boxRepository.findBoxesByUserEntity_Username(username);
-        for (Box box:
-             boxes) {
-            conditionDtos.add(mapToDto(repository.findFirstById_BoxIdOrderById_DateTimeDesc(box.getId())));
-        }
-        return conditionDtos;
+    public List<MeasuredConditionDto> getLatestForUser(String username, String token) {
+        String jwtUsername = generator.getUsernameFromJwt(token.substring(7));
+        if (jwtUsername.equals(username)) {
+            List<MeasuredConditionDto> conditionDtos = new ArrayList<>();
+            List<Box> boxes = boxRepository.findBoxesByUserEntity_Username(username);
+            for (Box box :
+                    boxes) {
+                MeasuredCondition foundCondition = repository.findFirstById_BoxIdOrderById_DateTimeDesc(box.getId());
+                if (foundCondition != null) {
+                    conditionDtos.add(mapToDto(repository.findFirstById_BoxIdOrderById_DateTimeDesc(box.getId())));
+                }
+            }
+            return conditionDtos;
+        } else
+            throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", jwtUsername, username));
     }
 }
