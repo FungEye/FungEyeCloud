@@ -42,7 +42,7 @@ class GrowServiceTest {
         dto.setBoxId(1L);
         dto.setMushroomId(1L);
         dto.setUsername("john");
-        dto.setDevelopStage("Spawn run");
+        dto.setDevelopStage("spawn run");
 
         SimpleDateDto dateDto = new SimpleDateDto(2023, 5, 5);
         dto.setDate(dateDto);
@@ -133,7 +133,7 @@ class GrowServiceTest {
         GrowUpdateDto update = new GrowUpdateDto();
         update.setId(1L);
         update.setIsActive(false);
-        update.setDevelopStage("Fruiting");
+        update.setDevelopStage("fruiting");
 
         Mockito.when(repository.findById(1L)).thenReturn(Optional.of(initial));
 
@@ -156,7 +156,7 @@ class GrowServiceTest {
         Grow grow = new Grow();
         grow.setId(1L);
         grow.setIsActive(true);
-        grow.setDevelopmentStage("Fruiting");
+        grow.setDevelopmentStage("fruiting");
         grow.setDateStarted(LocalDate.of(2023, 5, 5));
         grow.setBox(box);
         grow.setMushroom(mushroom);

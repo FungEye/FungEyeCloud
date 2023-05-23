@@ -18,7 +18,7 @@ class GrowDtoTest {
         // Arrange
         Long id = 1L;
         DateTimeDto date = new DateTimeDto(2023, 4, 14, 10, 30, 0);
-        String stage = "Growing";
+        String stage = "spawn run";
         boolean active = true;
         Long boxId = 2L;
         List<MushroomDto> mushroomDtoList = new ArrayList<>();

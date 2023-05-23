@@ -21,8 +21,8 @@ public class GrowCreationDtoTest {
     @Test
     void testValidDevelopmentStage() {
         growCreationDto.setDevelopStage("spawn run");
-        growCreationDto.setDevelopmentStage("pinning");
-        growCreationDto.setDevelopmentStage("fruiting");
+        growCreationDto.setDevelopStage("pinning");
+        growCreationDto.setDevelopStage("fruiting");
 
         assertEquals("fruiting", growCreationDto.getDevelopStage());
     }
@@ -30,7 +30,7 @@ public class GrowCreationDtoTest {
     @Test
     void testInvalidDevelopmentStage() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            growCreationDto.setDevelopmentStage("It's not a phase! I'll be a spore forever");
+            growCreationDto.setDevelopStage("It's not a phase! I'll be a spore forever");
         });
 
         assertEquals("Not a valid development stage", exception.getMessage());

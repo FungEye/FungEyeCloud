@@ -12,7 +12,7 @@ public class GrowCreationDto {
     private SimpleDateDto date;
     private String developStage;
 
-    public void setDevelopmentStage(String developStage) {
+    public void setDevelopStage(String developStage) {
         if (developStage.equals("spawn run") ||
                 developStage.equals("pinning") ||
                 developStage.equals("fruiting")) {
