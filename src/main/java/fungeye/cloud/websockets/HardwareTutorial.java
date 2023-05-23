@@ -100,7 +100,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
         log.info("WebSocket closed!");
         log.error("Status:" + statusCode + " Reason: " + reason);
-        return new CompletableFuture().completedFuture("onClose() completed.").thenAccept(log::info);
+        return CompletableFuture.completedFuture("onClose() completed.").thenAccept(log::info);
     }
 
     ;
@@ -111,7 +111,7 @@ public class HardwareTutorial implements WebSocket.Listener {
         webSocket.request(1);
         log.info("Ping: Client ---> Server");
         log.info(message.asCharBuffer().toString());
-        return new CompletableFuture().completedFuture("Ping completed.").thenAccept(log::info);
+        return CompletableFuture.completedFuture("Ping completed.").thenAccept(log::info);
     }
 
     ;
@@ -122,7 +122,7 @@ public class HardwareTutorial implements WebSocket.Listener {
         webSocket.request(1);
         log.info("Pong: Client ---> Server");
         log.info(message.asCharBuffer().toString());
-        return new CompletableFuture().completedFuture("Pong completed.").thenAccept(log::info);
+        return CompletableFuture.completedFuture("Pong completed.").thenAccept(log::info);
     }
 
     ;
@@ -153,7 +153,7 @@ public class HardwareTutorial implements WebSocket.Listener {
         );
          */
         webSocket.request(1);
-        return new CompletableFuture().completedFuture("Data received successfully").thenAccept(log::info);
+        return CompletableFuture.completedFuture("Data received successfully").thenAccept(log::info);
     }
 
     private void readAndAddMeasurement(JSONObject jsonObject) throws JSONException {
