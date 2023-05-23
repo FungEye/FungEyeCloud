@@ -59,4 +59,21 @@ public class GrowService {
         return GrowMapper.mapToGrowDto(toUpdated);
 
     }
+
+    public GrowDto endGrow (GrowIdDto dto)
+    {
+        Grow toEnd = repository.findById(dto.getId()).orElseThrow();
+
+        if (toEnd.getIsActive().equals(true))
+        {
+            toEnd.setIsActive(false);
+            repository.save(toEnd);
+        }
+        else
+        {
+            throw new IllegalArgumentException("The Grow is already not active");
+        }
+
+        return GrowMapper.mapToGrowDto(toEnd);
+    }
 }
