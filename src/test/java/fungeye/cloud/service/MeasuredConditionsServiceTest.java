@@ -2,6 +2,7 @@ package fungeye.cloud.service;
 
 import fungeye.cloud.domain.dtos.measured.*;
 import fungeye.cloud.domain.enities.Box;
+import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
 import fungeye.cloud.domain.enities.users.UserEntity;
@@ -71,9 +72,6 @@ class MeasuredConditionsServiceTest {
         measuredCondition.setHumidity(60.0);
         measuredCondition.setId(id);
 
-
-
-
         // When
         when(repository.findTopByBox_IdOrderByIdDesc(anyLong())).thenReturn(measuredCondition);
         when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("john");
@@ -83,6 +81,50 @@ class MeasuredConditionsServiceTest {
         MeasuredConditionDto result = service.getLatestMeasuredCondition(boxId, token);
         assertEquals(measuredCondition.getTemperature(), result.getTemperature());
         assertEquals(measuredCondition.getHumidity(), result.getHumidity());
+    }
+
+    @Test
+    void testGetLatestMeasuredConditionWithStage() {
+        // Given
+        long boxId = 1L;
+
+        UserEntity user = new UserEntity();
+        user.setUsername("john");
+
+        Box box = new Box();
+        box.setId(boxId);
+        box.setUserEntity(user);
+
+        MeasuredConditionId id = new MeasuredConditionId();
+        id.setDateTime(Instant.now());
+        id.setBoxId(1L);
+        MeasuredCondition measuredCondition = new MeasuredCondition();
+        measuredCondition.setBox(box);
+        measuredCondition.setTemperature(25.0);
+        measuredCondition.setHumidity(60.0);
+        measuredCondition.setId(id);
+
+        Grow grow = new Grow();
+        grow.setDevelopmentStage("spawn run");
+        grow.setIsActive(true);
+
+        Set<Grow> growSet = new HashSet<>();
+        growSet.add(grow);
+
+        box.setGrows(growSet);
+
+        MeasuredConditionWithStageDto expected = MeasuredConditionsMapper.mapToMeasuredConditionWithStageDto(measuredCondition);
+        expected.setDevelopmentStage("spawn run");
+
+        // When
+        when(repository.findTopByBox_IdOrderByIdDesc(anyLong())).thenReturn(measuredCondition);
+        when(generator.getUsernameFromJwt(token.substring(7))).thenReturn("john");
+        when(boxRepository.getReferenceById(boxId)).thenReturn(box);
+        when(growRepository.findByBox_IdAndIsActive(1L, true)).thenReturn(grow);
+
+        // Then
+        MeasuredConditionWithStageDto result = service.getLatestMeasuredConditionWithStage(boxId, token);
+        assertEquals(expected, result);
     }
 
     @Test
