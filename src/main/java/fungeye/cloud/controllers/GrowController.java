@@ -31,7 +31,7 @@ public class GrowController {
         return new ResponseEntity<>(service.getAllGrowsByUsername(username), HttpStatus.OK);
     }
 
-    @PostMapping("/grow/update")
+    @PutMapping("/grow/update")
     public ResponseEntity<GrowDto> updateGrow(GrowUpdateDto dto)
     {
         return new ResponseEntity<>(service.updateGrow(dto), HttpStatus.OK);
@@ -39,9 +39,9 @@ public class GrowController {
 
 
     @PatchMapping("/grow/endGrow")
-    public ResponseEntity<GrowDto> endGrow(GrowIdDto dto)
+    public ResponseEntity<GrowDto> endGrow(Long id)
     {
-        return new ResponseEntity<>(service.endGrow(dto), HttpStatus.OK);
+        return new ResponseEntity<>(service.endGrow(id), HttpStatus.OK);
     }
 
 }

@@ -57,9 +57,9 @@ public class GrowService {
 
     }
 
-    public GrowDto endGrow (GrowIdDto dto)
+    public GrowDto endGrow (Long id)
     {
-        Grow toEnd = repository.findById(dto.getId()).orElseThrow();
+        Grow toEnd = repository.findById(id).orElseThrow();
 
         if (toEnd.getIsActive().equals(true))
         {

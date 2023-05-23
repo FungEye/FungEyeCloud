@@ -178,19 +178,16 @@ class GrowControllerTest {
         box.setId(1L);
         grow.setBox(box);
 
-        GrowIdDto toEnd = new GrowIdDto();
-        toEnd.setId(1L);
-
         GrowDto dto = GrowMapper.mapToGrowDto(grow);
         dto.setActive(false);
 
-        Mockito.when(service.endGrow(toEnd)).thenReturn(dto);
+        Mockito.when(service.endGrow(1L)).thenReturn(dto);
 
-        ResponseEntity<GrowDto> response = controller.endGrow(toEnd);
+        ResponseEntity<GrowDto> response = controller.endGrow(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
 
-        verify(service, times(1)).endGrow(toEnd);
+        verify(service, times(1)).endGrow(1L);
     }
 }
