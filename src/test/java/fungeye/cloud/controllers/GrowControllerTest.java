@@ -1,6 +1,11 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.date.DateTimeDto;
+import fungeye.cloud.domain.dtos.date.SimpleDateDto;
+import fungeye.cloud.domain.dtos.grow.GrowCreationDto;
+import fungeye.cloud.domain.dtos.grow.GrowDto;
+import fungeye.cloud.domain.dtos.grow.GrowIdMushroomNameDto;
+import fungeye.cloud.domain.dtos.grow.GrowUpdateDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -14,19 +19,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
@@ -52,7 +50,7 @@ class GrowControllerTest {
         dto.setBoxId(1L);
         dto.setMushroomId(1L);
         dto.setUsername("john");
-        dto.setDevelopStage("Spawn run");
+        dto.setDevelopStage("spawn run");
 
         SimpleDateDto dateDto = new SimpleDateDto(2023, 5, 5);
         dto.setDate(dateDto);
@@ -83,7 +81,7 @@ class GrowControllerTest {
         GrowDto dto1 = new GrowDto();
         dto1.setBoxId(1L);
         dto1.setMushroomId(1L);
-        dto1.setStage("Spawn run");
+        dto1.setStage("spawn run");
         dto1.setActive(true);
 
         DateTimeDto dateTimeDto = DateTimeMapper.mapToDateDto(LocalDate.now());
@@ -92,7 +90,7 @@ class GrowControllerTest {
         GrowDto dto2 = new GrowDto();
         dto2.setBoxId(2L);
         dto2.setMushroomId(2L);
-        dto2.setStage("Spawn run");
+        dto2.setStage("spawn run");
         dto2.setActive(true);
         dto2.setDate(dateTimeDto);
 
@@ -133,7 +131,7 @@ class GrowControllerTest {
         Grow initial = new Grow();
         initial.setId(1L);
         initial.setIsActive(true);
-        initial.setDevelopmentStage("Fruiting");
+        initial.setDevelopmentStage("fruiting");
         initial.setDateStarted(LocalDate.of(2023, 5, 5));
 
         Mushroom mushroom = new Mushroom();
@@ -147,11 +145,11 @@ class GrowControllerTest {
         GrowUpdateDto update = new GrowUpdateDto();
         update.setId(1L);
         update.setIsActive(false);
-        update.setDevelopStage("Fruiting");
+        update.setDevelopStage("fruiting");
 
         GrowDto dto = GrowMapper.mapToGrowDto(initial);
         dto.setActive(false);
-        dto.setStage("Fruiting");
+        dto.setStage("fruiting");
 
         Mockito.when(service.updateGrow(update)).thenReturn(dto);
 
@@ -167,7 +165,7 @@ class GrowControllerTest {
         Grow grow = new Grow();
         grow.setId(1L);
         grow.setIsActive(true);
-        grow.setDevelopmentStage("Fruiting");
+        grow.setDevelopmentStage("fruiting");
         grow.setDateStarted(LocalDate.of(2023, 5, 5));
 
         Mushroom mushroom = new Mushroom();

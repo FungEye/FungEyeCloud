@@ -1,9 +1,9 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.BoxDetailsDto;
-import fungeye.cloud.domain.dtos.BoxDto;
-import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
-import fungeye.cloud.domain.dtos.SimpleBoxGrowDto;
+import fungeye.cloud.domain.dtos.box.BoxDetailsDto;
+import fungeye.cloud.domain.dtos.box.BoxDto;
+import fungeye.cloud.domain.dtos.grow.GrowIdMushroomNameDto;
+import fungeye.cloud.domain.dtos.box.SimpleBoxGrowDto;
 import fungeye.cloud.domain.enities.*;
 import org.junit.jupiter.api.Test;
 
@@ -52,6 +52,7 @@ class BoxMapperTest {
         grow.setBox(box);
         grow.setDateStarted(mockDate);
         grow.setIsActive(true);
+        grow.setDevelopmentStage("fruiting");
 
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
@@ -118,33 +119,39 @@ class BoxMapperTest {
         grow1.setDateStarted(mockDate);
         grow1.setIsActive(false);
         grow1.setMushroom(mushroom1);
+        grow1.setDevelopmentStage("fruiting");
         Grow grow2 = new Grow();
         grow2.setBox(box1);
         grow2.setDateStarted(mockDate.plusDays(20));
         grow2.setIsActive(true);
         grow2.setMushroom(mushroom2);
+        grow2.setDevelopmentStage("fruiting");
 
         Grow grow3 = new Grow();
         grow3.setBox(box2);
         grow3.setDateStarted(mockDate);
         grow3.setIsActive(false);
         grow3.setMushroom(mushroom3);
+        grow3.setDevelopmentStage("fruiting");
         Grow grow4 = new Grow();
         grow4.setBox(box2);
         grow4.setDateStarted(mockDate.plusDays(20));
         grow4.setIsActive(true);
         grow4.setMushroom(mushroom4);
+        grow4.setDevelopmentStage("fruiting");
 
         Grow grow5 = new Grow();
         grow5.setBox(box3);
         grow5.setDateStarted(mockDate);
         grow5.setIsActive(false);
         grow5.setMushroom(mushroom3);
+        grow5.setDevelopmentStage("fruiting");
         Grow grow6 = new Grow();
         grow6.setBox(box3);
         grow6.setDateStarted(mockDate.plusDays(20));
         grow6.setIsActive(true);
         grow6.setMushroom(mushroom1);
+        grow6.setDevelopmentStage("fruiting");
 
 
         Set<Grow> grows1 = new HashSet<>();

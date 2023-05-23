@@ -1,6 +1,6 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.DateTimeDto;
+import fungeye.cloud.domain.dtos.date.DateTimeDto;
 
 import java.time.Instant;
 import java.time.LocalDate;

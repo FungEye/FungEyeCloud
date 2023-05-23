@@ -1,8 +1,8 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.DateTimeDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionDto;
-import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
+import fungeye.cloud.domain.dtos.date.DateTimeDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionIdDto;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
 import org.junit.jupiter.api.Test;

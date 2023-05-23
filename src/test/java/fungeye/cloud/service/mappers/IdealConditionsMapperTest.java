@@ -1,10 +1,9 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.IdealConditionCreationDto;
-import fungeye.cloud.domain.dtos.IdealConditionDto;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionCreationDto;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionDto;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.IdealConditionId;
-import fungeye.cloud.domain.enities.Mushroom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

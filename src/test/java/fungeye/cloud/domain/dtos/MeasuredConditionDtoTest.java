@@ -1,5 +1,7 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
+import fungeye.cloud.domain.dtos.measured.MeasuredConditionIdDto;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,6 +1,8 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionCreationDto;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionDto;
+import fungeye.cloud.domain.dtos.mushroom.*;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.IdealConditionId;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -51,6 +53,7 @@ public class MushroomService {
         Mushroom saved = repository.save(toSave);
         Long mushroomId = saved.getId();
         List<IdealConditionCreationDto> conditionCreationDtos = dto.getIdealConditionCreationDtos();
+        List<IdealConditionDto> savedConditionDtos = new ArrayList<>();
         if (conditionCreationDtos != null && !conditionCreationDtos.isEmpty()) {
             for (IdealConditionCreationDto idealDto :
             conditionCreationDtos) {
@@ -58,10 +61,14 @@ public class MushroomService {
                 IdealConditionId id = conditionToSave.getId();
                 id.setMushroomId(mushroomId);
                 conditionToSave.setId(id);
-                idealConditionRepository.save(conditionToSave);
+                conditionToSave.setMushroom(saved);
+                IdealConditionDto savedCondition = IdealConditionsMapper.mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
+                savedConditionDtos.add(savedCondition);
             }
         }
-        return MushroomMapper.mapToMushroomWithConditionsDto(saved);
+        MushroomWithConditionsDto mushroomWithConditionsDto = MushroomMapper.mapToMushroomWithConditionsDto(saved);
+        mushroomWithConditionsDto.setIdealConditionDtos(savedConditionDtos);
+        return mushroomWithConditionsDto;
     }
 
     public MushroomWithConditionsDto createCustomMushroom(CustomMushroomCreationDto dto) {
@@ -71,6 +78,7 @@ public class MushroomService {
         Mushroom saved = repository.save(toSave);
         Long mushroomId = saved.getId();
         List<IdealConditionCreationDto> conditionCreationDtos = dto.getIdealConditionCreationDtos();
+        List<IdealConditionDto> savedConditionDtos = new ArrayList<>();
         if (conditionCreationDtos != null && !conditionCreationDtos.isEmpty()) {
             for (IdealConditionCreationDto idealDto :
                     conditionCreationDtos) {
@@ -78,10 +86,14 @@ public class MushroomService {
                 IdealConditionId id = conditionToSave.getId();
                 id.setMushroomId(mushroomId);
                 conditionToSave.setId(id);
-                idealConditionRepository.save(conditionToSave);
+                conditionToSave.setMushroom(saved);
+                IdealConditionDto savedCondition = IdealConditionsMapper.mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
+                savedConditionDtos.add(savedCondition);
             }
         }
-        return MushroomMapper.mapToMushroomWithConditionsDto(saved);
+        MushroomWithConditionsDto mushroomWithConditionsDto = MushroomMapper.mapToMushroomWithConditionsDto(saved);
+        mushroomWithConditionsDto.setIdealConditionDtos(savedConditionDtos);
+        return mushroomWithConditionsDto;
     }
 
     public MushroomDto getByMushroomId(Long id) {

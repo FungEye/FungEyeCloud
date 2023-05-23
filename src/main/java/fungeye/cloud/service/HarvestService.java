@@ -1,7 +1,7 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.HarvestCreationDto;
-import fungeye.cloud.domain.dtos.HarvestDetailsDto;
+import fungeye.cloud.domain.dtos.harvest.HarvestCreationDto;
+import fungeye.cloud.domain.dtos.harvest.HarvestDetailsDto;
 import fungeye.cloud.domain.enities.Harvest;
 import fungeye.cloud.persistence.repository.HarvestRepository;
 import fungeye.cloud.service.mappers.HarvestMapper;

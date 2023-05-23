@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.ideal.IdealConditionDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

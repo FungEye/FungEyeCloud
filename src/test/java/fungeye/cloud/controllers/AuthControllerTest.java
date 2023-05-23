@@ -1,9 +1,9 @@
 package fungeye.cloud.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fungeye.cloud.domain.dtos.AuthResponseDto;
-import fungeye.cloud.domain.dtos.UserCreationDto;
-import fungeye.cloud.domain.dtos.UserLoginDto;
+import fungeye.cloud.domain.dtos.auth.AuthResponseDto;
+import fungeye.cloud.domain.dtos.user.UserCreationDto;
+import fungeye.cloud.domain.dtos.user.UserLoginDto;
 import fungeye.cloud.domain.exceptions.NotUniqueException;
 import fungeye.cloud.service.UserService;
 import org.junit.jupiter.api.BeforeEach;

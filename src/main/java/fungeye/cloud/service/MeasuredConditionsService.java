@@ -1,19 +1,14 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.measured.*;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.MeasuredCondition;
-import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
 import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
-import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.security.JwtGenerator;
-import fungeye.cloud.service.mappers.BoxMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 

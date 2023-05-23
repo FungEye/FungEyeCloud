@@ -1,5 +1,8 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.date.DateTimeDto;
+import fungeye.cloud.domain.dtos.grow.GrowDto;
+import fungeye.cloud.domain.dtos.mushroom.MushroomDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ class GrowDtoTest {
         // Arrange
         Long id = 1L;
         DateTimeDto date = new DateTimeDto(2023, 4, 14, 10, 30, 0);
-        String stage = "Growing";
+        String stage = "spawn run";
         boolean active = true;
         Long boxId = 2L;
         List<MushroomDto> mushroomDtoList = new ArrayList<>();

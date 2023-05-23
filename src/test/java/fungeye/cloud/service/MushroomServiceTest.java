@@ -1,6 +1,8 @@
 package fungeye.cloud.service;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionCreationDto;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionDto;
+import fungeye.cloud.domain.dtos.mushroom.*;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.IdealConditionId;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -123,7 +125,7 @@ class MushroomServiceTest {
         saved.setId(1L);
 
         UserEntity user = new UserEntity();
-        user.setId(1);
+        user.setId(3);
         saved.setUser(user);
 
         Set<IdealCondition> idealConditionSet = new HashSet<>();
@@ -133,16 +135,29 @@ class MushroomServiceTest {
         }
         saved.setIdealConditions(idealConditionSet);
 
+        List<IdealConditionDto> idealConditionDtoListExpected = new ArrayList<>();
+        // Doing the same stage thrice to avoid ordering issues with stream
+        IdealCondition firstStage = IdealConditionsMapper.mapCreateToIdealCondition(creationDto1);
+        IdealConditionDto firstStageDto = IdealConditionsMapper.mapToIdealConditionDto(firstStage);
+        idealConditionDtoListExpected.add(firstStageDto);
+        idealConditionDtoListExpected.add(firstStageDto);
+        idealConditionDtoListExpected.add(firstStageDto);
+
         MushroomWithConditionsDto expected = MushroomMapper.mapToMushroomWithConditionsDto(saved);
 
+        expected.setIdealConditionDtos(idealConditionDtoListExpected);
+
         when(repository.save(any())).thenReturn(saved);
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.findById(3)).thenReturn(Optional.of(user));
+        when(idealConditionRepository.save(any())).thenReturn(IdealConditionsMapper.mapCreateToIdealCondition(creationDto1));
 
         MushroomWithConditionsDto actual = service.createDefaultMushroom(defaultMushroom);
 
         assertEquals(expected, actual);
-
         verify(repository, times(1)).save(any());
+        verify(userRepository, times(1)).findById(3);
+        verify(idealConditionRepository, times(3)).save(any());
+
     }
 
     @Test
@@ -208,16 +223,28 @@ class MushroomServiceTest {
         }
         saved.setIdealConditions(idealConditionSet);
 
+        List<IdealConditionDto> idealConditionDtoListExpected = new ArrayList<>();
+        // Doing the same stage thrice to avoid ordering issues with stream
+        IdealCondition firstStage = IdealConditionsMapper.mapCreateToIdealCondition(creationDto1);
+        IdealConditionDto firstStageDto = IdealConditionsMapper.mapToIdealConditionDto(firstStage);
+        idealConditionDtoListExpected.add(firstStageDto);
+        idealConditionDtoListExpected.add(firstStageDto);
+        idealConditionDtoListExpected.add(firstStageDto);
+
         MushroomWithConditionsDto expected = MushroomMapper.mapToMushroomWithConditionsDto(saved);
+
+        expected.setIdealConditionDtos(idealConditionDtoListExpected);
 
         when(repository.save(any())).thenReturn(saved);
         when(userRepository.findByUsername("john")).thenReturn(Optional.of(user));
+        when(idealConditionRepository.save(any())).thenReturn(IdealConditionsMapper.mapCreateToIdealCondition(creationDto1));
 
         MushroomWithConditionsDto actual = service.createCustomMushroom(customMushroom);
 
         assertEquals(expected, actual);
-
         verify(repository, times(1)).save(any());
+        verify(userRepository, times(1)).findByUsername("john");
+        verify(idealConditionRepository, times(3)).save(any());
     }
 
     @Test

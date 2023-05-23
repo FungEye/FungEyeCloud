@@ -1,6 +1,6 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.*;
+import fungeye.cloud.domain.dtos.mushroom.*;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;

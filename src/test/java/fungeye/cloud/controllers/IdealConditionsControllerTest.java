@@ -1,6 +1,6 @@
 package fungeye.cloud.controllers;
 
-import fungeye.cloud.domain.dtos.IdealConditionDto;
+import fungeye.cloud.domain.dtos.ideal.IdealConditionDto;
 import fungeye.cloud.service.IdealConditionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

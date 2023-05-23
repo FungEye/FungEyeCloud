@@ -1,7 +1,7 @@
 package fungeye.cloud.service.mappers;
 
-import fungeye.cloud.domain.dtos.GrowDto;
-import fungeye.cloud.domain.dtos.GrowIdMushroomNameDto;
+import fungeye.cloud.domain.dtos.grow.GrowDto;
+import fungeye.cloud.domain.dtos.grow.GrowIdMushroomNameDto;
 import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -40,7 +40,7 @@ class GrowMapperTest {
         grow.setBox(box);
         grow.setIsActive(true);
         grow.setDateStarted(dateStarted);
-        grow.setDevelopmentStage("Early");
+        grow.setDevelopmentStage("spawn run");
         grow.setMushroom(shroom1);
 
 
@@ -79,7 +79,7 @@ class GrowMapperTest {
         grow1.setBox(box1);
         grow1.setIsActive(true);
         grow1.setDateStarted(dateStarted);
-        grow1.setDevelopmentStage("Early");
+        grow1.setDevelopmentStage("spawn run");
         grow1.setMushroom(shroom1);
 
         Grow grow2 = new Grow();
@@ -87,7 +87,7 @@ class GrowMapperTest {
         grow2.setBox(box1);
         grow2.setIsActive(true);
         grow2.setDateStarted(dateStarted);
-        grow2.setDevelopmentStage("Early");
+        grow2.setDevelopmentStage("spawn run");
         grow2.setMushroom(shroom2);
 
         Set<Grow> grows = new HashSet<>();

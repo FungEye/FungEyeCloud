@@ -1,10 +1,9 @@
 package fungeye.cloud.domain.dtos;
 
+import fungeye.cloud.domain.dtos.grow.GrowCreationDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.junit.jupiter.api.Assertions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,8 +21,8 @@ public class GrowCreationDtoTest {
     @Test
     void testValidDevelopmentStage() {
         growCreationDto.setDevelopStage("spawn run");
-        growCreationDto.setDevelopmentStage("pinning");
-        growCreationDto.setDevelopmentStage("fruiting");
+        growCreationDto.setDevelopStage("pinning");
+        growCreationDto.setDevelopStage("fruiting");
 
         assertEquals("fruiting", growCreationDto.getDevelopStage());
     }
@@ -31,7 +30,7 @@ public class GrowCreationDtoTest {
     @Test
     void testInvalidDevelopmentStage() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            growCreationDto.setDevelopmentStage("It's not a phase! I'll be a spore forever");
+            growCreationDto.setDevelopStage("It's not a phase! I'll be a spore forever");
         });
 
         assertEquals("Not a valid development stage", exception.getMessage());
