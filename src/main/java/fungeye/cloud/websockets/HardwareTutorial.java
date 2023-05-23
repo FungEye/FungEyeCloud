@@ -77,6 +77,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     }
 
     //onOpen()
+    @Override
     public void onOpen(WebSocket webSocket) {
         // This WebSocket will invoke onText, onBinary, onPing, onPong or onClose methods on the associated listener (i.e. receive methods) up to n more times
         webSocket.request(1);
@@ -84,6 +85,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     }
 
     //onError()
+    @Override
     public void onError(WebSocket webSocket, Throwable error) {
         LOGGER.error("A " + error.getCause() + " exception was thrown.");
         LOGGER.error("Message: " + error.getLocalizedMessage());
@@ -93,6 +95,7 @@ public class HardwareTutorial implements WebSocket.Listener {
 
 
     //onClose()
+    @Override
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
         System.out.println("WebSocket closed!");
         System.out.println("Status:" + statusCode + " Reason: " + reason);
@@ -102,7 +105,8 @@ public class HardwareTutorial implements WebSocket.Listener {
     ;
 
     //onPing()
-    public CompletionStage<?> onPing​(WebSocket webSocket, ByteBuffer message) {
+    @Override
+    public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
         System.out.println("Ping: Client ---> Server");
         System.out.println(message.asCharBuffer().toString());
@@ -112,7 +116,8 @@ public class HardwareTutorial implements WebSocket.Listener {
     ;
 
     //onPong()
-    public CompletionStage<?> onPong​(WebSocket webSocket, ByteBuffer message) {
+    @Override
+    public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
         System.out.println("Pong: Client ---> Server");
         System.out.println(message.asCharBuffer().toString());
@@ -122,7 +127,8 @@ public class HardwareTutorial implements WebSocket.Listener {
     ;
 
     //onText()
-    public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
+    @Override
+    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
         String indented = null;
         String dataValue = null;
         Instant instant;
