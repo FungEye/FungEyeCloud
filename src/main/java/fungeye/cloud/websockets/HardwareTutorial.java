@@ -3,6 +3,7 @@ package fungeye.cloud.websockets;
 import fungeye.cloud.domain.dtos.MeasuredConditionDto;
 import fungeye.cloud.domain.dtos.MeasuredConditionIdDto;
 import fungeye.cloud.service.MeasuredConditionsService;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -25,11 +26,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
-
+@Slf4j
 @Component
 public class HardwareTutorial implements WebSocket.Listener {
     private WebSocket server = null;
-    private static final Logger LOGGER = LoggerFactory.getLogger(HardwareTutorial.class);
 
     private MeasuredConditionsService measurementService;
 
@@ -39,6 +39,7 @@ public class HardwareTutorial implements WebSocket.Listener {
     // Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
     public void sendDownLink(String jsonTelegram) {
         server.sendText(jsonTelegram, true);
+        log.info("Downlink message sent");
     }
 
     // E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
@@ -81,15 +82,15 @@ public class HardwareTutorial implements WebSocket.Listener {
     public void onOpen(WebSocket webSocket) {
         // This WebSocket will invoke onText, onBinary, onPing, onPong or onClose methods on the associated listener (i.e. receive methods) up to n more times
         webSocket.request(1);
-        LOGGER.info("WebSocket Listener has been opened for requests.");
+        log.info("WebSocket Listener has been opened for requests.");
     }
 
     //onError()
     @Override
     public void onError(WebSocket webSocket, Throwable error) {
-        LOGGER.error("A " + error.getCause() + " exception was thrown.");
-        LOGGER.error("Message: " + error.getLocalizedMessage());
-        LOGGER.error(Arrays.toString(error.getStackTrace()));
+        log.error("A " + error.getCause() + " exception was thrown.");
+        log.error("Message: " + error.getLocalizedMessage());
+        log.error(Arrays.toString(error.getStackTrace()));
         webSocket.abort();
     }
 
@@ -97,9 +98,9 @@ public class HardwareTutorial implements WebSocket.Listener {
     //onClose()
     @Override
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
-        System.out.println("WebSocket closed!");
-        System.out.println("Status:" + statusCode + " Reason: " + reason);
-        return new CompletableFuture().completedFuture("onClose() completed.").thenAccept(System.out::println);
+        log.info("WebSocket closed!");
+        log.error("Status:" + statusCode + " Reason: " + reason);
+        return new CompletableFuture().completedFuture("onClose() completed.").thenAccept(log::info);
     }
 
     ;
@@ -108,9 +109,9 @@ public class HardwareTutorial implements WebSocket.Listener {
     @Override
     public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
-        System.out.println("Ping: Client ---> Server");
-        System.out.println(message.asCharBuffer().toString());
-        return new CompletableFuture().completedFuture("Ping completed.").thenAccept(System.out::println);
+        log.info("Ping: Client ---> Server");
+        log.info(message.asCharBuffer().toString());
+        return new CompletableFuture().completedFuture("Ping completed.").thenAccept(log::info);
     }
 
     ;
@@ -119,9 +120,9 @@ public class HardwareTutorial implements WebSocket.Listener {
     @Override
     public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
-        System.out.println("Pong: Client ---> Server");
-        System.out.println(message.asCharBuffer().toString());
-        return new CompletableFuture().completedFuture("Pong completed.").thenAccept(System.out::println);
+        log.info("Pong: Client ---> Server");
+        log.info(message.asCharBuffer().toString());
+        return new CompletableFuture().completedFuture("Pong completed.").thenAccept(log::info);
     }
 
     ;
@@ -133,12 +134,12 @@ public class HardwareTutorial implements WebSocket.Listener {
             JSONObject object = new JSONObject(data.toString());
             if (object.getString("cmd").equals("rx")) {
                 // IT IS A MEASUREMENT!
-                LOGGER.info("Measurement received!");
+                log.info("Measurement received!");
                 readAndAddMeasurement(object);
             }
             else if (object.getString("cmd").equals("tx")) {
                 // IT IS AN ACKNOWLEDGEMENT!
-                LOGGER.info("Acknowledgement received!");
+                log.info("Acknowledgement received!");
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -152,7 +153,7 @@ public class HardwareTutorial implements WebSocket.Listener {
         );
          */
         webSocket.request(1);
-        return new CompletableFuture().completedFuture("Data received successfully").thenAccept(LOGGER::info);
+        return new CompletableFuture().completedFuture("Data received successfully").thenAccept(log::info);
     }
 
     private void readAndAddMeasurement(JSONObject jsonObject) throws JSONException {
@@ -191,36 +192,5 @@ public class HardwareTutorial implements WebSocket.Listener {
             measurementService.addMeasuredCondition(condDto);
         }
     }
-
-
-
-
-/* this is just for testing purposes, not real constructor
-    public static void main(String[] args) {
-        // This constructor does not work anymore with the new injection in the above
-       HardwareTutorial beep = new HardwareTutorial( measurementService);
-        // Assuming dataValue is "01160107041a0000"
-        String testHex = "01160107041a0000";
-        int humRaw = Integer.parseInt(testHex.substring(0, 4), 16);
-        int tempRaw = Integer.parseInt(testHex.substring(4, 8), 16);
-        int co2 = Integer.parseInt(testHex.substring(8, 12), 16);
-       int light = Integer.parseInt(testHex.substring(12, 16), 16);
-
-        double temperature = tempRaw / 10.0f;
-        double humidity = humRaw / 10.0f;
-        double CO2 = co2 / 1.0f;
-
-        System.out.println("Temperature: " + String.format("%.2f", temperature) + "°C");
-       System.out.println("Humidity: " + String.format("%.2f", humidity) + "%");
-       System.out.println("CO2: " + String.format("%.2f", CO2) + "ppm");
-        System.out.println("Light: " + light + "lm");
-        sendDownLink(
-                "{cmd : 'tx';EUI : 0004A30B00ED6757;port: 1;data: 0001}"
-
-        );
-    }
-
- */
-
 }
 

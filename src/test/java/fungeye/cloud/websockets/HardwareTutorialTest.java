@@ -137,7 +137,7 @@ class HardwareTutorialTest {
                 .thenAccept(System.out::println) instanceof CompletableFuture<Void>, true);
     }
 
-    /*
+
     @Test
     void onText_validJSON() throws Exception {
         measurementService = Mockito.mock(MeasuredConditionsService.class);
@@ -145,7 +145,7 @@ class HardwareTutorialTest {
         // arrange
         WebSocket webSocket = mock(WebSocket.class);
         Instant instant = Instant.now();
-        String jsonString = "{ \"data\":\"01f300dc1f5a2341\", \"time\":\"2023-05-05T12:34:56.789Z\", \"ts\":" + instant.toEpochMilli() + ", \"fcnt\":1, \"port\":2 }";
+        String jsonString = "{ \"cmd\":\"rx\",\"data\":\"01f300dc1f5a2341\", \"time\":\"2023-05-05T12:34:56.789Z\", \"ts\":" + instant.toEpochMilli() + ", \"fcnt\":1, \"port\":2 }";
         String inputPayload = "01f300dc1f5a";
         // Create expected measurements from payload above
         int inHumRaw = Integer.parseInt(inputPayload.substring(0, 4), 16);
@@ -190,6 +190,4 @@ class HardwareTutorialTest {
         assertEquals("Temp: ", expectedTemperature, condDto.getTemperature());
         assertEquals("Humidity: ", expectedHumidity, condDto.getHumidity());
     }
-
-     */
 }
