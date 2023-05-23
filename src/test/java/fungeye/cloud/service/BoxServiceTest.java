@@ -5,10 +5,7 @@ import fungeye.cloud.domain.enities.Box;
 import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.Mushroom;
 import fungeye.cloud.domain.enities.users.UserEntity;
-import fungeye.cloud.persistence.repository.BoxRepository;
-import fungeye.cloud.persistence.repository.GrowRepository;
-import fungeye.cloud.persistence.repository.MushroomRepository;
-import fungeye.cloud.persistence.repository.UserRepository;
+import fungeye.cloud.persistence.repository.*;
 import fungeye.cloud.service.mappers.BoxMapper;
 import fungeye.cloud.service.mappers.GrowMapper;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +15,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.*;
 
@@ -37,14 +33,14 @@ class BoxServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private MushroomRepository mushroomRepository;
+    private MeasuredConditionRepository measuredConditionRepository;
 
     private BoxService service;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        service = new BoxService(repository, growRepository, userRepository);
+        service = new BoxService(repository, growRepository, userRepository, measuredConditionRepository);
     }
 
     @Test

@@ -6,6 +6,7 @@ import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.MeasuredConditionId;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
+import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
 import fungeye.cloud.security.JwtGenerator;
 import fungeye.cloud.service.mappers.MeasuredConditionsMapper;
@@ -38,12 +39,15 @@ class MeasuredConditionsServiceTest {
     @Mock
     private JwtGenerator generator;
 
+    @Mock
+    private GrowRepository growRepository;
+
     String token;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        this.service = new MeasuredConditionsService(repository, boxRepository, generator);
+        this.service = new MeasuredConditionsService(repository, boxRepository, generator, growRepository);
         token = "TOKEN_VALUE";
     }
 
@@ -135,6 +139,12 @@ class MeasuredConditionsServiceTest {
         assertEquals(idDto.getDateTime(), resultIdDto.map(MeasuredConditionIdDto::getDateTime).orElse(null));
         assertEquals(measuredCondition.getTemperature(), resultDto.getTemperature());
         assertEquals(measuredCondition.getHumidity(), resultDto.getHumidity());
+    }
+
+    @Test
+    void testAddMeasuredConditionCopyToAllActiveGrows() {
+        // Todo: Write test
+        // Create measurements, add them, test the size and boxids
     }
 
     @Test
