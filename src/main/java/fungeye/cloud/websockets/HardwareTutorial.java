@@ -31,7 +31,7 @@ public class HardwareTutorial implements WebSocket.Listener {
 
     private MeasuredConditionsService measurementService;
 
-    private final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
+    private final static String IOTURL = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
 
     // Send down-link message to device
     // Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
@@ -65,7 +65,7 @@ public class HardwareTutorial implements WebSocket.Listener {
                     .sslContext(sslContext)
                     .build();
             CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
-                    .buildAsync(URI.create(iotUrl), this);
+                    .buildAsync(URI.create(IOTURL), this);
             server = ws.join();
             this.measurementService = measurementService;
         }
