@@ -98,7 +98,7 @@ public class MushroomService {
 
     public MushroomDto getByMushroomId(Long id) {
         Optional<Mushroom> mushroom = repository.findById(id);
-        if (mushroom.isPresent()) {
+        if (mushroom.isPresent() && !mushroom.get().getArchived()) {
             return MushroomMapper.mapToMushroomDto(mushroom.get());
         } else {
             throw new IllegalArgumentException("Mushroom not found");
@@ -119,7 +119,9 @@ public class MushroomService {
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom :
                 mushrooms) {
-            dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+            if (!mushroom.getArchived()) {
+                dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+            }
         }
         return dtos;
     }
@@ -129,7 +131,9 @@ public class MushroomService {
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom :
                 mushrooms) {
-            dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+            if (!mushroom.getArchived()) {
+                dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+            }
         }
         return dtos;
     }
