@@ -1,5 +1,6 @@
 package fungeye.cloud.service.mappers;
 
+import fungeye.cloud.domain.dtos.ideal.IdealConditionDto;
 import fungeye.cloud.domain.dtos.mushroom.*;
 import fungeye.cloud.domain.enities.IdealCondition;
 import fungeye.cloud.domain.enities.Mushroom;
@@ -101,7 +102,9 @@ public class MushroomMapper {
         mush.setDescription(dto.getDescription());
         mush.setImageUrl(dto.getImageUrl());
 
-        Set<IdealCondition> list = new HashSet<>(dto.getIdealConditions());
+        List<IdealConditionDto> dtoList = dto.getIdealConditions();
+        Set<IdealCondition> list = new HashSet<>();
+        dtoList.forEach(i -> list.add(IdealConditionsMapper.mapToIdealCondition(i)));
         mush.setIdealConditions(list);
 
         return mush;
