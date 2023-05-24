@@ -18,9 +18,11 @@ import java.io.Serializable;
 @Data
 public class HarvestDetailsDto extends HarvestCreationDto implements Serializable {
     private Long id;
+    private Long mushroomId;
     @Size(max = 255)
     @NotNull
     private String mushroomName;
+    private String imageUrl;
     private Long growId;
     private Double weight;
     private SimpleDateDto harvestDate;
