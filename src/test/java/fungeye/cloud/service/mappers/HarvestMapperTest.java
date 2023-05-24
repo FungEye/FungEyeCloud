@@ -45,7 +45,9 @@ class HarvestMapperTest {
         MockitoAnnotations.openMocks(this);
 
         mushroom = new Mushroom();
+        mushroom.setId(10L);
         mushroom.setName("Wohooo, correct mushroom!");
+        mushroom.setImageUrl("image.com");
 
         grow = new Grow();
         grow.setId(1L);
@@ -74,7 +76,9 @@ class HarvestMapperTest {
                 LocalDate.now().getYear(), LocalDate.now().getMonthValue(),
                 LocalDate.now().getDayOfMonth()));
         details.setGrowId(1L);
+        details.setMushroomId(10L);
         details.setMushroomName("Wohooo, correct mushroom!");
+        details.setImageUrl("image.com");
         details.setComment("Small, but effective");
 
 

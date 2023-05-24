@@ -42,7 +42,9 @@ public class HarvestMapper {
     public HarvestDetailsDto mapEntityToDetailsDto(Harvest harvest) {
         HarvestDetailsDto details = new HarvestDetailsDto();
         details.setId(harvest.getId());
+        details.setMushroomId(harvest.getMushroom().getId());
         details.setMushroomName(harvest.getMushroom().getName());
+        details.setImageUrl(harvest.getMushroom().getImageUrl());
         details.setHarvestDate(
                 new SimpleDateDto(harvest.getDateHarvested().getYear(),
                         harvest.getDateHarvested().getMonthValue(),
