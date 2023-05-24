@@ -64,6 +64,41 @@ class GrowServiceTest {
     }
 
     @Test
+    void testGetGrowById()throws Exception{
+
+        Box box = new Box();
+        box.setId(1L);
+
+        DateTimeDto dateTimeDto = DateTimeMapper.mapToDateDto(LocalDate.now());
+
+        Mushroom mushroom = new Mushroom();
+        mushroom.setId(1L);
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setDateStarted(LocalDate.now());
+        grow.setDevelopmentStage("spawn run");
+        grow.setBox(box);
+        grow.setIsActive(true);
+
+        GrowDto dto = new GrowDto();
+        dto.setId(1L);
+        dto.setDate(dateTimeDto);
+        dto.setStage("spawn run");
+        dto.setBoxId(box.getId());
+        dto.setMushroomId(mushroom.getId());
+        dto.setActive(true);
+
+        Grow grow1 = GrowMapper.mapFromDto(dto);
+
+        Mockito.when(repository.findById(grow.getId())).thenReturn(Optional.of(grow1));
+
+        GrowDto actual = service.getGrowById(grow1.getId());
+
+        assertEquals(dto, actual);
+    }
+
+    @Test
     void testGetAllGrowsByUsername()throws Exception{
 
         List<GrowDto> grows = new ArrayList<>();

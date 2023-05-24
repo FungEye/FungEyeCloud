@@ -14,12 +14,13 @@ public class GrowDto {
     private Long boxId;
     private Long mushroomId;
 
-    public GrowDto(Long id, DateTimeDto date, String stage, boolean isActive, Long boxId) {
+    public GrowDto(Long id, DateTimeDto date, String stage, boolean isActive, Long boxId, Long mushroomId) {
         this.id = id;
         this.date = date;
         this.stage = stage;
         this.isActive = isActive;
         this.boxId = boxId;
+        this.mushroomId = mushroomId;
     }
 
     public GrowDto() {

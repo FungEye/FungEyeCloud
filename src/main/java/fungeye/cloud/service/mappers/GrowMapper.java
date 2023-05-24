@@ -46,7 +46,7 @@ public class GrowMapper {
             grow.setId(dto.getId());
         }
         grow.setDateStarted(DateTimeMapper.mapFromDateDto(dto.getDate()));
-        grow.setIsActive(grow.getIsActive());
+        grow.setIsActive(dto.isActive());
         grow.setDevelopmentStage(dto.getStage());
 
         Box box = new Box();

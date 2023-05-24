@@ -23,26 +23,32 @@ public class GrowController {
     }
 
     @PostMapping("/grow")
-    public ResponseEntity<GrowDto> createGrow(GrowCreationDto dto)
+    public ResponseEntity<GrowDto> createGrow(@RequestBody GrowCreationDto dto)
     {
         return new ResponseEntity<>(service.createGrow(dto), HttpStatus.CREATED);
     }
 
+    @GetMapping("/grow/{id}")
+    public  ResponseEntity<GrowDto> getGrowById(@PathVariable Long id)
+    {
+        return new ResponseEntity<>(service.getGrowById(id), HttpStatus.OK);
+    }
+
     @GetMapping("/grow/all")
-    public ResponseEntity<List<GrowIdMushroomNameDto>>getGrowsByUsername (String username)
+    public ResponseEntity<List<GrowIdMushroomNameDto>>getGrowsByUsername (@RequestParam String username)
     {
         return new ResponseEntity<>(service.getAllGrowsByUsername(username), HttpStatus.OK);
     }
 
     @PutMapping("/grow/update")
-    public ResponseEntity<GrowDto> updateGrow(GrowUpdateDto dto)
+    public ResponseEntity<GrowDto> updateGrow(@RequestBody GrowUpdateDto dto)
     {
         return new ResponseEntity<>(service.updateGrow(dto), HttpStatus.OK);
     }
 
 
     @PatchMapping("/grow/endGrow")
-    public ResponseEntity<GrowDto> endGrow(Long id)
+    public ResponseEntity<GrowDto> endGrow(@RequestParam Long id)
     {
         return new ResponseEntity<>(service.endGrow(id), HttpStatus.OK);
     }
