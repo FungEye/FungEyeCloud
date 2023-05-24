@@ -146,12 +146,13 @@ class BoxServiceTest {
         dtos.add(dto2);
         dtos.add(dto3);
 
-        when(repository.findBoxesByUserEntity_Username(username)).thenReturn(boxes);
+        when(repository.findByUserEntity_UsernameOrderByIdAsc(username)).thenReturn(boxes);
+        when(growRepository.findByBox_IdAndIsActive(any(), any())).thenReturn(null);
 
         List<BoxDto> result = service.getAllEmptyByUserName(username);
 
         assertEquals(dtos.get(0).getId(), result.get(0).getId());
-        verify(repository, times(1)).findBoxesByUserEntity_Username(username);
+        verify(repository, times(1)).findByUserEntity_UsernameOrderByIdAsc(username);
     }
 
     @Test
