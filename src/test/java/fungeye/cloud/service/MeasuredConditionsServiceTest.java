@@ -107,6 +107,7 @@ class MeasuredConditionsServiceTest {
         Grow grow = new Grow();
         grow.setDevelopmentStage("spawn run");
         grow.setIsActive(true);
+        grow.setId(1L);
 
         Set<Grow> growSet = new HashSet<>();
         growSet.add(grow);
@@ -115,6 +116,7 @@ class MeasuredConditionsServiceTest {
 
         MeasuredConditionWithStageDto expected = MeasuredConditionsMapper.mapToMeasuredConditionWithStageDto(measuredCondition);
         expected.setDevelopmentStage("spawn run");
+        expected.setGrowId(1L);
 
         // When
         when(repository.findTopByBox_IdOrderByIdDesc(anyLong())).thenReturn(measuredCondition);
