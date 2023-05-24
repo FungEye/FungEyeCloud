@@ -155,13 +155,11 @@ public class MushroomService {
             toUpdate.setDescription(dto.getDescription());
             toUpdate.setOrigin(dto.getOrigin());
             toUpdate.setImageUrl(dto.getImageUrl());
-            Set<IdealCondition> newConditions = new HashSet<>();
             for (IdealConditionDto condDto : dto.getIdealConditions()
                  ) {
                 idealConditionRepository.save(mapToIdealCondition(condDto));
             }
 
-            toUpdate.setIdealConditions(newConditions);
             updated = repository.save(toUpdate);
         }
         return MushroomMapper.mapToMushroomDto(updated);
