@@ -163,14 +163,13 @@ public class MushroomService {
             throw new IllegalArgumentException("Please fill out all the necessary fields");
         }
         else {
-            log.info("Inside else");
             toUpdate.setName(dto.getName());
             toUpdate.setDescription(dto.getDescription());
 
             Set<IdealCondition> newConditions = new HashSet<>(found);
             toUpdate.setIdealConditions(newConditions);
-            log.info("HERE");
             updated = repository.save(toUpdate);
+            updated = toUpdate;
         }
         return MushroomMapper.mapToMushroomDto(updated);
     }

@@ -1,5 +1,6 @@
 package fungeye.cloud.domain.dtos.mushroom;
 
+import fungeye.cloud.domain.dtos.ideal.IdealConditionDto;
 import fungeye.cloud.domain.enities.IdealCondition;
 import lombok.Data;
 
@@ -13,6 +14,6 @@ public class MushroomUpdateDto {
     private String name;
     private String description;
     private String origin;
-    private List<IdealCondition> idealConditions;
+    private List<IdealConditionDto> idealConditions;
     private String imageUrl;
 }
