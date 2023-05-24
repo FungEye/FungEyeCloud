@@ -20,7 +20,11 @@ public class MushroomController {
         this.service = service;
     }
 
-    @Deprecated
+    /**
+     * @deprecated Mushrooms are created with ideal conditions.
+     * Please use /mushroom/default
+     */
+    @Deprecated(forRemoval = true)
     @PostMapping("/mushroom")
     public ResponseEntity<MushroomDto> createMushroom(
             @RequestBody MushroomCreationDTO dto) {
@@ -35,6 +39,11 @@ public class MushroomController {
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
+    /**
+     * @deprecated Mushrooms are created with ideal conditions.
+     * Please use /mushroom/custom/conditions
+     */
+    @Deprecated(forRemoval = true)
     @PostMapping("/mushroom/custom")
     public ResponseEntity<MushroomDto> createCustomMushroom(
             @RequestBody MushroomCreationDTO dto) {

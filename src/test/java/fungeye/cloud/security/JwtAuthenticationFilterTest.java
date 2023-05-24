@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,12 +27,12 @@ class JwtAuthenticationFilterTest {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void doFilterInternal_ValidToken_SuccessfullyAuthenticatesUser() throws ServletException, IOException {
+    void doFilterInternal_ValidToken_SuccessfullyAuthenticatesUser() throws ServletException, IOException {
         // Arrange
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -61,7 +60,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    public void doFilterInternal_InvalidToken_DoesNotAuthenticateUser() throws ServletException, IOException {
+    void doFilterInternal_InvalidToken_DoesNotAuthenticateUser() throws ServletException, IOException {
         // Arrange
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -84,7 +83,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    public void doFilterInternal_NoToken_DoesNotAuthenticateUser() throws ServletException, IOException {
+    void doFilterInternal_NoToken_DoesNotAuthenticateUser() throws ServletException, IOException {
         // Arrange
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);

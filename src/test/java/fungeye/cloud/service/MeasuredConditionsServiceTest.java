@@ -25,7 +25,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class MeasuredConditionsServiceTest {
     private MeasuredConditionsService service;
@@ -188,6 +188,50 @@ class MeasuredConditionsServiceTest {
     void testAddMeasuredConditionCopyToAllActiveGrows() {
         // Todo: Write test
         // Create measurements, add them, test the size and boxids
+        long boxId = 1L;
+
+        int year = 2023;
+        int month = 5;
+        int day = 6;
+        int hour = 12;
+        int minute = 0;
+
+        Box box = new Box();
+        box.setId(boxId);
+
+        Box box2 = new Box();
+        box2.setId(2L);
+
+        Box box3 = new Box();
+        box3.setId(3L);
+
+        List<Box> boxes = new ArrayList<>();
+        boxes.add(box);
+        boxes.add(box2);
+        boxes.add(box3);
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+
+        MeasuredConditionId id = new MeasuredConditionId();
+        id.setDateTime(Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, minute, 0)).toInstant());
+        id.setBoxId(boxId);
+
+        MeasuredCondition measuredCondition = new MeasuredCondition();
+        measuredCondition.setBox(box);
+        measuredCondition.setTemperature(25.0);
+        measuredCondition.setHumidity(60.0);
+        measuredCondition.setId(id);
+
+        when(boxRepository.findAll()).thenReturn(boxes);
+        when(growRepository.findByBox_IdAndIsActive(anyLong(), anyBoolean())).thenReturn(grow);
+        when(repository.save(any())).thenReturn(measuredCondition);
+
+        MeasuredConditionDto dto = MeasuredConditionsMapper.mapToDto(measuredCondition);
+
+        // Then
+        service.addMeasuredConditionCopyToAllActiveGrows(dto);
+        verify(repository, times(3)).save(any());
     }
 
     @Test

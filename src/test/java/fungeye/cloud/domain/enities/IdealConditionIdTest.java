@@ -9,8 +9,8 @@ class IdealConditionIdTest {
 
     @Test
     void testInvalidDevelopmentStage() {
+        IdealConditionId id = new IdealConditionId();
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            IdealConditionId id = new IdealConditionId();
             id.setDevelopmentStage("Angsty teenage fungus");
         });
 
