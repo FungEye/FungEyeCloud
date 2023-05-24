@@ -56,6 +56,7 @@ public class MeasuredConditionsService {
             MeasuredConditionWithStageDto withStageDto = mapToMeasuredConditionWithStageDto(repository.findTopByBox_IdOrderByIdDesc(boxId));
             Grow currentGrow = growRepository.findByBox_IdAndIsActive(boxId, true);
             withStageDto.setDevelopmentStage(currentGrow.getDevelopmentStage());
+            withStageDto.setGrowId(currentGrow.getId());
             return withStageDto;
         }
         else
@@ -185,6 +186,7 @@ public class MeasuredConditionsService {
                     if (foundGrow != null) {
                         MeasuredConditionWithStageDto withStageDto = MeasuredConditionsMapper.mapToMeasuredConditionWithStageDto(foundCondition);
                         withStageDto.setDevelopmentStage(foundGrow.getDevelopmentStage());
+                        withStageDto.setGrowId(foundGrow.getId());
                         conditionWithStageDtos.add(withStageDto);
                     }
                     else {
