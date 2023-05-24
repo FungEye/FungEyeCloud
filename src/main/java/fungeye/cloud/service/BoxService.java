@@ -11,16 +11,15 @@ import fungeye.cloud.domain.enities.Grow;
 import fungeye.cloud.domain.enities.MeasuredCondition;
 import fungeye.cloud.domain.enities.users.UserEntity;
 import fungeye.cloud.persistence.repository.BoxRepository;
+import fungeye.cloud.persistence.repository.GrowRepository;
 import fungeye.cloud.persistence.repository.MeasuredConditionRepository;
 import fungeye.cloud.persistence.repository.UserRepository;
 import fungeye.cloud.service.mappers.BoxMapper;
+import fungeye.cloud.service.mappers.GrowMapper;
 import fungeye.cloud.service.mappers.MeasuredConditionsMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
-import fungeye.cloud.persistence.repository.GrowRepository;
-import fungeye.cloud.service.mappers.GrowMapper;
 
 import static fungeye.cloud.service.mappers.BoxMapper.*;
 

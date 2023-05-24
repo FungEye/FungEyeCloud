@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -35,6 +34,7 @@ class MushroomControllerTest {
         controller = new MushroomController(service);
     }
 
+    @Deprecated(forRemoval = true)
     @Test
     void createMushroom_shouldCreateAndReturnMushroomDto() {
         MushroomCreationDTO mushroomCreationDTO = new MushroomCreationDTO();
@@ -326,12 +326,6 @@ class MushroomControllerTest {
         idealConditionList.add(ideal2);
         idealConditionList.add(ideal3);
 
-        //Set<IdealCondition> idealConditions = new HashSet<>();
-
-        //idealConditions.add(ideal1);
-        //idealConditions.add(ideal2);
-        //idealConditions.add(ideal3);
-
         MushroomDto returnDto = new MushroomDto();
 
         returnDto.setId(1L);
@@ -402,12 +396,7 @@ class MushroomControllerTest {
 
         List<IdealCondition> conditionList = ideal.stream().toList();
 
-        List<IdealConditionDto> idealConditionDtos = IdealConditionsMapper.mapToIdealConditionDtoList(conditionList);
-
         mushroom3.setIdealConditions(ideal);
-
-        List<Mushroom> shrooms = new ArrayList<>();
-        shrooms.add(mushroom3);
 
         List<MushroomWithConditionsDto> mushroomWithConditionsDtos = new ArrayList<>();
         MushroomWithConditionsDto dto = MushroomMapper.mapToMushroomWithConditionsDto(mushroom3);
@@ -417,7 +406,7 @@ class MushroomControllerTest {
 
         ResponseEntity<List<MushroomWithConditionsDto>> response = controller.getDefaultAndCustomWithConditions("john");
 
-        assertEquals(Objects.requireNonNull(response.getBody()).get(0).getId(), mushroom3.getId());
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(mushroom3.getId(), Objects.requireNonNull(response.getBody()).get(0).getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

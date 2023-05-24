@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static fungeye.cloud.service.mappers.MeasuredConditionsMapper.*;
 
@@ -45,7 +44,7 @@ public class MeasuredConditionsService {
         String tokenUsername = generator.getUsernameFromJwt(token.substring(7));
         if (username.equals(tokenUsername)) return mapToDto(repository.findTopByBox_IdOrderByIdDesc(boxId));
         else
-            throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", tokenUsername, username));
+            throw new BadCredentialsException(badCredentialsMessageBuilder(tokenUsername, username));
     }
 
     public MeasuredConditionWithStageDto getLatestMeasuredConditionWithStage(long boxId, String token) {
@@ -58,9 +57,8 @@ public class MeasuredConditionsService {
             withStageDto.setDevelopmentStage(currentGrow.getDevelopmentStage());
             withStageDto.setGrowId(currentGrow.getId());
             return withStageDto;
-        }
-        else
-            throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", tokenUsername, username));
+        } else
+            throw new BadCredentialsException(badCredentialsMessageBuilder(tokenUsername, username));
     }
 
     public List<MeasuredConditionDto> getMeasuredConditions(SearchConditionsParam param) {
@@ -94,8 +92,8 @@ public class MeasuredConditionsService {
     public void addMeasuredConditionCopyToAllActiveGrows(MeasuredConditionDto dto) {
         List<Box> allBoxes = boxRepository.findAll();
         // Find all boxes that have active grows
-        for (Box box:
-             allBoxes) {
+        for (Box box :
+                allBoxes) {
             Grow activeGrow = growRepository.findByBox_IdAndIsActive(box.getId(), true);
             if (activeGrow != null) {
                 // Set the box id of the measurement and persist
@@ -151,9 +149,8 @@ public class MeasuredConditionsService {
             }
 
             return result;
-        }
-        else throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", tokenUsername, username));
-
+        } else
+            throw new BadCredentialsException(badCredentialsMessageBuilder(tokenUsername, username));
     }
 
     public List<MeasuredConditionDto> getLatestForUser(String username, String token) {
@@ -170,7 +167,7 @@ public class MeasuredConditionsService {
             }
             return conditionDtos;
         } else
-            throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", jwtUsername, username));
+            throw new BadCredentialsException(badCredentialsMessageBuilder(jwtUsername, username));
     }
 
     public List<MeasuredConditionDto> getLatestForUserWithStage(String username, String token) {
@@ -188,8 +185,7 @@ public class MeasuredConditionsService {
                         withStageDto.setDevelopmentStage(foundGrow.getDevelopmentStage());
                         withStageDto.setGrowId(foundGrow.getId());
                         conditionWithStageDtos.add(withStageDto);
-                    }
-                    else {
+                    } else {
                         MeasuredConditionWithStageDto noStageDto = MeasuredConditionsMapper.mapToMeasuredConditionWithStageDto(foundCondition);
                         noStageDto.setDevelopmentStage("");
                         conditionWithStageDtos.add(noStageDto);
@@ -198,6 +194,11 @@ public class MeasuredConditionsService {
             }
             return conditionWithStageDtos;
         } else
-            throw new BadCredentialsException(String.format("User: %s is not authorized to access boxes belonging to user: %s.", jwtUsername, username));
+            throw new BadCredentialsException(badCredentialsMessageBuilder(jwtUsername, username));
+    }
+
+    private String badCredentialsMessageBuilder(String attemptedUsername, String ownerUsername) {
+        return "User: " + attemptedUsername +
+                " is not authorized to access boxes belonging to user: " + ownerUsername + ".";
     }
 }

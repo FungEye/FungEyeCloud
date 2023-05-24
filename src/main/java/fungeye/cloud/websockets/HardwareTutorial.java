@@ -6,8 +6,6 @@ import fungeye.cloud.service.MeasuredConditionsService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +31,7 @@ public class HardwareTutorial implements WebSocket.Listener {
 
     private MeasuredConditionsService measurementService;
 
-    private final String iotUrl = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
+    private final static String IOTURL = "wss://iotnet.cibicom.dk/app?token=vnoUBgAAABFpb3RuZXQuY2liaWNvbS5ka12mjJpW808sXOBcROi7698=";
 
     // Send down-link message to device
     // Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
@@ -56,9 +54,11 @@ public class HardwareTutorial implements WebSocket.Listener {
                         }
 
                         public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                            //bypass check to ensure functionality given the gateway has let the certificate expire
                         }
 
                         public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                            //bypass check to ensure functionality given the gateway has let the certificate expire
                         }
                     }
             };
@@ -67,11 +67,11 @@ public class HardwareTutorial implements WebSocket.Listener {
                     .sslContext(sslContext)
                     .build();
             CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
-                    .buildAsync(URI.create(iotUrl), this);
+                    .buildAsync(URI.create(IOTURL), this);
             server = ws.join();
             this.measurementService = measurementService;
         }
-        //TODO: handle exceptions
+
         catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,8 +103,6 @@ public class HardwareTutorial implements WebSocket.Listener {
         return CompletableFuture.completedFuture("onClose() completed.").thenAccept(log::info);
     }
 
-    ;
-
     //onPing()
     @Override
     public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
@@ -114,8 +112,6 @@ public class HardwareTutorial implements WebSocket.Listener {
         return CompletableFuture.completedFuture("Ping completed.").thenAccept(log::info);
     }
 
-    ;
-
     //onPong()
     @Override
     public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
@@ -124,8 +120,6 @@ public class HardwareTutorial implements WebSocket.Listener {
         log.info(message.asCharBuffer().toString());
         return CompletableFuture.completedFuture("Pong completed.").thenAccept(log::info);
     }
-
-    ;
 
     //onText()
     @Override
@@ -142,16 +136,9 @@ public class HardwareTutorial implements WebSocket.Listener {
                 log.info("Acknowledgement received!");
             }
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
         }
 
-        //TODO Ask Martin about if and why this is needed
-        /*
-        sendDownLink(
-                "{\"cmd\" : \"tx\",\"EUI\" : \"0004A30B00ED6757\",\"port\": 1,\"confirmed\" : true,\"data\": \"11\"}"
-
-        );
-         */
         webSocket.request(1);
         return CompletableFuture.completedFuture("Data received successfully").thenAccept(log::info);
     }
@@ -163,7 +150,6 @@ public class HardwareTutorial implements WebSocket.Listener {
 
         // Check if "data" value is present and print it
         if (!dataValue.isEmpty()) {
-            //System.out.println("Data value: " + dataValue);
             //radix 16 to show its converting from hex
             int humRaw = Integer.parseInt(dataValue.substring(0, 4), 16);
             int tempRaw = Integer.parseInt(dataValue.substring(4, 8), 16);

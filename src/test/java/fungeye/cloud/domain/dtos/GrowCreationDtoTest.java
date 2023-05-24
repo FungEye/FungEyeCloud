@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class GrowCreationDtoTest {
+class GrowCreationDtoTest {
 
     @Mock
     private GrowCreationDto growCreationDto;

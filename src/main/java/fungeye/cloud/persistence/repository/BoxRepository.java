@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface BoxRepository extends JpaRepository<Box, Long> {
     List<Box> findByUserEntity_UsernameOrderByIdAsc(String username);
-    List<Box> findByUserEntity_Username(String username);
     List<Box> findBoxesByUserEntity_Username(String username);
 }
