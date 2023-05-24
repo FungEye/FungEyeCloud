@@ -82,7 +82,6 @@ public class MushroomMapper {
         return dtoList;
     }
 
-    // todo might not be needed, but maybe
     public static MushroomDto mapUpdateMushroomDto(MushroomUpdateDto dto)
     {
         MushroomDto mushroomDto = new MushroomDto();

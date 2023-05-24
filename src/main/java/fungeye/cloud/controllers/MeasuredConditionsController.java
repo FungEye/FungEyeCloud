@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin // not sure if we needed todo
+@CrossOrigin
 @RestController
 @RequestMapping("/")
 public class MeasuredConditionsController {
@@ -52,7 +52,7 @@ public class MeasuredConditionsController {
     public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id") Long id,
                                                                                @RequestHeader(name = "Authorization") String token,
                                                                                @RequestParam Optional<Boolean> stage) {
-        if (stage.isEmpty() || !stage.get()){
+        if (stage.isEmpty() || Boolean.FALSE.equals(stage.get())){
             return new ResponseEntity<>(service.getLatestMeasuredCondition(id, token), HttpStatus.OK);
         }
         else {
@@ -64,7 +64,7 @@ public class MeasuredConditionsController {
     public ResponseEntity<List<MeasuredConditionDto>> getAllLatestForUser(@PathVariable String username,
                                                                           @RequestHeader(name = "Authorization") String token,
                                                                           @RequestParam Optional<Boolean> stage) {
-        if (stage.isEmpty() || !stage.get()) {
+        if (stage.isEmpty() || Boolean.FALSE.equals(stage.get())) {
             return new ResponseEntity<>(service.getLatestForUser(username, token), HttpStatus.OK);
         }
         else {
