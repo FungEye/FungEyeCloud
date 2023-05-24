@@ -143,8 +143,6 @@ public class MushroomService {
     public MushroomDto updateMushroom(MushroomUpdateDto dto)
     {
         Mushroom toUpdate = repository.findById(dto.getId()).orElseThrow();
-        List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
-        Mushroom updated;
 
         if(toUpdate.getName().isEmpty())
         {
@@ -157,12 +155,14 @@ public class MushroomService {
             toUpdate.setImageUrl(dto.getImageUrl());
             for (IdealConditionDto condDto : dto.getIdealConditions()
                  ) {
-                idealConditionRepository.save(mapToIdealCondition(condDto));
+                IdealCondition condition = mapToIdealCondition(condDto);
+                condition.setMushroom(toUpdate);
+                idealConditionRepository.save(condition);
             }
 
-            updated = repository.save(toUpdate);
+            toUpdate = repository.save(toUpdate);
         }
-        return MushroomMapper.mapToMushroomDto(updated);
+        return MushroomMapper.mapToMushroomDto(toUpdate);
     }
 
     private List<MushroomWithConditionsDto> getMushroomWithConditionDtosByUsername(String username) {
