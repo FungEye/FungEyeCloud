@@ -28,6 +28,12 @@ public class GrowController {
         return new ResponseEntity<>(service.createGrow(dto), HttpStatus.CREATED);
     }
 
+    @GetMapping("/grow/{id}")
+    public  ResponseEntity<GrowDto> getGrowById(@PathVariable Long id)
+    {
+        return new ResponseEntity<>(service.getGrowById(id), HttpStatus.OK);
+    }
+
     @GetMapping("/grow/all")
     public ResponseEntity<List<GrowIdMushroomNameDto>>getGrowsByUsername (@RequestParam String username)
     {

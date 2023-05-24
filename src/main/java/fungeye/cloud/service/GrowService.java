@@ -29,6 +29,12 @@ public class GrowService {
         return GrowMapper.mapToGrowDto(created);
     }
 
+    public GrowDto getGrowById(Long id)
+    {
+        Grow grow = repository.findById(id).orElseThrow();
+        return GrowMapper.mapToGrowDto(grow);
+    }
+
     public List<GrowIdMushroomNameDto> getAllGrowsByUsername(String username)
     {
         List<Grow> grows = repository.findGrowsByBox_UserEntity_Username(username);
