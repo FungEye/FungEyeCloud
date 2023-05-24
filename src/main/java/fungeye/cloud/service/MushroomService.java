@@ -49,20 +49,25 @@ public class MushroomService {
     public MushroomWithConditionsDto createDefaultMushroom(DefaultMushroomCreationDto dto) {
         Mushroom toSave = MushroomMapper.mapDefaultCreateToMushroom(dto);
         Optional<UserEntity> user = userRepository.findById(3);
+        return getMushroomWithConditionsDto(toSave, user, dto.getIdealConditionCreationDtos());
+    }
+
+    private MushroomWithConditionsDto getMushroomWithConditionsDto(Mushroom toSave, Optional<UserEntity> user,
+                                                                   List<IdealConditionCreationDto> idealConditionCreationDtos) {
         user.ifPresent(toSave::setUser);
         Mushroom saved = repository.save(toSave);
         Long mushroomId = saved.getId();
-        List<IdealConditionCreationDto> conditionCreationDtos = dto.getIdealConditionCreationDtos();
         List<IdealConditionDto> savedConditionDtos = new ArrayList<>();
-        if (conditionCreationDtos != null && !conditionCreationDtos.isEmpty()) {
+        if (idealConditionCreationDtos != null && !idealConditionCreationDtos.isEmpty()) {
             for (IdealConditionCreationDto idealDto :
-            conditionCreationDtos) {
+                    idealConditionCreationDtos) {
                 IdealCondition conditionToSave = IdealConditionsMapper.mapCreateToIdealCondition(idealDto);
                 IdealConditionId id = conditionToSave.getId();
                 id.setMushroomId(mushroomId);
                 conditionToSave.setId(id);
                 conditionToSave.setMushroom(saved);
-                IdealConditionDto savedCondition = IdealConditionsMapper.mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
+                IdealConditionDto savedCondition = IdealConditionsMapper
+                        .mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
                 savedConditionDtos.add(savedCondition);
             }
         }
@@ -74,26 +79,7 @@ public class MushroomService {
     public MushroomWithConditionsDto createCustomMushroom(CustomMushroomCreationDto dto) {
         Mushroom toSave = MushroomMapper.mapCustomCreateToMushroom(dto);
         Optional<UserEntity> user = userRepository.findByUsername(dto.getUsername());
-        user.ifPresent(toSave::setUser);
-        Mushroom saved = repository.save(toSave);
-        Long mushroomId = saved.getId();
-        List<IdealConditionCreationDto> conditionCreationDtos = dto.getIdealConditionCreationDtos();
-        List<IdealConditionDto> savedConditionDtos = new ArrayList<>();
-        if (conditionCreationDtos != null && !conditionCreationDtos.isEmpty()) {
-            for (IdealConditionCreationDto idealDto :
-                    conditionCreationDtos) {
-                IdealCondition conditionToSave = IdealConditionsMapper.mapCreateToIdealCondition(idealDto);
-                IdealConditionId id = conditionToSave.getId();
-                id.setMushroomId(mushroomId);
-                conditionToSave.setId(id);
-                conditionToSave.setMushroom(saved);
-                IdealConditionDto savedCondition = IdealConditionsMapper.mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
-                savedConditionDtos.add(savedCondition);
-            }
-        }
-        MushroomWithConditionsDto mushroomWithConditionsDto = MushroomMapper.mapToMushroomWithConditionsDto(saved);
-        mushroomWithConditionsDto.setIdealConditionDtos(savedConditionDtos);
-        return mushroomWithConditionsDto;
+        return getMushroomWithConditionsDto(toSave, user, dto.getIdealConditionCreationDtos());
     }
 
     public MushroomDto getByMushroomId(Long id) {
