@@ -11,8 +11,8 @@ class IdealConditionDtoTest {
 
     @Test
     void testInvalidDevelopmentStage() {
+        IdealConditionDto dto = new IdealConditionDto();
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            IdealConditionDto dto = new IdealConditionDto();
             dto.setDevelopmentStage("Angsty teenage fungus");
         });
 
