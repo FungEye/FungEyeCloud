@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static fungeye.cloud.service.mappers.IdealConditionsMapper.mapToIdealCondition;
+
 @Slf4j
 
 @Service
@@ -49,20 +51,25 @@ public class MushroomService {
     public MushroomWithConditionsDto createDefaultMushroom(DefaultMushroomCreationDto dto) {
         Mushroom toSave = MushroomMapper.mapDefaultCreateToMushroom(dto);
         Optional<UserEntity> user = userRepository.findById(3);
+        return getMushroomWithConditionsDto(toSave, user, dto.getIdealConditionCreationDtos());
+    }
+
+    private MushroomWithConditionsDto getMushroomWithConditionsDto(Mushroom toSave, Optional<UserEntity> user,
+                                                                   List<IdealConditionCreationDto> idealConditionCreationDtos) {
         user.ifPresent(toSave::setUser);
         Mushroom saved = repository.save(toSave);
         Long mushroomId = saved.getId();
-        List<IdealConditionCreationDto> conditionCreationDtos = dto.getIdealConditionCreationDtos();
         List<IdealConditionDto> savedConditionDtos = new ArrayList<>();
-        if (conditionCreationDtos != null && !conditionCreationDtos.isEmpty()) {
+        if (idealConditionCreationDtos != null && !idealConditionCreationDtos.isEmpty()) {
             for (IdealConditionCreationDto idealDto :
-            conditionCreationDtos) {
+                    idealConditionCreationDtos) {
                 IdealCondition conditionToSave = IdealConditionsMapper.mapCreateToIdealCondition(idealDto);
                 IdealConditionId id = conditionToSave.getId();
                 id.setMushroomId(mushroomId);
                 conditionToSave.setId(id);
                 conditionToSave.setMushroom(saved);
-                IdealConditionDto savedCondition = IdealConditionsMapper.mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
+                IdealConditionDto savedCondition = IdealConditionsMapper
+                        .mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
                 savedConditionDtos.add(savedCondition);
             }
         }
@@ -74,31 +81,12 @@ public class MushroomService {
     public MushroomWithConditionsDto createCustomMushroom(CustomMushroomCreationDto dto) {
         Mushroom toSave = MushroomMapper.mapCustomCreateToMushroom(dto);
         Optional<UserEntity> user = userRepository.findByUsername(dto.getUsername());
-        user.ifPresent(toSave::setUser);
-        Mushroom saved = repository.save(toSave);
-        Long mushroomId = saved.getId();
-        List<IdealConditionCreationDto> conditionCreationDtos = dto.getIdealConditionCreationDtos();
-        List<IdealConditionDto> savedConditionDtos = new ArrayList<>();
-        if (conditionCreationDtos != null && !conditionCreationDtos.isEmpty()) {
-            for (IdealConditionCreationDto idealDto :
-                    conditionCreationDtos) {
-                IdealCondition conditionToSave = IdealConditionsMapper.mapCreateToIdealCondition(idealDto);
-                IdealConditionId id = conditionToSave.getId();
-                id.setMushroomId(mushroomId);
-                conditionToSave.setId(id);
-                conditionToSave.setMushroom(saved);
-                IdealConditionDto savedCondition = IdealConditionsMapper.mapToIdealConditionDto(idealConditionRepository.save(conditionToSave));
-                savedConditionDtos.add(savedCondition);
-            }
-        }
-        MushroomWithConditionsDto mushroomWithConditionsDto = MushroomMapper.mapToMushroomWithConditionsDto(saved);
-        mushroomWithConditionsDto.setIdealConditionDtos(savedConditionDtos);
-        return mushroomWithConditionsDto;
+        return getMushroomWithConditionsDto(toSave, user, dto.getIdealConditionCreationDtos());
     }
 
     public MushroomDto getByMushroomId(Long id) {
         Optional<Mushroom> mushroom = repository.findById(id);
-        if (mushroom.isPresent() && !mushroom.get().getArchived()) {
+        if (mushroom.isPresent() && Boolean.FALSE.equals(mushroom.get().getArchived())) {
             return MushroomMapper.mapToMushroomDto(mushroom.get());
         } else {
             throw new IllegalArgumentException("Mushroom not found");
@@ -119,7 +107,7 @@ public class MushroomService {
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom :
                 mushrooms) {
-            if (!mushroom.getArchived()) {
+            if (Boolean.FALSE.equals(mushroom.getArchived())) {
                 dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
             }
         }
@@ -131,7 +119,7 @@ public class MushroomService {
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom :
                 mushrooms) {
-            if (!mushroom.getArchived()) {
+            if (Boolean.FALSE.equals(mushroom.getArchived())) {
                 dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
             }
         }
@@ -143,7 +131,7 @@ public class MushroomService {
         UserEntity user = entity.getUser();
         String username = generator.getUsernameFromJwt(token.substring(7));
         if (user.getUsername().equals(username)) {
-            if (entity.getArchived())
+            if (Boolean.TRUE.equals(entity.getArchived()))
                 throw new IllegalArgumentException(String.format("%s is already archived.", entity.getName()));
             repository.updateArchivedById(true, mushroomId);
         }
@@ -155,8 +143,6 @@ public class MushroomService {
     public MushroomDto updateMushroom(MushroomUpdateDto dto)
     {
         Mushroom toUpdate = repository.findById(dto.getId()).orElseThrow();
-        List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
-        Mushroom updated;
 
         if(toUpdate.getName().isEmpty())
         {
@@ -165,13 +151,18 @@ public class MushroomService {
         else {
             toUpdate.setName(dto.getName());
             toUpdate.setDescription(dto.getDescription());
+            toUpdate.setOrigin(dto.getOrigin());
+            toUpdate.setImageUrl(dto.getImageUrl());
+            for (IdealConditionDto condDto : dto.getIdealConditions()
+                 ) {
+                IdealCondition condition = mapToIdealCondition(condDto);
+                condition.setMushroom(toUpdate);
+                idealConditionRepository.save(condition);
+            }
 
-            Set<IdealCondition> newConditions = new HashSet<>(found);
-            toUpdate.setIdealConditions(newConditions);
-            updated = repository.save(toUpdate);
-            updated = toUpdate;
+            toUpdate = repository.save(toUpdate);
         }
-        return MushroomMapper.mapToMushroomDto(updated);
+        return MushroomMapper.mapToMushroomDto(toUpdate);
     }
 
     private List<MushroomWithConditionsDto> getMushroomWithConditionDtosByUsername(String username) {
@@ -188,7 +179,7 @@ public class MushroomService {
             Optional<UserEntity> user = userRepository.findById(userId);
             user.ifPresent(userEntity -> dto.setUsername(userEntity.getUsername()));
 
-            if (!mushroom.getArchived()) {
+            if (Boolean.FALSE.equals(mushroom.getArchived())) {
                 dtos.add(dto);
             }
         }

@@ -13,7 +13,7 @@ public class IdealConditionsMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static IdealConditionDto mapToIdealConditionDto (IdealCondition idealCondition) {
+    public static IdealConditionDto mapToIdealConditionDto(IdealCondition idealCondition) {
         IdealConditionDto dto = new IdealConditionDto();
         dto.setMushroomId(idealCondition.getId().getMushroomId());
         dto.setDevelopmentStage(idealCondition.getId().getDevelopmentStage());
@@ -29,41 +29,35 @@ public class IdealConditionsMapper {
         return dto;
     }
 
-    public static IdealCondition mapToIdealCondition (IdealConditionDto dto)
-    {
+    public static IdealCondition mapToIdealCondition(IdealConditionDto dto) {
         IdealConditionId id = new IdealConditionId();
         id.setMushroomId(dto.getMushroomId());
-        id.setDevelopmentStage(dto.getDevelopmentStage());
-
-        IdealCondition idealCondition = new IdealCondition();
-        idealCondition.setId(id);
-        idealCondition.setTemperatureHigh(dto.getTempHigh());
-        idealCondition.setTemperatureLow(dto.getTempLow());
-        idealCondition.setHumidityHigh(dto.getHumidityHigh());
-        idealCondition.setHumidityLow(dto.getHumidityLow());
-        idealCondition.setCo2High(dto.getCo2High());
-        idealCondition.setCo2Low(dto.getCo2Low());
-        idealCondition.setLightHigh(dto.getLightHigh());
-        idealCondition.setLightLow(dto.getLightLow());
-
-        return idealCondition;
+        return getIdealCondition(id, dto.getDevelopmentStage(), dto.getTempHigh(), dto.getTempLow(), dto.getHumidityHigh(), dto.getHumidityLow(), dto.getCo2High(), dto.getCo2Low(), dto.getLightHigh(), dto.getLightLow());
 
     }
 
-    public static IdealCondition mapCreateToIdealCondition(IdealConditionCreationDto dto) {
+    public static IdealCondition mapCreateToIdealCondition(IdealConditionCreationDto creationDto) {
         IdealConditionId id = new IdealConditionId();
-        id.setDevelopmentStage(dto.getDevelopmentStage());
+        return getIdealCondition(id, creationDto.getDevelopmentStage(), creationDto.getTempHigh(),
+                creationDto.getTempLow(), creationDto.getHumidityHigh(), creationDto.getHumidityLow(),
+                creationDto.getCo2High(), creationDto.getCo2Low(), creationDto.getLightHigh(), creationDto.getLightLow());
+    }
+
+    private static IdealCondition getIdealCondition(IdealConditionId id, String developmentStage, double tempHigh,
+                                                    double tempLow, double humidityHigh, double humidityLow,
+                                                    double co2High, double co2Low, double lightHigh, double lightLow) {
+        id.setDevelopmentStage(developmentStage);
 
         IdealCondition idealCondition = new IdealCondition();
         idealCondition.setId(id);
-        idealCondition.setTemperatureHigh(dto.getTempHigh());
-        idealCondition.setTemperatureLow(dto.getTempLow());
-        idealCondition.setHumidityHigh(dto.getHumidityHigh());
-        idealCondition.setHumidityLow(dto.getHumidityLow());
-        idealCondition.setCo2High(dto.getCo2High());
-        idealCondition.setCo2Low(dto.getCo2Low());
-        idealCondition.setLightHigh(dto.getLightHigh());
-        idealCondition.setLightLow(dto.getLightLow());
+        idealCondition.setTemperatureHigh(tempHigh);
+        idealCondition.setTemperatureLow(tempLow);
+        idealCondition.setHumidityHigh(humidityHigh);
+        idealCondition.setHumidityLow(humidityLow);
+        idealCondition.setCo2High(co2High);
+        idealCondition.setCo2Low(co2Low);
+        idealCondition.setLightHigh(lightHigh);
+        idealCondition.setLightLow(lightLow);
 
         return idealCondition;
     }
@@ -75,10 +69,10 @@ public class IdealConditionsMapper {
         return dtos;
     }
 
-     public static List<IdealCondition> mapFromIdealConditionDtoList(List<IdealConditionDto> dtos) {
+    public static List<IdealCondition> mapFromIdealConditionDtoList(List<IdealConditionDto> dtos) {
         List<IdealCondition> conditions = new ArrayList<>();
         dtos.forEach(dto -> conditions.add(mapToIdealCondition(dto)));
 
         return conditions;
-     }
+    }
 }

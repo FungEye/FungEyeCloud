@@ -2,8 +2,8 @@ package fungeye.cloud.service.mappers;
 
 import fungeye.cloud.domain.dtos.box.BoxDetailsDto;
 import fungeye.cloud.domain.dtos.box.BoxDto;
-import fungeye.cloud.domain.dtos.grow.GrowIdMushroomNameDto;
 import fungeye.cloud.domain.dtos.box.SimpleBoxGrowDto;
+import fungeye.cloud.domain.dtos.grow.GrowIdMushroomNameDto;
 import fungeye.cloud.domain.enities.*;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +14,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static fungeye.cloud.service.mappers.BoxMapper.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BoxMapperTest {
 
