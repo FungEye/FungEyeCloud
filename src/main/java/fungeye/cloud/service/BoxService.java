@@ -70,19 +70,15 @@ public class BoxService {
 
     public List<BoxDto> getAllEmptyByUserName(String userName) {
 
-        List<Box> boxes = repository.findBoxesByUserEntity_Username(userName);
+        List<Box> boxes = repository.findByUserEntity_UsernameOrderByIdAsc(userName);
         List<BoxDto> dtoList = new ArrayList<>();
 
         for (Box box : boxes)
         {
-            if (box.getGrows().isEmpty())
+            if (growRepository.findByBox_IdAndIsActive(box.getId(), true) == null)
             {
                 dtoList.add(BoxMapper.mapToSimpleDto(box));
             }
-            else{
-                throw new IllegalArgumentException("There is no inactive grows!");
-            }
-
         }
         return dtoList;
     }

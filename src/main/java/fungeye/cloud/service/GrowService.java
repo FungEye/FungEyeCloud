@@ -24,8 +24,14 @@ public class GrowService {
     public GrowDto createGrow(GrowCreationDto dto)
     {
         Grow toCreate = GrowMapper.mapFromCreationDto(dto);
-        Grow created = repository.save(toCreate);
-        return GrowMapper.mapToGrowDto(created);
+        Grow created;
+        if (repository.findByBox_IdAndIsActive(dto.getBoxId(), true) == null) {
+            created = repository.save(toCreate);
+            return GrowMapper.mapToGrowDto(created);
+        }
+        else {
+            throw new IllegalArgumentException("There is already an active grow in that box");
+        }
     }
 
     public GrowDto getGrowById(Long id)
