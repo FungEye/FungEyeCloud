@@ -185,6 +185,10 @@ public class MushroomService {
             List<IdealConditionDto> conditionDtos = IdealConditionsMapper.mapToIdealConditionDtoList(found);
             dto.setIdealConditionDtos(conditionDtos);
 
+            int userId = mushroom.getUser().getId();
+            Optional<UserEntity> user = userRepository.findById(userId);
+            user.ifPresent(userEntity -> dto.setUsername(userEntity.getUsername()));
+
             if (!mushroom.getArchived()) {
                 dtos.add(dto);
             }
