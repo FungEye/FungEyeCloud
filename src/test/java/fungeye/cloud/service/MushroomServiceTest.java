@@ -363,46 +363,44 @@ class MushroomServiceTest {
 
         verify(repository, times(1)).findByUser_Username("john");
     }
-
-
+    
     @Test
     void testUpdateMushroom()
     {
         MushroomUpdateDto mushroomUpdateDto = new MushroomUpdateDto();
         MushroomDto mushroomDto = new MushroomDto();
-        List<IdealCondition> ideal = new ArrayList<>();
-        IdealCondition idealCondition1 = new IdealCondition();
-
-        mushroomUpdateDto.setId(1L);
-        mushroomUpdateDto.setName("Fugly");
-        mushroomUpdateDto.setDescription("Bobs your uncle");
-        mushroomUpdateDto.setIdealConditions(ideal);
+        List<IdealConditionDto> ideal = new ArrayList<>();
+        IdealConditionDto idealCondition1 = new IdealConditionDto();
 
         mushroomDto.setId(1L);
-        mushroomDto.setName("Fugly");
+        mushroomDto.setName("UpdatedMush");
         mushroomDto.setDescription("Bobs your uncle");
 
-        idealCondition1.setId(new IdealConditionId(mushroomUpdateDto.getId(), "Spawn run"));
-        idealCondition1.setMushroom(MushroomMapper.mapFromUpdateMushroomDto(mushroomUpdateDto));
-        idealCondition1.setTemperatureLow(20.0);
-        idealCondition1.setTemperatureHigh(25.0);
+        idealCondition1.setMushroomId(mushroomUpdateDto.getId());
+        idealCondition1.setDevelopmentStage("spawn run");
+        idealCondition1.setTempHigh(20.0);
+        idealCondition1.setTempLow(10.0);
         idealCondition1.setHumidityLow(60.0);
         idealCondition1.setHumidityHigh(80.0);
         ideal.add(idealCondition1);
 
+        mushroomUpdateDto.setId(1L);
+        mushroomUpdateDto.setName("MushWithNewInfo");
+        mushroomUpdateDto.setDescription("Bobs your uncle");
+        mushroomUpdateDto.setIdealConditions(ideal);
+
         Set<IdealCondition> idealConditionList = new LinkedHashSet<>();;
-        idealConditionList.add(idealCondition1);
+        idealConditionList.add(IdealConditionsMapper.mapToIdealCondition(idealCondition1));
 
         UserEntity user = new UserEntity();
         user.setId(1);
         user.setUsername("Justikas");
-        user.setPassword("kaka");
-
+        user.setPassword("pass");
 
         Mushroom mushroom = new Mushroom();
         mushroom.setId(1L);
         mushroom.setName("Liepa");
-        mushroom.setDescription("Hello");
+        mushroom.setDescription("description");
         mushroom.setIdealConditions(idealConditionList);
         mushroom.setUser(user);
 
@@ -413,17 +411,13 @@ class MushroomServiceTest {
         updatedMushroom.setIdealConditions(idealConditionList);
         updatedMushroom.setUser(user);
 
-
-        mushroomUpdateDto.setIdealConditions(ideal);
-
         when(repository.findById(mushroomUpdateDto.getId())).thenReturn(Optional.of(mushroom));
-        when(idealConditionRepository.findByMushroom_Id(1L)).thenReturn(ideal);
+        when(idealConditionRepository.findByMushroom_Id(1L)).thenReturn(IdealConditionsMapper.mapFromIdealConditionDtoList(ideal));
         when(repository.save(updatedMushroom)).thenReturn(updatedMushroom);
 
         MushroomDto expected = MushroomMapper.mapUpdateMushroomDto(mushroomUpdateDto);
 
         MushroomDto actual = service.updateMushroom(mushroomUpdateDto);
-        System.out.println("help");
 
         assertEquals(expected, actual);
 
@@ -431,8 +425,6 @@ class MushroomServiceTest {
         verify(idealConditionRepository, times(1)).findByMushroom_Id(any());
         verify(repository, times(1)).save(any());
     }
-
-
 
     @Test
     void testArchiveMushroom_WithValidInputsAndNotArchived() {

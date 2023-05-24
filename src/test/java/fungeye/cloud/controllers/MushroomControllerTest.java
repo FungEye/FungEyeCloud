@@ -316,21 +316,21 @@ class MushroomControllerTest {
     @Test
     void testUpdateMushroomController()
     {
-        IdealCondition ideal1 = new IdealCondition();
-        IdealCondition ideal2 = new IdealCondition();
-        IdealCondition ideal3 = new IdealCondition();
+        IdealConditionDto ideal1 = new IdealConditionDto();
+        IdealConditionDto ideal2 = new IdealConditionDto();
+        IdealConditionDto ideal3 = new IdealConditionDto();
 
-        List<IdealCondition> idealConditionList = new ArrayList<>();
+        List<IdealConditionDto> idealConditionList = new ArrayList<>();
 
         idealConditionList.add(ideal1);
         idealConditionList.add(ideal2);
         idealConditionList.add(ideal3);
 
-        Set<IdealCondition> idealConditions = new HashSet<>();
+        //Set<IdealCondition> idealConditions = new HashSet<>();
 
-        idealConditions.add(ideal1);
-        idealConditions.add(ideal2);
-        idealConditions.add(ideal3);
+        //idealConditions.add(ideal1);
+        //idealConditions.add(ideal2);
+        //idealConditions.add(ideal3);
 
         MushroomDto returnDto = new MushroomDto();
 

@@ -98,7 +98,7 @@ public class MushroomService {
 
     public MushroomDto getByMushroomId(Long id) {
         Optional<Mushroom> mushroom = repository.findById(id);
-        if (mushroom.isPresent()) {
+        if (mushroom.isPresent() && !mushroom.get().getArchived()) {
             return MushroomMapper.mapToMushroomDto(mushroom.get());
         } else {
             throw new IllegalArgumentException("Mushroom not found");
@@ -119,7 +119,9 @@ public class MushroomService {
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom :
                 mushrooms) {
-            dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+            if (!mushroom.getArchived()) {
+                dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+            }
         }
         return dtos;
     }
@@ -129,7 +131,9 @@ public class MushroomService {
         List<MushroomDto> dtos = new ArrayList<>();
         for (Mushroom mushroom :
                 mushrooms) {
-            dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+            if (!mushroom.getArchived()) {
+                dtos.add(MushroomMapper.mapToMushroomDto(mushroom));
+            }
         }
         return dtos;
     }
@@ -159,14 +163,13 @@ public class MushroomService {
             throw new IllegalArgumentException("Please fill out all the necessary fields");
         }
         else {
-            log.info("Inside else");
             toUpdate.setName(dto.getName());
             toUpdate.setDescription(dto.getDescription());
 
             Set<IdealCondition> newConditions = new HashSet<>(found);
             toUpdate.setIdealConditions(newConditions);
-            log.info("HERE");
             updated = repository.save(toUpdate);
+            updated = toUpdate;
         }
         return MushroomMapper.mapToMushroomDto(updated);
     }
@@ -181,7 +184,13 @@ public class MushroomService {
             List<IdealConditionDto> conditionDtos = IdealConditionsMapper.mapToIdealConditionDtoList(found);
             dto.setIdealConditionDtos(conditionDtos);
 
-            dtos.add(dto);
+            int userId = mushroom.getUser().getId();
+            Optional<UserEntity> user = userRepository.findById(userId);
+            user.ifPresent(userEntity -> dto.setUsername(userEntity.getUsername()));
+
+            if (!mushroom.getArchived()) {
+                dtos.add(dto);
+            }
         }
 
         return dtos;

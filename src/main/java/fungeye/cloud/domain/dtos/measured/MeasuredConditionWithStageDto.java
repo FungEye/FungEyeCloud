@@ -3,11 +3,14 @@ package fungeye.cloud.domain.dtos.measured;
 import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Data
 public class MeasuredConditionWithStageDto extends MeasuredConditionDto {
 
+    private Long growId;
     @Nullable
     private String developmentStage;
 
