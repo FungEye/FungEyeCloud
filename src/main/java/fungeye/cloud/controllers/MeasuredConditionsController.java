@@ -2,7 +2,6 @@ package fungeye.cloud.controllers;
 
 import fungeye.cloud.domain.dtos.measured.HistoricalMeasurementDto;
 import fungeye.cloud.domain.dtos.measured.MeasuredConditionDto;
-import fungeye.cloud.domain.dtos.measured.MeasuredConditionWithStageDto;
 import fungeye.cloud.domain.dtos.measured.SearchConditionsParam;
 import fungeye.cloud.service.MeasuredConditionsService;
 import org.springframework.http.HttpStatus;
