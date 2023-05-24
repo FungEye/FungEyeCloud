@@ -74,6 +74,38 @@ class GrowControllerTest {
     }
 
     @Test
+    void testGetGrowById() throws Exception{
+
+        DateTimeDto dateTimeDto = DateTimeMapper.mapToDateDto(LocalDate.now());
+
+        Box box = new Box();
+        box.setId(1L);
+
+        GrowDto dto = new GrowDto();
+        dto.setId(1L);
+        dto.setDate(dateTimeDto);
+        dto.setBoxId(1L);
+        dto.setMushroomId(1L);
+        dto.setStage("spawn run");
+        dto.setActive(true);
+        dto.setBoxId(box.getId());
+
+        Grow grow = new Grow();
+        grow.setId(1L);
+        grow.setDateStarted(LocalDate.now());
+        grow.setDevelopmentStage("spawn run");
+        grow.setBox(box);
+        grow.setIsActive(true);
+
+        Mockito.when(service.getGrowById(grow.getId())).thenReturn(dto);
+
+        ResponseEntity<GrowDto> actual = controller.getGrowById(grow.getId());
+
+        assertEquals(dto, actual.getBody());
+        assertEquals(HttpStatus.OK, actual.getStatusCode());
+    }
+
+    @Test
     void testGetAllGrowsByUsername() throws Exception {
 
         List<GrowDto> grows = new ArrayList<>();
