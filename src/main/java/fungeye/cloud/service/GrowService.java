@@ -25,7 +25,6 @@ public class GrowService {
     {
         Grow toCreate = GrowMapper.mapFromCreationDto(dto);
         Grow created = repository.save(toCreate);
-        created.setIsActive(true);
         return GrowMapper.mapToGrowDto(created);
     }
 

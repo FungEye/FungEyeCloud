@@ -30,7 +30,7 @@ public class Grow {
     private String developmentStage;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
