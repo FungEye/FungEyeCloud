@@ -181,7 +181,9 @@ public class MushroomService {
             List<IdealConditionDto> conditionDtos = IdealConditionsMapper.mapToIdealConditionDtoList(found);
             dto.setIdealConditionDtos(conditionDtos);
 
-            dtos.add(dto);
+            if (!mushroom.getArchived()) {
+                dtos.add(dto);
+            }
         }
 
         return dtos;
