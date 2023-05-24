@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.BadCredentialsException;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -369,62 +370,94 @@ class MushroomServiceTest {
     @Test
     void testUpdateMushroom()
     {
-        MushroomUpdateDto mushroomUpdateDto = new MushroomUpdateDto();
-        MushroomDto mushroomDto = new MushroomDto();
-        List<IdealConditionDto> ideal = new ArrayList<>();
-        IdealConditionDto idealCondition1 = new IdealConditionDto();
+        MushroomUpdateDto argument = new MushroomUpdateDto();
+        argument.setId(1L);
+        argument.setName("Updated name");
+        argument.setDescription("Updated Description");
+        argument.setOrigin("Updated origin");
+        argument.setImageUrl("Updated image");
 
-        mushroomDto.setId(1L);
-        mushroomDto.setName("UpdatedMush");
-        mushroomDto.setDescription("Bobs your uncle");
+        MushroomDto expected = new MushroomDto();
+        expected.setId(1L);
+        expected.setName(argument.getName());
+        expected.setDescription(argument.getDescription());
+        expected.setOrigin(argument.getOrigin());
+        expected.setImageUrl(argument.getImageUrl());
 
-        idealCondition1.setMushroomId(mushroomUpdateDto.getId());
-        idealCondition1.setDevelopmentStage("spawn run");
-        idealCondition1.setTempHigh(20.0);
-        idealCondition1.setTempLow(10.0);
-        idealCondition1.setHumidityLow(60.0);
-        idealCondition1.setHumidityHigh(80.0);
-        ideal.add(idealCondition1);
+        IdealConditionDto icd1 = new IdealConditionDto();
+        icd1.setMushroomId(1L);
+        icd1.setDevelopmentStage("pinning");
+        icd1.setTempLow(1);
+        icd1.setTempHigh(10);
+        icd1.setHumidityLow(1);
+        icd1.setHumidityHigh(10);
+        icd1.setLightLow(1);
+        icd1.setLightHigh(10);
+        icd1.setCo2Low(1);
+        icd1.setCo2High(10);
 
-        mushroomUpdateDto.setId(1L);
-        mushroomUpdateDto.setName("MushWithNewInfo");
-        mushroomUpdateDto.setDescription("Bobs your uncle");
-        mushroomUpdateDto.setIdealConditions(ideal);
+        IdealConditionDto icd2 = new IdealConditionDto();
+        icd2.setMushroomId(1L);
+        icd2.setDevelopmentStage("spawn run");
+        icd2.setTempLow(1);
+        icd2.setTempHigh(10);
+        icd2.setHumidityLow(1);
+        icd2.setHumidityHigh(10);
+        icd2.setLightLow(1);
+        icd2.setLightHigh(10);
+        icd2.setCo2Low(1);
+        icd2.setCo2High(10);
 
-        Set<IdealCondition> idealConditionList = new LinkedHashSet<>();;
-        idealConditionList.add(IdealConditionsMapper.mapToIdealCondition(idealCondition1));
+        IdealConditionDto icd3 = new IdealConditionDto();
+        icd3.setMushroomId(1L);
+        icd3.setDevelopmentStage("fruiting");
+        icd3.setTempLow(1);
+        icd3.setTempHigh(10);
+        icd3.setHumidityLow(1);
+        icd3.setHumidityHigh(10);
+        icd3.setLightLow(1);
+        icd3.setLightHigh(10);
+        icd3.setCo2Low(1);
+        icd3.setCo2High(10);
+
+        List<IdealConditionDto> argumentConditions = new ArrayList<>();
+        argumentConditions.add(icd1);
+        argumentConditions.add(icd2);
+        argumentConditions.add(icd3);
+
+        argument.setIdealConditions(argumentConditions);
 
         UserEntity user = new UserEntity();
         user.setId(1);
-        user.setUsername("Justikas");
-        user.setPassword("pass");
+        user.setUsername("Bob");
 
-        Mushroom mushroom = new Mushroom();
-        mushroom.setId(1L);
-        mushroom.setName("Liepa");
-        mushroom.setDescription("description");
-        mushroom.setIdealConditions(idealConditionList);
-        mushroom.setUser(user);
+        Mushroom fromDb = new Mushroom();
+        fromDb.setId(1L);
+        fromDb.setName("Old name");
+        fromDb.setOrigin("Old origin");
+        fromDb.setDescription("Old desc");
+        fromDb.setImageUrl("Old url");
+        fromDb.setUser(user);
 
-        Mushroom updatedMushroom = new Mushroom();
-        updatedMushroom.setId(1L);
-        updatedMushroom.setName(mushroomDto.getName());
-        updatedMushroom.setDescription(mushroomDto.getDescription());
-        updatedMushroom.setIdealConditions(idealConditionList);
-        updatedMushroom.setUser(user);
+        Mushroom dbResult = new Mushroom();
+        dbResult.setId(1L);
+        dbResult.setName(argument.getName());
+        dbResult.setOrigin(argument.getOrigin());
+        dbResult.setDescription(argument.getDescription());
+        dbResult.setImageUrl(argument.getImageUrl());
+        dbResult.setUser(user);
 
-        when(repository.findById(mushroomUpdateDto.getId())).thenReturn(Optional.of(mushroom));
-        when(idealConditionRepository.findByMushroom_Id(1L)).thenReturn(IdealConditionsMapper.mapFromIdealConditionDtoList(ideal));
-        when(repository.save(updatedMushroom)).thenReturn(updatedMushroom);
 
-        MushroomDto expected = MushroomMapper.mapUpdateMushroomDto(mushroomUpdateDto);
+        when(repository.findById(1L)).thenReturn(Optional.of(fromDb));
+        when(idealConditionRepository.findByMushroom_Id(1L)).thenReturn(new ArrayList<>());
+        when(idealConditionRepository.save(any())).thenReturn(new IdealCondition());
+        when(repository.save(fromDb)).thenReturn(dbResult);
 
-        MushroomDto actual = service.updateMushroom(mushroomUpdateDto);
+        MushroomDto result = service.updateMushroom(argument);
 
-        assertEquals(expected, actual);
+        assertEquals(expected, result);
 
         verify(repository, times(1)).findById(any());
-        verify(idealConditionRepository, times(1)).findByMushroom_Id(any());
         verify(repository, times(1)).save(any());
     }
 

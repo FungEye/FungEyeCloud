@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static fungeye.cloud.service.mappers.IdealConditionsMapper.mapToIdealCondition;
+
 @Slf4j
 
 @Service
@@ -141,8 +143,6 @@ public class MushroomService {
     public MushroomDto updateMushroom(MushroomUpdateDto dto)
     {
         Mushroom toUpdate = repository.findById(dto.getId()).orElseThrow();
-        List<IdealCondition> found = idealConditionRepository.findByMushroom_Id(dto.getId());
-        Mushroom updated;
 
         if(toUpdate.getName().isEmpty())
         {
@@ -151,10 +151,16 @@ public class MushroomService {
         else {
             toUpdate.setName(dto.getName());
             toUpdate.setDescription(dto.getDescription());
+            toUpdate.setOrigin(dto.getOrigin());
+            toUpdate.setImageUrl(dto.getImageUrl());
+            for (IdealConditionDto condDto : dto.getIdealConditions()
+                 ) {
+                IdealCondition condition = mapToIdealCondition(condDto);
+                condition.setMushroom(toUpdate);
+                idealConditionRepository.save(condition);
+            }
 
-            Set<IdealCondition> newConditions = new HashSet<>(found);
-            toUpdate.setIdealConditions(newConditions);
-            repository.save(toUpdate);
+            toUpdate = repository.save(toUpdate);
         }
         return MushroomMapper.mapToMushroomDto(toUpdate);
     }
