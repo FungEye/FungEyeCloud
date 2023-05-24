@@ -11,13 +11,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
-public class SecurityConfigIntegrationTest {
+class SecurityConfigIntegrationTest {
 
     @Autowired
     private WebApplicationContext context;
 
     @Test
-    public void testFilterChainAlreadyCreatedUser() throws Exception {
+    void testFilterChainAlreadyCreatedUser() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
         String requestBody = "{\"username\":\"testuser\", \"password\":\"testpass\"}";
@@ -31,7 +31,7 @@ public class SecurityConfigIntegrationTest {
     }
 
     @Test
-    public void testFilterChainSwaggerIsAllowed() throws Exception {
+    void testFilterChainSwaggerIsAllowed() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/swagger-ui/index.html"))
@@ -39,7 +39,7 @@ public class SecurityConfigIntegrationTest {
     }
 
     @Test
-    public void testFilterChainSwaggerIsAllowed2() throws Exception {
+    void testFilterChainSwaggerIsAllowed2() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v3/api-docs"))

@@ -66,7 +66,7 @@ class BoxTest {
     }
 
     @Test
-    public void testEqualsWhenObjectsAreEqual() {
+    void testEqualsWhenObjectsAreEqual() {
         Box box1 = new Box();
         box1.setId(1L);
         Box box2 = new Box();
@@ -75,7 +75,7 @@ class BoxTest {
     }
 
     @Test
-    public void testEqualsWhenObjectsAreNotEqual() {
+    void testEqualsWhenObjectsAreNotEqual() {
         Box box1 = new Box();
         box1.setId(1L);
         Box box2 = new Box();
@@ -84,14 +84,14 @@ class BoxTest {
     }
 
     @Test
-    public void testEqualsWhenComparedToNull() {
+    void testEqualsWhenComparedToNull() {
         Box box1 = new Box();
         box1.setId(1L);
         assertNotEquals(null, box1);
     }
 
     @Test
-    public void testEqualsWhenComparedToDifferentClass() {
+    void testEqualsWhenComparedToDifferentClass() {
         Box box1 = new Box();
         box1.setId(1L);
         UserEntity user = new UserEntity();

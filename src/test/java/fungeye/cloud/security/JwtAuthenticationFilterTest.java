@@ -27,12 +27,12 @@ class JwtAuthenticationFilterTest {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void doFilterInternal_ValidToken_SuccessfullyAuthenticatesUser() throws ServletException, IOException {
+    void doFilterInternal_ValidToken_SuccessfullyAuthenticatesUser() throws ServletException, IOException {
         // Arrange
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -60,7 +60,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    public void doFilterInternal_InvalidToken_DoesNotAuthenticateUser() throws ServletException, IOException {
+    void doFilterInternal_InvalidToken_DoesNotAuthenticateUser() throws ServletException, IOException {
         // Arrange
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -83,7 +83,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    public void doFilterInternal_NoToken_DoesNotAuthenticateUser() throws ServletException, IOException {
+    void doFilterInternal_NoToken_DoesNotAuthenticateUser() throws ServletException, IOException {
         // Arrange
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
