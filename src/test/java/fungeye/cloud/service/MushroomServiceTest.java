@@ -15,7 +15,9 @@ import fungeye.cloud.service.mappers.IdealConditionsMapper;
 import fungeye.cloud.service.mappers.MushroomMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import java.util.*;
