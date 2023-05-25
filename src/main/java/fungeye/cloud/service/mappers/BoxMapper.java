@@ -19,15 +19,14 @@ public class BoxMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static BoxDto mapToSimpleDto(Box box)
-    {
+    public static BoxDto mapToSimpleDto(Box box) {
         BoxDto dto = new BoxDto();
         dto.setId(box.getId());
+
         return dto;
     }
 
-    public static BoxDetailsDto mapToBoxDto(Box box)
-    {
+    public static BoxDetailsDto mapToBoxDto(Box box) {
         BoxDetailsDto dto = new BoxDetailsDto();
         dto.setId(box.getId());
         dto.setGrows(mapToGrowDtoList(box.getGrows()));
@@ -39,10 +38,11 @@ public class BoxMapper {
     public static Box mapFromBoxDto(BoxDetailsDto dto) {
         Box box = new Box();
         box.setId(dto.getId());
+
         return box;
     }
 
-    public static List<BoxDetailsDto> mapToBoxDtoList(List<Box> boxes){
+    public static List<BoxDetailsDto> mapToBoxDtoList(List<Box> boxes) {
         List<BoxDetailsDto> list = new ArrayList<>();
         boxes.forEach(box -> list.add(mapToBoxDto(box)));
 

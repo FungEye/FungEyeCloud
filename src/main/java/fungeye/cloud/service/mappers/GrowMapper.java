@@ -56,7 +56,6 @@ public class GrowMapper {
 
         Mushroom mushroom = new Mushroom();
         if (dto.getMushroomId() != null) {
-
             mushroom.setId(dto.getMushroomId());
             grow.setMushroom(mushroom);
         }
@@ -97,9 +96,6 @@ public class GrowMapper {
 
         return list;
     }
-
-
-
 
 
     public static GrowIdMushroomNameDto mapToGrowIdMushroomNameDto(Grow grow) {

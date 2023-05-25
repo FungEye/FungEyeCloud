@@ -20,7 +20,6 @@ public class JwtGenerator {
         String username = auth.getName();
         Date currentDate = new Date();
         Date expiryDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
-
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(currentDate)
@@ -46,6 +45,5 @@ public class JwtGenerator {
         } catch (Exception e) {
             return false;
         }
-
     }
 }
