@@ -31,12 +31,12 @@ public class LightService {
         hardwareTutorial.sendDownLink(jsonToSend);
         return true;
     }
+
     private String getEUIFromBoxId(int boxId) {
         Optional<Box> box = boxRepository.findById((long) boxId);
         if (box.isPresent()) {
             return box.get().getEui();
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("No box was found with that id");
         }
     }

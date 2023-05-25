@@ -47,7 +47,6 @@ public class MushroomService {
         return MushroomMapper.mapToMushroomDto(saved);
     }
 
-
     public MushroomWithConditionsDto createDefaultMushroom(DefaultMushroomCreationDto dto) {
         Mushroom toSave = MushroomMapper.mapDefaultCreateToMushroom(dto);
         Optional<UserEntity> user = userRepository.findById(3);
@@ -134,27 +133,23 @@ public class MushroomService {
             if (Boolean.TRUE.equals(entity.getArchived()))
                 throw new IllegalArgumentException(String.format("%s is already archived.", entity.getName()));
             repository.updateArchivedById(true, mushroomId);
-        }
-        else throw new BadCredentialsException(String.format("User: %s is not authorized to edit mushroom %s.", username, entity.getName()));
-
+        } else
+            throw new BadCredentialsException(String.format("User: %s is not authorized to edit mushroom %s.", username, entity.getName()));
     }
 
 
-    public MushroomDto updateMushroom(MushroomUpdateDto dto)
-    {
+    public MushroomDto updateMushroom(MushroomUpdateDto dto) {
         Mushroom toUpdate = repository.findById(dto.getId()).orElseThrow();
 
-        if(toUpdate.getName().isEmpty())
-        {
+        if (toUpdate.getName().isEmpty()) {
             throw new IllegalArgumentException("Please fill out all the necessary fields");
-        }
-        else {
+        } else {
             toUpdate.setName(dto.getName());
             toUpdate.setDescription(dto.getDescription());
             toUpdate.setOrigin(dto.getOrigin());
             toUpdate.setImageUrl(dto.getImageUrl());
             for (IdealConditionDto condDto : dto.getIdealConditions()
-                 ) {
+            ) {
                 IdealCondition condition = mapToIdealCondition(condDto);
                 condition.setMushroom(toUpdate);
                 idealConditionRepository.save(condition);
@@ -183,7 +178,6 @@ public class MushroomService {
                 dtos.add(dto);
             }
         }
-
         return dtos;
     }
 

@@ -17,27 +17,22 @@ public class IdealConditionService {
         this.repository = repository;
     }
 
-    public IdealConditionDto createIdealCondition(IdealConditionDto dtoIn)
-    {
+    public IdealConditionDto createIdealCondition(IdealConditionDto dtoIn) {
         IdealCondition conditionToSave = IdealConditionsMapper.mapToIdealCondition(dtoIn);
         return IdealConditionsMapper.mapToIdealConditionDto(repository.save(conditionToSave));
     }
 
-    public List<IdealConditionDto> getByMushroomId(Long mushroomId)
-    {
+    public List<IdealConditionDto> getByMushroomId(Long mushroomId) {
         List<IdealCondition> found = repository.findByMushroom_Id(mushroomId);
 
         List<IdealConditionDto> outDtos = new ArrayList<>();
-        if (found != null && !found.isEmpty())
-        {
-            for (IdealCondition condition:
-                 found) {
+        if (found != null && !found.isEmpty()) {
+            for (IdealCondition condition :
+                    found) {
                 outDtos.add(IdealConditionsMapper.mapToIdealConditionDto(condition));
             }
             return outDtos;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("No ideal conditions were found for that mushroom");
         }
     }

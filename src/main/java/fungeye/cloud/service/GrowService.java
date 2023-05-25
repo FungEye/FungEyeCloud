@@ -21,48 +21,39 @@ public class GrowService {
         this.repository = repository;
     }
 
-    public GrowDto createGrow(GrowCreationDto dto)
-    {
+    public GrowDto createGrow(GrowCreationDto dto) {
         Grow toCreate = GrowMapper.mapFromCreationDto(dto);
         Grow created;
         if (repository.findByBox_IdAndIsActive(dto.getBoxId(), true) == null) {
             created = repository.save(toCreate);
             return GrowMapper.mapToGrowDto(created);
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("There is already an active grow in that box");
         }
     }
 
-    public GrowDto getGrowById(Long id)
-    {
+    public GrowDto getGrowById(Long id) {
         Grow grow = repository.findById(id).orElseThrow();
         return GrowMapper.mapToGrowDto(grow);
     }
 
-    public List<GrowIdMushroomNameDto> getAllGrowsByUsername(String username)
-    {
+    public List<GrowIdMushroomNameDto> getAllGrowsByUsername(String username) {
         List<Grow> grows = repository.findGrowsByBox_UserEntity_Username(username);
         List<GrowIdMushroomNameDto> dtoList = new ArrayList<>();
 
-        for (Grow grow : grows)
-        {
+        for (Grow grow : grows) {
             dtoList.add(GrowMapper.mapGrowIdWithMushroomIdDto(grow));
         }
 
         return dtoList;
     }
 
-    public GrowDto updateGrow(GrowUpdateDto dto)
-    {
+    public GrowDto updateGrow(GrowUpdateDto dto) {
         Grow toUpdated = repository.findById(dto.getId()).orElseThrow();
 
-        if(toUpdated.getDevelopmentStage().isBlank())
-        {
+        if (toUpdated.getDevelopmentStage().isBlank()) {
             throw new IllegalArgumentException("Please fill all required sections");
-        }
-        else
-        {
+        } else {
             toUpdated.setIsActive(dto.getIsActive());
             toUpdated.setDevelopmentStage(dto.getDevelopStage());
         }
@@ -70,17 +61,13 @@ public class GrowService {
 
     }
 
-    public GrowDto endGrow (Long id)
-    {
+    public GrowDto endGrow(Long id) {
         Grow toEnd = repository.findById(id).orElseThrow();
 
-        if (toEnd.getIsActive().equals(true))
-        {
+        if (toEnd.getIsActive().equals(true)) {
             toEnd.setIsActive(false);
             repository.save(toEnd);
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("The Grow is already not active");
         }
 

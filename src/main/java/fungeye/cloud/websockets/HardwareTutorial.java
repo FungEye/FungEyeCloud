@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import static fungeye.cloud.service.mappers.DateTimeMapper.mapToDateDto;
+
 @Slf4j
 @Component
 public class HardwareTutorial implements WebSocket.Listener {
@@ -70,9 +71,7 @@ public class HardwareTutorial implements WebSocket.Listener {
                     .buildAsync(URI.create(IOTURL), this);
             server = ws.join();
             this.measurementService = measurementService;
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -130,15 +129,13 @@ public class HardwareTutorial implements WebSocket.Listener {
                 // IT IS A MEASUREMENT!
                 log.info("Measurement received!");
                 readAndAddMeasurement(object);
-            }
-            else if (object.getString("cmd").equals("tx")) {
+            } else if (object.getString("cmd").equals("tx")) {
                 // IT IS AN ACKNOWLEDGEMENT!
                 log.info("Acknowledgement received!");
             }
         } catch (JSONException e) {
             log.error(e.getMessage());
         }
-
         webSocket.request(1);
         return CompletableFuture.completedFuture("Data received successfully").thenAccept(log::info);
     }
