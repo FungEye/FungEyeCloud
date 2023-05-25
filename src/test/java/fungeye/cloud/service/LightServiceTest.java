@@ -24,14 +24,14 @@ class LightServiceTest {
     }
 
     @Test
-    public void testToggleLight() {
-        // Mock the necessary dependencies
-        // Test for when the eui is used
-//        Box box = new Box();
-//        box.setEui("0004A30B00ED6757");
-//        when(boxRepository.findById(anyLong())).thenReturn(Optional.of(box));
-
-        // Perform the test
+    void testToggleLight() {
+        /*
+          Mock the necessary dependencies
+          Test for when the eui is used
+          Box box = new Box();
+          box.setEui("0004A30B00ED6757");
+          when(boxRepository.findById(anyLong())).thenReturn(Optional.of(box));
+        */
         boolean result = lightService.toggleLight(1);
 
         // Verify the interaction with the mock

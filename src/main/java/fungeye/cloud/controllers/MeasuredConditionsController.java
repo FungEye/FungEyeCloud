@@ -50,12 +50,11 @@ public class MeasuredConditionsController {
 
     @GetMapping(value = "box{id}/measurements/latest")
     public ResponseEntity<MeasuredConditionDto> getLatestMeasurements(@PathVariable("id") Long id,
-                                                                               @RequestHeader(name = "Authorization") String token,
-                                                                               @RequestParam Optional<Boolean> stage) {
-        if (stage.isEmpty() || Boolean.FALSE.equals(stage.get())){
+                                                                      @RequestHeader(name = "Authorization") String token,
+                                                                      @RequestParam Optional<Boolean> stage) {
+        if (stage.isEmpty() || Boolean.FALSE.equals(stage.get())) {
             return new ResponseEntity<>(service.getLatestMeasuredCondition(id, token), HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(service.getLatestMeasuredConditionWithStage(id, token), HttpStatus.OK);
         }
     }
@@ -66,8 +65,7 @@ public class MeasuredConditionsController {
                                                                           @RequestParam Optional<Boolean> stage) {
         if (stage.isEmpty() || Boolean.FALSE.equals(stage.get())) {
             return new ResponseEntity<>(service.getLatestForUser(username, token), HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(service.getLatestForUserWithStage(username, token), HttpStatus.OK);
         }
     }

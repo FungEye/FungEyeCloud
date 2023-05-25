@@ -13,8 +13,7 @@ public class GrowUpdateDto {
                 developStage.equals("pinning") ||
                 developStage.equals("fruiting")) {
             this.developStage = developStage;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Not a valid development stage");
         }
     }

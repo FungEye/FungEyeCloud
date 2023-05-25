@@ -52,7 +52,7 @@ public class HarvestMapper {
         );
         details.setGrowId(harvest.getGrow().getId());
         details.setWeight(harvest.getWeight());
-        if(harvest.getComment() != null) {
+        if (harvest.getComment() != null) {
             details.setComment(harvest.getComment());
         }
 

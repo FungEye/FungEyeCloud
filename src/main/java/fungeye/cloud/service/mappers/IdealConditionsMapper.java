@@ -32,12 +32,15 @@ public class IdealConditionsMapper {
     public static IdealCondition mapToIdealCondition(IdealConditionDto dto) {
         IdealConditionId id = new IdealConditionId();
         id.setMushroomId(dto.getMushroomId());
-        return getIdealCondition(id, dto.getDevelopmentStage(), dto.getTempHigh(), dto.getTempLow(), dto.getHumidityHigh(), dto.getHumidityLow(), dto.getCo2High(), dto.getCo2Low(), dto.getLightHigh(), dto.getLightLow());
 
+        return getIdealCondition(id, dto.getDevelopmentStage(), dto.getTempHigh(),
+                dto.getTempLow(), dto.getHumidityHigh(), dto.getHumidityLow(),
+                dto.getCo2High(), dto.getCo2Low(), dto.getLightHigh(), dto.getLightLow());
     }
 
     public static IdealCondition mapCreateToIdealCondition(IdealConditionCreationDto creationDto) {
         IdealConditionId id = new IdealConditionId();
+
         return getIdealCondition(id, creationDto.getDevelopmentStage(), creationDto.getTempHigh(),
                 creationDto.getTempLow(), creationDto.getHumidityHigh(), creationDto.getHumidityLow(),
                 creationDto.getCo2High(), creationDto.getCo2Low(), creationDto.getLightHigh(), creationDto.getLightLow());

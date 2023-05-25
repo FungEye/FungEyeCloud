@@ -34,8 +34,8 @@ public class HarvestService {
             throw new NoSuchElementException(String.format("#%s has no harvests.", username));
         }
         List<HarvestDetailsDto> result = new ArrayList<>();
-        for (Harvest h: response
-             ) {
+        for (Harvest h : response
+        ) {
             result.add(mapper.mapEntityToDetailsDto(h));
         }
 
@@ -48,7 +48,7 @@ public class HarvestService {
             throw new NoSuchElementException(String.format("Grow #%d has no harvests.", growId));
         }
         List<HarvestDetailsDto> result = new ArrayList<>();
-        for (Harvest h: response
+        for (Harvest h : response
         ) {
             result.add(mapper.mapEntityToDetailsDto(h));
         }

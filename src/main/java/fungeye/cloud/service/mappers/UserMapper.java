@@ -8,8 +8,7 @@ public class UserMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static UserEntity userFromCreationDto(UserCreationDto dto)
-    {
+    public static UserEntity userFromCreationDto(UserCreationDto dto) {
         UserEntity user = new UserEntity();
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());

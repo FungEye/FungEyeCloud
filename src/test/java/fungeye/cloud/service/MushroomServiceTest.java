@@ -20,14 +20,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.BadCredentialsException;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MushroomServiceTest {
-
     @Mock
     private MushroomRepository repository;
 
@@ -132,8 +130,8 @@ class MushroomServiceTest {
         saved.setUser(user);
 
         Set<IdealCondition> idealConditionSet = new HashSet<>();
-        for (IdealConditionCreationDto creationDto:
-             idealConditionDtos) {
+        for (IdealConditionCreationDto creationDto :
+                idealConditionDtos) {
             idealConditionSet.add(IdealConditionsMapper.mapCreateToIdealCondition(creationDto));
         }
         saved.setIdealConditions(idealConditionSet);
@@ -160,7 +158,6 @@ class MushroomServiceTest {
         verify(repository, times(1)).save(any());
         verify(userRepository, times(1)).findById(3);
         verify(idealConditionRepository, times(3)).save(any());
-
     }
 
     @Test
@@ -220,7 +217,7 @@ class MushroomServiceTest {
         saved.setUser(user);
 
         Set<IdealCondition> idealConditionSet = new HashSet<>();
-        for (IdealConditionCreationDto creationDto:
+        for (IdealConditionCreationDto creationDto :
                 idealConditionDtos) {
             idealConditionSet.add(IdealConditionsMapper.mapCreateToIdealCondition(creationDto));
         }
@@ -359,17 +356,15 @@ class MushroomServiceTest {
 
         when(repository.findByUser_Username("john")).thenReturn(customMushrooms);
 
-
         List<MushroomDto> actual = service.getCustom("john");
 
         assertEquals(expected, actual);
 
         verify(repository, times(1)).findByUser_Username("john");
     }
-    
+
     @Test
-    void testUpdateMushroom()
-    {
+    void testUpdateMushroom() {
         MushroomUpdateDto argument = new MushroomUpdateDto();
         argument.setId(1L);
         argument.setName("Updated name");
@@ -489,8 +484,10 @@ class MushroomServiceTest {
     void testArchiveAlreadyArchivedMushroom() {
         long mushroomId = 1L;
         String token = "valid_token";
+
         Mushroom mushroom = new Mushroom();
         mushroom.setArchived(true);
+
         UserEntity user = new UserEntity();
         user.setUsername("username");
         mushroom.setUser(user);
@@ -508,8 +505,10 @@ class MushroomServiceTest {
     void testArchiveMushroomWithInvalidToken() {
         long mushroomId = 1L;
         String invalidToken = "invalid_token";
+
         Mushroom mushroom = new Mushroom();
         mushroom.setArchived(false);
+
         UserEntity user = new UserEntity();
         user.setUsername("username");
         mushroom.setUser(user); // Initialize the user object

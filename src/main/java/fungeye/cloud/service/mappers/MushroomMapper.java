@@ -16,8 +16,7 @@ public class MushroomMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static MushroomDto mapToMushroomDto(Mushroom mush)
-    {
+    public static MushroomDto mapToMushroomDto(Mushroom mush) {
         MushroomDto dto = new MushroomDto();
         dto.setId(mush.getId());
         dto.setDescription(mush.getDescription());
@@ -34,7 +33,6 @@ public class MushroomMapper {
         mushroom.setDescription(dto.getDescription());
         mushroom.setOrigin(dto.getOrigin());
 
-        // Create a user with only an id
         UserEntity user = new UserEntity();
         user.setId(dto.getUserId());
         mushroom.setUser(user);
@@ -49,7 +47,6 @@ public class MushroomMapper {
         mushroom.setOrigin(dto.getOrigin());
         mushroom.setImageUrl(dto.getImageUrl());
 
-        // Create a user with only an id
         UserEntity user = new UserEntity();
         // Set to three for the admin
         user.setId(3);
@@ -65,7 +62,6 @@ public class MushroomMapper {
         mushroom.setOrigin(dto.getOrigin());
         mushroom.setImageUrl(dto.getImageUrl());
 
-        // Create a user with only an id
         UserEntity user = new UserEntity();
         // Set to three for the admin
         user.setUsername(dto.getUsername());
@@ -74,16 +70,14 @@ public class MushroomMapper {
         return mushroom;
     }
 
-    public static List<MushroomDto> mapToMushroomDtoList(Set<Mushroom> list)
-    {
+    public static List<MushroomDto> mapToMushroomDtoList(Set<Mushroom> list) {
         List<MushroomDto> dtoList = new ArrayList<>();
         list.forEach(mushroom -> dtoList.add(mapToMushroomDto(mushroom)));
 
         return dtoList;
     }
 
-    public static MushroomDto mapUpdateMushroomDto(MushroomUpdateDto dto)
-    {
+    public static MushroomDto mapUpdateMushroomDto(MushroomUpdateDto dto) {
         MushroomDto mushroomDto = new MushroomDto();
         mushroomDto.setId(dto.getId());
         mushroomDto.setDescription(dto.getDescription());
@@ -93,8 +87,7 @@ public class MushroomMapper {
         return mushroomDto;
     }
 
-    public static Mushroom mapFromUpdateMushroomDto(MushroomUpdateDto dto)
-    {
+    public static Mushroom mapFromUpdateMushroomDto(MushroomUpdateDto dto) {
         Mushroom mush = new Mushroom();
         mush.setId(dto.getId());
         mush.setName(dto.getName());
@@ -102,6 +95,7 @@ public class MushroomMapper {
         mush.setImageUrl(dto.getImageUrl());
 
         List<IdealConditionDto> dtoList = dto.getIdealConditions();
+
         Set<IdealCondition> list = new HashSet<>();
         dtoList.forEach(i -> list.add(IdealConditionsMapper.mapToIdealCondition(i)));
         mush.setIdealConditions(list);
@@ -127,7 +121,6 @@ public class MushroomMapper {
         mushroom.setOrigin(dto.getOrigin());
         mushroom.setImageUrl(dto.getImageUrl());
 
-        // Create a user with only an id
         UserEntity user = new UserEntity();
         user.setUsername(dto.getUsername());
         mushroom.setUser(user);

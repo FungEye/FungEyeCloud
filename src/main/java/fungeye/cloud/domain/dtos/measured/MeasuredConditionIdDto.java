@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Data
 public class MeasuredConditionIdDto implements Serializable {
-
     private Long boxId;
     private DateTimeDto dateTime;
 

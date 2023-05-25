@@ -18,8 +18,7 @@ public class MeasuredConditionsMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static MeasuredConditionIdDto mapToIdDto(MeasuredConditionId conditionId)
-    {
+    public static MeasuredConditionIdDto mapToIdDto(MeasuredConditionId conditionId) {
         MeasuredConditionIdDto dto = new MeasuredConditionIdDto();
         dto.setBoxId(conditionId.getBoxId());
         dto.setDateTime(mapToDateDto(conditionId.getDateTime()));
@@ -27,8 +26,7 @@ public class MeasuredConditionsMapper {
         return dto;
     }
 
-    public static MeasuredConditionDto mapToDto(MeasuredCondition condition)
-    {
+    public static MeasuredConditionDto mapToDto(MeasuredCondition condition) {
         MeasuredConditionDto dto = new MeasuredConditionDto();
         dto.setId(mapToIdDto(condition.getId()));
         dto.setTemperature(condition.getTemperature());
@@ -41,7 +39,6 @@ public class MeasuredConditionsMapper {
 
     public static List<MeasuredConditionDto> mapToDtoList(Set<MeasuredCondition> cond) {
         List<MeasuredConditionDto> list = new ArrayList<>();
-
         cond.forEach(c -> list.add(mapToDto(c)));
 
         return list;
@@ -49,7 +46,6 @@ public class MeasuredConditionsMapper {
 
     public static List<MeasuredConditionDto> mapToDtoList(List<MeasuredCondition> cond) {
         List<MeasuredConditionDto> list = new ArrayList<>();
-
         cond.forEach(c -> list.add(mapToDto(c)));
 
         return list;

@@ -13,14 +13,12 @@ public class DateTimeMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static DateTimeDto mapToDateDto(Instant instant)
-    {
+    public static DateTimeDto mapToDateDto(Instant instant) {
         DateTimeDto dto = new DateTimeDto();
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneOffset.ofHours(0));
         dto.setDay(dateTime.getDayOfMonth());
         dto.setMonth(dateTime.getMonthValue());
         dto.setYear(dateTime.getYear());
-
         dto.setHour(dateTime.getHour());
         dto.setMinute(dateTime.getMinute());
         dto.setSecond(dateTime.getSecond());
@@ -38,11 +36,13 @@ public class DateTimeMapper {
     }
 
     public static LocalDate mapFromDateDto(DateTimeDto dto) {
+
         return LocalDate.of(dto.getYear(), dto.getMonth(), dto.getDay());
     }
 
     public static Instant mapToInstant(DateTimeDto dto) {
         LocalDateTime temp = LocalDateTime.of(dto.getYear(), dto.getMonth(), dto.getDay(), dto.getHour(), dto.getMinute(), dto.getSecond());
+
         return temp.toInstant(ZoneOffset.ofHours(0));
     }
 }
