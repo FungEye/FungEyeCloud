@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface HarvestRepository extends JpaRepository<Harvest, Long> {
     List<Harvest> findByGrow_IdOrderByDateHarvestedDesc(Long id);
+
     List<Harvest> findByGrow_Box_UserEntity_UsernameOrderByDateHarvestedDesc(String username);
 }

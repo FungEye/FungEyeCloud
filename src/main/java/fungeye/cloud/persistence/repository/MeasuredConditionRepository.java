@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface MeasuredConditionRepository extends JpaRepository<MeasuredCondition, MeasuredConditionId> {
     MeasuredCondition findFirstById_BoxIdOrderById_DateTimeDesc(Long boxId);
+
     MeasuredCondition findTopByBox_IdOrderByIdDesc(Long boxId);
+
     List<MeasuredCondition> findAllByBox_Id(long boxId);
 
 

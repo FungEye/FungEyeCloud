@@ -39,8 +39,7 @@ public class IdealConditionId implements Serializable {
                 developmentStage.equals("pinning") ||
                 developmentStage.equals("fruiting")) {
             this.developmentStage = developmentStage;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Not a valid development stage");
         }
     }
