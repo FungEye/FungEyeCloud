@@ -20,8 +20,7 @@ public class IdealConditionDto {
                 developmentStage.equals("pinning") ||
                 developmentStage.equals("fruiting")) {
             this.developmentStage = developmentStage;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Not a valid development stage");
         }
     }

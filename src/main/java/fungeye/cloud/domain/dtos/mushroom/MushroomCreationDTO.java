@@ -1,6 +1,5 @@
 package fungeye.cloud.domain.dtos.mushroom;
 
-
 import lombok.Data;
 
 @Data

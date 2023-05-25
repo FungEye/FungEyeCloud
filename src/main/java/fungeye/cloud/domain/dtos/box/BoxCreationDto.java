@@ -10,8 +10,7 @@ public class BoxCreationDto {
     public void setEui(String eui) {
         if (eui.length() != 16) {
             throw new IllegalArgumentException("EUI must be exactly 16 characters long");
-        }
-        else {
+        } else {
             this.eui = eui;
         }
     }

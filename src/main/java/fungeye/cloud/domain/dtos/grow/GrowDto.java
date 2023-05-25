@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class GrowDto {
-
     private Long id;
     private DateTimeDto date;
     private String stage;
@@ -31,8 +30,7 @@ public class GrowDto {
                 stage.equals("pinning") ||
                 stage.equals("fruiting")) {
             this.stage = stage;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Not a valid development stage");
         }
     }

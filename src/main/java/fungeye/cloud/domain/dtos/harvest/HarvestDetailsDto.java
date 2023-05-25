@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
 import java.io.Serializable;
 
 /**

@@ -1,7 +1,6 @@
 package fungeye.cloud.domain.dtos.measured;
 
 import lombok.Data;
-
 import java.io.Serializable;
 import java.util.List;
 
